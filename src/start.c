@@ -7,6 +7,7 @@ Map* mapsize_selection(void);
 int main(int ac, char** av){
 initscr(); cbreak(); noecho(); curs_set(0);
 start_color(); refresh();
+srand(time(NULL));
 
 FILE* f =fopen("ass/title.txt","r");
 char* l =NULL; size_t n;
@@ -16,7 +17,53 @@ free(l); fclose(f); getch();
 
 vect3f hue =hue_selection();
 Map* map =mapsize_selection();
-getch();
+
+Player* pl =malloc(sizeof(Player));
+clear_screen(2); refresh();
+
+char* name =malloc(32); name[0]='\0';
+strcpy(name, "Domain of Saint ");
+switch (rand()%3){ case 0:  strcat(name, "George");	break;
+		   case 1:  strcat(name, "Joseph");	break;
+		   default: strcat(name, "Martin");	break;}
+WINDOW* wname =newwin(7,37,(LINES-7)/2,(COLS-37)/2);
+wattron(wname, COLOR_PAIR(1)); box(wname,0,0);
+mvwprintw(wname,1,3,"Map name:");
+mvwprintw(wname,2,3,"%s",name);
+mvwprintw(wname,4,3,"Player name:");
+mvwprintw(wname,6,(37-29)/2,"space: change - enter: accept");
+wmove(wname,2,3+22); curs_set(1); wrefresh(wname);
+char c=0; do { if (c!=' ') c =getch();
+	  if (c==' '){
+		name[16]='\0';
+		mvwprintw(wname,2,3+16,"                ");
+		wmove(wname,2,3+16);
+		c=0; int len=16; do {	//TODO backspace
+			if (c>='a'&&c<='z'){
+				name[len]=c; len++; name[len]='\0';}
+			else if (c==' ') break;
+			mvwprintw(wname,2,3,"%s",name);
+			wrefresh(wname);
+			}while ((c=getch())!='\n'&&len<31);}
+}while (c!='\n'); map->name =strdup(name);
+c=' '; do { if (c!=' ') c= getch();
+	  if (c==' '){
+		name[0]='\0';
+		mvwprintw(wname,5,3,"                ");
+		wmove(wname,5,3);
+		c=0; int len=0; do {	//TODO backspace
+			if (c>='a'&&c<='z'){
+				name[len]=c; len++; name[len]='\0';}
+			else if (c==' ') break;
+			mvwprintw(wname,5,3,"%s",name);
+			wrefresh(wname);
+			}while ((c=getch())!='\n'&&len<16);}
+}while (c!='\n'); pl->name =strdup(name);
+free(name);
+delwin(wname);
+
+
+
 
 endwin();	return 0;}
 
@@ -44,7 +91,7 @@ for (int cp=40,i=1000;cp<50;cp++,i-=25){
 	init_pair(100+cp,cp,COLOR_BLACK);}
 WINDOW* whue =newwin(7,30,(LINES-7)/2,(COLS-30)/2);
 char c=0; int hl =20; do {
-switch (c) { case 'a':	if (hl%10)   hl--;	break;
+switch (c){  case 'a':	if (hl%10)   hl--;	break;
 	     case 'd':	if (hl%10<9) hl++;	break;
 	     case 'w':	if (hl>29)   hl-=10;	break;
 	     case 's':	if (hl<40)   hl+=10;	break;
@@ -90,9 +137,9 @@ mvwprintw(wmap,4,3,"3. normal");
 mvwprintw(wmap,5,3,"4. large");
 mvwprintw(wmap,6,3,"5. xtra large");
 wrefresh(wmap);
-char c; while ((c=getch())<'1'||c>'5');
+char c; while ((c=getch())<'1'||c>'5'); delwin(wmap);
 Map* map =malloc(sizeof(Map));
-switch (c) { case '1':	map->h=50;  map->w=100;	break;
+switch (c){  case '1':	map->h=50;  map->w=100;	break;
 	     case '2':	map->h=100; map->w=200;	break;
 	     case '3':	map->h=150; map->w=300;	break;
 	     case '4':	map->h=200; map->w=400;	break;
