@@ -2,6 +2,7 @@
 void clear_screen(int cp);
 vect3f hue_selection(void);
 Map* mapsize_selection(void);
+void set_names(Map* map, Player* pl);
 
 
 int main(int ac, char** av){
@@ -11,61 +12,19 @@ srand(time(NULL));
 
 FILE* f =fopen("ass/title.txt","r");
 char* l =NULL; size_t n;
-while (getline(&l,&n,f)!=-1)
-	printw("%s",l);
+int i=0; while (getline(&l,&n,f)!=-1){
+	mvprintw((LINES-7)/2+i,(COLS-100)/2,"%s",l); i++;}
 free(l); fclose(f); getch();
 
 vect3f hue =hue_selection();
 Map* map =mapsize_selection();
-
-Player* pl =malloc(sizeof(Player));
 clear_screen(2); refresh();
-
-char* name =malloc(32); name[0]='\0';
-strcpy(name, "Domain of Saint ");
-switch (rand()%3){ case 0:  strcat(name, "George");	break;
-		   case 1:  strcat(name, "Joseph");	break;
-		   default: strcat(name, "Martin");	break;}
-WINDOW* wname =newwin(7,37,(LINES-7)/2,(COLS-37)/2);
-wattron(wname, COLOR_PAIR(1)); box(wname,0,0);
-mvwprintw(wname,1,3,"Map name:");
-mvwprintw(wname,2,3,"%s",name);
-mvwprintw(wname,4,3,"Player name:");
-mvwprintw(wname,6,(37-29)/2,"space: change - enter: accept");
-wmove(wname,2,3+22); curs_set(1); wrefresh(wname);
-char c=0; do { if (c!=' ') c =getch();
-	  if (c==' '){
-		name[16]='\0';
-		mvwprintw(wname,2,3+16,"                ");
-		wmove(wname,2,3+16);
-		c=0; int len=16; do {	//TODO backspace
-			if (c>='a'&&c<='z'){
-				name[len]=c; len++; name[len]='\0';}
-			else if (c==' ') break;
-			mvwprintw(wname,2,3,"%s",name);
-			wrefresh(wname);
-			}while ((c=getch())!='\n'&&len<31);}
-}while (c!='\n'); map->name =strdup(name);
-c=' '; do { if (c!=' ') c= getch();
-	  if (c==' '){
-		name[0]='\0';
-		mvwprintw(wname,5,3,"                ");
-		wmove(wname,5,3);
-		c=0; int len=0; do {	//TODO backspace
-			if (c>='a'&&c<='z'){
-				name[len]=c; len++; name[len]='\0';}
-			else if (c==' ') break;
-			mvwprintw(wname,5,3,"%s",name);
-			wrefresh(wname);
-			}while ((c=getch())!='\n'&&len<16);}
-}while (c!='\n'); pl->name =strdup(name);
-free(name);
-delwin(wname);
-
-
-
-
-endwin();	return 0;}
+Player* pl =malloc(sizeof(Player));
+set_names(map,pl);
+create_map(map);
+clear_screen(2); refresh();
+game(hue, map, pl);
+free_map(map); endwin();	return 0;}
 
 
 
@@ -135,8 +94,7 @@ mvwprintw(wmap,2,3,"1. pocket");
 mvwprintw(wmap,3,3,"2. small");
 mvwprintw(wmap,4,3,"3. normal");
 mvwprintw(wmap,5,3,"4. large");
-mvwprintw(wmap,6,3,"5. xtra large");
-wrefresh(wmap);
+mvwprintw(wmap,6,3,"5. xtra large"); wrefresh(wmap);
 char c; while ((c=getch())<'1'||c>'5'); delwin(wmap);
 Map* map =malloc(sizeof(Map));
 switch (c){  case '1':	map->h=50;  map->w=100;	break;
@@ -145,3 +103,45 @@ switch (c){  case '1':	map->h=50;  map->w=100;	break;
 	     case '4':	map->h=200; map->w=400;	break;
 	     case '5':	map->h=250; map->w=500; break;
 	     default:				break;}	return map;}
+
+
+void set_names(Map* map, Player* pl){
+char* name =malloc(32); name[0]='\0';
+strcpy(name, "Domain of Saint ");
+switch (rand()%3){ case 0:  strcat(name, "George");	break;
+		   case 1:  strcat(name, "Joseph");	break;
+		   default: strcat(name, "Martin");	break;}
+WINDOW* wname =newwin(7,37,(LINES-7)/2,(COLS-37)/2);
+wattron(wname, COLOR_PAIR(1)); box(wname,0,0);
+mvwprintw(wname,1,3,"Map name:");
+mvwprintw(wname,2,3,"%s",name);
+mvwprintw(wname,4,3,"Player name:");
+mvwprintw(wname,6,(37-29)/2,"space: change - enter: accept");
+wmove(wname,2,3+22); curs_set(1); wrefresh(wname);
+char c=0; do { if (c!=' ') c =getch();
+	  if (c==' '){
+		name[16]='\0';
+		mvwprintw(wname,2,3+16,"                ");
+		wmove(wname,2,3+16);
+		c=0; int len=16; do {	//TODO backspace
+			if (c>='a'&&c<='z'){
+				name[len]=c; len++; name[len]='\0';}
+			else if (c==' ') break;
+			mvwprintw(wname,2,3,"%s",name);
+			wrefresh(wname);
+			}while ((c=getch())!='\n'&&len<31);}
+}while (c!='\n'); map->name =strdup(name);
+c=' '; do { if (c!=' ') c= getch();
+	  if (c==' '){
+		name[0]='\0';
+		mvwprintw(wname,5,3,"                ");
+		wmove(wname,5,3);
+		c=0; int len=0; do {	//TODO backspace
+			if (c>='a'&&c<='z'){
+				name[len]=c; len++; name[len]='\0';}
+			else if (c==' ') break;
+			mvwprintw(wname,5,3,"%s",name);
+			wrefresh(wname);
+			}while ((c=getch())!='\n'&&len<16);}
+}while (c!='\n'); pl->name =strdup(name);
+curs_set(0); free(name); delwin(wname);	return;}
