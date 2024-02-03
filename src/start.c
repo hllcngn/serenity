@@ -18,13 +18,13 @@ free(l); fclose(f); getch();
 
 vect3f hue =hue_selection();
 Map* map =mapsize_selection();
+Player* pl =create_player(NULL,2,5);
 clear_screen(2); refresh();
-Player* pl =malloc(sizeof(Player));
 set_names(map,pl);
 create_map(map);
 clear_screen(2); refresh();
 game(hue, map, pl);
-free_map(map); endwin();	return 0;}
+free_player(pl); free_map(map); endwin();	return 0;}
 
 
 

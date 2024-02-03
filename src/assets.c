@@ -26,3 +26,11 @@ void free_asset(Asset* ass){
 for (int y=0;y<ass->h;y++)
 	free(ass->map[y]);
 free(ass->map); free(ass); return;}
+
+
+void paste_asset(Map* map, int y, int x, Asset* ass){
+for (int yy=0;yy<ass->h;yy++)	//TODO edge cases
+	for (int xx=0;xx<ass->w;xx++)
+		if (ass->map[yy][xx]!=' ')
+			map->map[y+yy][x+xx] =ass->map[yy][xx];
+return;}
