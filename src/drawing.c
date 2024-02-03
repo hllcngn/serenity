@@ -6,11 +6,11 @@ int y=0; for (y; pos.y-WGAMEH/2+y<0; y++){
 	move(WGAMEY+y,WGAMEX);
 	for (int x=0;x<WGAMEW;x++)
 		addch(' ');}
-for (y; pos.y+y<map->h && y<WGAMEH; y++){
+for (y; pos.y-WGAMEH/2+y<map->h && y<WGAMEH; y++){
 	move(WGAMEY+y,WGAMEX);
 	int x=0; for (x; pos.x-WGAMEW/2+x<0; x++)
 		addch(' ');
-	for (x; pos.x+x<map->w && x<WGAMEW; x++)
+	for (x; pos.x-WGAMEW/2+x<map->w && x<WGAMEW; x++)
 		addch(map->map[pos.y-WGAMEH/2+y][pos.x-WGAMEW/2+x]);
 	for (x; x<WGAMEW; x++)
 		addch(' ');}
