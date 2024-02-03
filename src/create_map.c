@@ -9,15 +9,15 @@ for (int y=0;y<map->h-1;y+=2){
 		map->map[y][x]='='; map->map[y][x+1]=' ';}
 	for (int x=0;x<map->w-1;x+=2){
 		map->map[y+1][x]=' '; map->map[y+1][x+1]='=';}}
-Asset* atree =load_asset("ass/tree.txt");
+Asset* atree =load_asset("ass/tree1.txt");
 paste_asset(map,10,10,atree);
+free_asset(atree);
 	return;}
 
 void free_map(Map* map){
 for (int i=0;i<map->h;i++)
 	free(map->map[i]);
-free(map->name);
-free(map);	return;}
+free(map->name); free(map);	return;}
 
 
 void paste_asset(Map* map, int y, int x, Asset* ass){
