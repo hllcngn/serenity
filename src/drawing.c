@@ -11,7 +11,11 @@ for (y; pos.y-WGAMEH/2+y<map->h && y<WGAMEH; y++){
 	int x=0; for (x; pos.x-WGAMEW/2+x<0; x++)
 		addch(' ');
 	for (x; pos.x-WGAMEW/2+x<map->w && x<WGAMEW; x++)
-		addch(map->map[pos.y-WGAMEH/2+y][pos.x-WGAMEW/2+x]);
+		if (map->fg[pos.y-WGAMEH/2+y][pos.x-WGAMEW/2+x])
+			addch(map->fg[pos.y-WGAMEH/2+y][pos.x-WGAMEW/2+x]);
+		else if (map->clsn[pos.y-WGAMEH/2+y][pos.x-WGAMEW/2+x])
+			addch(map->clsn[pos.y-WGAMEH/2+y][pos.x-WGAMEW/2+x]);
+		else	addch(map->bg[pos.y-WGAMEH/2+y][pos.x-WGAMEW/2+x]);
 	for (x; x<WGAMEW; x++)
 		addch(' ');}
 for (y; y<WGAMEH; y++){
@@ -20,7 +24,9 @@ for (y; y<WGAMEH; y++){
 		addch(' ');}
 	return;}
 
-void display_pl(Player* pl){
+
+void display_pl(Player* pl, Map* map){
+if (map->fg[pl->y][pl->x])	return;
 move(WGAMEY+WGAMEH/2,WGAMEX+WGAMEW/2);
 attron(COLOR_PAIR(CP_NORMAL));
 addch(' ');	return;}

@@ -1,0 +1,3 @@
+serenity - TODO.txt
+-> basic interface decoration (title screen, in-game....)
+-> unicode

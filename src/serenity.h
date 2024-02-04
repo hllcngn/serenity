@@ -28,11 +28,11 @@ typedef struct{	char*	name;
 		int	y,x;	} Player;
 
 typedef struct{ int	h,w;
-		int**	map;	} Asset;
+		int	**map,**info;	} Asset;
 
 typedef struct{ int	h,w;
 		char*	name;
-		int**	map;	} Map;
+		int	**bg,**clsn,**fg; } Map;
 
 void create_map(Map* map);
 void free_map(Map* map);
@@ -44,5 +44,5 @@ void free_player(Player* pl);
 
 int game(vect3f hue, Map* map, Player* pl);
 void display_map(Map* map, vect2i pos);
-void display_pl(Player* pl);
+void display_pl(Player* pl, Map* map);
 void movement(char c, Player* pl, Map* map);
