@@ -27,11 +27,12 @@ for (Interactive* it=map->inter;it;it=it->next)
 if (	it->y+it->h>pos.y-WGAMEH/2 &&it->y<pos.y+WGAMEH/2
       &&it->x+it->w>pos.x-WGAMEW/2 &&it->x<pos.x+WGAMEW/2){
 	int yy =it->y<pos.y-WGAMEH/2? pos.y-WGAMEH/2-it->y :0;
-	int xx =it->x<pos.x-WGAMEW/2? pos.x-WGAMEW/2-it->x :0;
 	for (yy;yy<it->h &&it->y+yy<pos.y+WGAMEH/2;yy++){
-		move(WGAMEY+yy,WGAMEX+xx);
-		for (xx;xx<it->w &&it->x+xx<pos.x+WGAMEW/2;xx++)
-			addch(it->map[yy][xx]);}}
+		int xx =it->x<pos.x-WGAMEW/2? pos.x-WGAMEW/2-it->x :0;
+		for (xx;xx<it->w &&it->x+xx<pos.x+WGAMEW/2;xx++){
+			move(   WGAMEY+WGAMEH-((pos.y+WGAMEH/2)-it->y)+yy,
+				WGAMEX+WGAMEW-((pos.x+WGAMEW/2)-it->x)+xx);
+			if (it->map[yy][xx]!=' ') addch(it->map[yy][xx]);}}}
 	return;}
 
 

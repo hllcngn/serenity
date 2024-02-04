@@ -115,6 +115,5 @@ inter->next =map->inter;
 map->inter =inter;
 for (int yy=0;yy<inter->h;yy++)	//TODO edge cases
 	for (int xx=0;xx<inter->w;xx++)
-		if (inter->inter[yy][xx]=='i')
-			map->it[y+yy][x+xx]=inter->id;
+		map->it[y+yy][x+xx]=inter->id;
 return;}
