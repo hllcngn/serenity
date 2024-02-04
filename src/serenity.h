@@ -30,15 +30,24 @@ typedef struct{	char*	name;
 typedef struct{ int	h,w;
 		int	**map,**info;	} Asset;
 
+typedef struct Interactive{ int	id;
+		int	h,w,y,x;
+		char*	label;
+		int	**map,**info,**inter;
+		struct Interactive*	next;	} Interactive;
+
 typedef struct{ int	h,w;
 		char*	name;
-		int	**bg,**clsn,**fg; } Map;
+		int	**bg,**clsn,**fg,**it;
+		Interactive*	inter;		} Map;
 
 void create_map(Map* map);
 void free_map(Map* map);
 Asset* load_asset(char* path);
+Interactive* load_inter(char* path);
 void free_asset(Asset* ass);
 void paste_asset(Map* map, int y, int x, Asset* ass);
+void add_inter(Map* map, int y, int x, Interactive* inter);
 Player* create_player(char* name, int y, int x);
 void free_player(Player* pl);
 

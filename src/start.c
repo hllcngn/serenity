@@ -24,7 +24,9 @@ set_names(map,pl);
 create_map(map);
 clear_screen(2); refresh();
 game(hue, map, pl);
-free_player(pl); free_map(map); endwin();	return 0;}
+
+free_player(pl); free_map(map);
+endwin();	return 0;}
 
 
 

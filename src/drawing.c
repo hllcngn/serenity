@@ -22,6 +22,16 @@ for (y; y<WGAMEH; y++){
 	move(WGAMEY+y,WGAMEX);
 	for (int x=0;x<WGAMEW;x++)
 		addch(' ');}
+
+for (Interactive* it=map->inter;it;it=it->next)
+if (	it->y+it->h>pos.y-WGAMEH/2 &&it->y<pos.y+WGAMEH/2
+      &&it->x+it->w>pos.x-WGAMEW/2 &&it->x<pos.x+WGAMEW/2){
+	int yy =it->y<pos.y-WGAMEH/2? pos.y-WGAMEH/2-it->y :0;
+	int xx =it->x<pos.x-WGAMEW/2? pos.x-WGAMEW/2-it->x :0;
+	for (yy;yy<it->h &&it->y+yy<pos.y+WGAMEH/2;yy++){
+		move(WGAMEY+yy,WGAMEX+xx);
+		for (xx;xx<it->w &&it->x+xx<pos.x+WGAMEW/2;xx++)
+			addch(it->map[yy][xx]);}}
 	return;}
 
 
