@@ -14,7 +14,6 @@ display_pl(pl, map);
 
 
 
-
 void movement(char c, Player* pl, Map* map){
 switch (c){
 case K_UP:    if(!check_collision((vect2i){pl->y-1,pl->x}, map))
@@ -27,6 +26,7 @@ case K_RIGHT: if(!check_collision((vect2i){pl->y,pl->x+1}, map))
 		pl->x++;	break;
 default:	break;}
 return;}
+
 
 int check_collision(vect2i pos, Map* map){
 if (pos.y>=0	  &&pos.x>=0
