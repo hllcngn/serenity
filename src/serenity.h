@@ -41,6 +41,9 @@ typedef struct{ int	h,w;
 		int	**bg,**clsn,**fg,**it;
 		Interactive*	inter;		} Map;
 
+int** malloc_arrayint2(int h,int w);
+int** calloc_arrayint2(int h,int w);
+
 void create_map(Map* map);
 void free_map(Map* map);
 Asset* load_asset(char* path);

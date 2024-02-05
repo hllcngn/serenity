@@ -1,19 +1,11 @@
 #include "serenity.h"
 
 void create_map(Map* map){
-map->bg =malloc(sizeof(int*)*map->h);
-for (int y=0;y<map->h;y++)
-	map->bg[y] =malloc(sizeof(int)*map->w);
-map->clsn =malloc(sizeof(int*)*map->h);
-for (int y=0;y<map->h;y++)
-	map->clsn[y] =calloc(map->w,sizeof(int));
-map->fg =malloc(sizeof(int*)*map->h);
-for (int y=0;y<map->h;y++)
-	map->fg[y] =calloc(map->w,sizeof(int));
+map->bg =malloc_arrayint2(map->h,map->w);
+map->clsn =calloc_arrayint2(map->h,map->w);
+map->fg =calloc_arrayint2(map->h,map->w);
+map->it =calloc_arrayint2(map->h,map->w);
 map->inter =NULL;
-map->it =malloc(sizeof(int*)*map->h);
-for (int y=0;y<map->h;y++)
-	map->it[y] =calloc(map->w,sizeof(int));
 
 for (int y=0;y<map->h-1;y+=2){
 	for (int x=0;x<map->w-1;x+=2){
