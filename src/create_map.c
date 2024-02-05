@@ -19,14 +19,27 @@ free_asset(atree1);
 
 Interactive* itree2 =load_inter("ass/tree2.txt");
 add_inter(map,20,20,itree2);
-//free_inter(atree2);
 	return;}
 
 void free_map(Map* map){   //TODO free inter list
-for (int i=0;i<map->h;i++){
-	free(map->bg[i]);
-	free(map->clsn[i]);
-	free(map->fg[i]);
-	free(map->it[i]);}
+for (int y=0;y<map->h;y++){
+	free(map->bg[y]);
+	free(map->clsn[y]);
+	free(map->fg[y]);
+	free(map->it[y]);}
 free(map->bg); free(map->clsn); free(map->fg); free(map->it);
+free_interlist(map->inter);
 free(map->name); free(map);	return;}
+
+void free_interlist(Interactive* inter){
+if (inter==NULL)	return;
+if (inter->map){
+for (int y=0;y<inter->h;y++){
+	free(inter->map[y]);
+	free(inter->info[y]);
+	free(inter->inter[y]);}
+free(inter->map); free(inter->info); free(inter->inter);
+inter->map =NULL; inter->info =NULL; inter->inter =NULL;
+free(inter->label);}
+free_interlist(inter->next);
+free(inter);	return;}

@@ -46,6 +46,7 @@ int** calloc_arrayint2(int h,int w);
 
 void create_map(Map* map);
 void free_map(Map* map);
+void free_interlist(Interactive* inter);
 Asset* load_asset(char* path);
 Interactive* load_inter(char* path);
 int** fread_map(FILE* f, int h, int w);
