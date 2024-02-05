@@ -51,7 +51,9 @@ void add_inter(Map* map, int y, int x, Interactive* inter);
 Player* create_player(char* name, int y, int x);
 void free_player(Player* pl);
 
-int game(vect3f hue, Map* map, Player* pl);
 void display_map(Map* map, vect2i pos);
 void display_pl(Player* pl, Map* map);
+
+int game(vect3f hue, Map* map, Player* pl);
 void movement(char c, Player* pl, Map* map);
+int check_collision(vect2i pos, Map* map);

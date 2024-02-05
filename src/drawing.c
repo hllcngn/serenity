@@ -38,6 +38,11 @@ if (	it->y+it->h>pos.y-WGAMEH/2 &&it->y<pos.y+WGAMEH/2
 
 void display_pl(Player* pl, Map* map){
 if (map->fg[pl->y][pl->x])	return;
+else if (map->it[pl->y][pl->x]){
+	Interactive* it; for (it=map->inter;
+	it &&it->id!=map->it[pl->y][pl->x];
+	it=it->next);
+	if(it->info[pl->y-it->y][pl->x-it->x]=='f')	return;}
 move(WGAMEY+WGAMEH/2,WGAMEX+WGAMEW/2);
 attron(COLOR_PAIR(CP_NORMAL));
 addch(' ');	return;}

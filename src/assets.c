@@ -109,7 +109,7 @@ for (int yy=0;yy<ass->h;yy++)	//TODO edge cases
 
 void add_inter(Map* map, int y, int x, Interactive* inter){
 inter->y =y; inter->x =x;
-if (!map->inter)	inter->id =0;
+if (!map->inter)	inter->id =1;
 else			inter->id =map->inter->id+1;
 inter->next =map->inter;
 map->inter =inter;
