@@ -6,6 +6,7 @@ serenity - TODO.txt
 tweaks:
 - review start.c
 - free_arrayint2 tool function
+- save label length in interactive instance
 
 other:
 . improve the code

@@ -36,10 +36,13 @@ fseek(f,2,SEEK_CUR);
 inter->info =fread_map(f,inter->h,inter->w);
 fseek(f,2,SEEK_CUR);
 inter->inter =fread_map(f,inter->h,inter->w);
+fseek(f,2,SEEK_CUR);
 int len=0; while ((c=fgetc(f))!='\n' &&c!=EOF) len++;
-inter->label =malloc(len);
-fseek(f,-(len),SEEK_CUR);
+inter->label =malloc(len+1);
+if (c==EOF)	fseek(f,-(len),SEEK_CUR);
+else		fseek(f,-(len+1),SEEK_CUR);
 for (int i=0;i<len;i++) inter->label[i] =fgetc(f);
+inter->label[len] ='\0';
 fclose(f);	return inter;}
 
 void free_inter(Interactive* inter){

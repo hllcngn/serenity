@@ -44,3 +44,17 @@ if(it->info[pl->y-it->y][pl->x-it->x]=='f') return;}
 move(WGAMEY+WGAMEH/2,WGAMEX+WGAMEW/2); //TODO exact coordinates
 attron(COLOR_PAIR(CP_NORMAL));
 addch(' ');	return;}
+
+
+void display_notice(vect2i pos, Map* map){
+Instance* inst; if (inst =check_inst(pos,map))
+if (inst->inter[pos.y-inst->y][pos.x-inst->x]=='i'){
+	attron(COLOR_PAIR(CP_BASE));
+	move(WGAMEY+WGAMEH/2+1,WGAMEX+WGAMEW/2+2);
+	for (int i=0;i<strlen(inst->label);i++) addch('-');
+	move(WGAMEY+WGAMEH/2+2,WGAMEX+WGAMEW/2+1);
+	addch('|'); printw("%s",inst->label);
+	addch('|'); attron(COLOR_PAIR(CP_BASE));
+	move(WGAMEY+WGAMEH/2+3,WGAMEX+WGAMEW/2+2);
+	for (int i=0;i<strlen(inst->label);i++) addch('-');}
+return;}

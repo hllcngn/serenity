@@ -10,6 +10,7 @@ char c=0; do { switch (c){
 
 display_map(map, (vect2i){pl->y,pl->x});
 display_pl(pl, map);
+display_notice((vect2i){pl->y,pl->x},map);
 } while((c=getch())!=K_QUIT);	return 0;}
 
 
@@ -27,16 +28,18 @@ case K_RIGHT: if(!check_collision((vect2i){pl->y,pl->x+1}, map))
 default:				break;}	return;}
 
 
+Instance* check_inst(vect2i pos, Map* map){
+if (map->it[pos.y][pos.x]){
+Instance* it; for (it=map->inst;
+it &&it->id!=map->it[pos.y][pos.x];
+it=it->next);	return it;	return NULL;}}
+
 int check_collision(vect2i pos, Map* map){
 if (pos.y>=0	  &&pos.x>=0
   &&pos.y<map->h  &&pos.x<map->w
   &&!map->clsn[pos.y][pos.x]){
-	if (map->it[pos.y][pos.x]){
-	Instance* it; for (it=map->inst;
-	it &&it->id!=map->it[pos.y][pos.x];
-	it=it->next);
-		if (it &&it->info[pos.y-it->y][pos.x-it->x]=='X')
-			return 1;
-		else return 0;}
-	else return 0;}
-else return 1;}
+	Instance* it =check_inst(pos,map);
+	if (it &&it->info[pos.y-it->y][pos.x-it->x]=='X')
+		return 1;
+	return 0;}
+return 1;}

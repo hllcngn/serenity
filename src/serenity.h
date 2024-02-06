@@ -68,7 +68,9 @@ void add_inst(Map* map, int y, int x, Interactive* inter);
 
 int game(vect3f hue, Map* map, Player* pl);
 void movement(char c, Player* pl, Map* map);
+Instance* check_inst(vect2i pos, Map* map);
 int check_collision(vect2i pos, Map* map);
 
 void display_map(Map* map, vect2i pos);
 void display_pl(Player* pl, Map* map);
+void display_notice(vect2i pos, Map* map);
