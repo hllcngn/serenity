@@ -25,6 +25,11 @@
 #define NB_ACTIONS 3
 #define NB_INTER   3
 
+#define DIF_NORMAL	1
+#define DIF_INFINITE	2
+#define DIF_TROUBLED	3
+#define DIF_FALL	4
+
 typedef struct{ int	y,x;	} vect2i;
 typedef struct{	float	i,j,k;	} vect3f;
 
@@ -64,6 +69,7 @@ int** calloc_arrayint2(int h,int w);
 int** duplicate_arrayint2(int** arr,int h,int w);
 char* fread_line(FILE* f);
 int** fread_map(FILE* f, int h, int w);
+void clear_screen(int cp);
 
 Action** create_actionstable(void);
 void free_actionstable(Action** actions);

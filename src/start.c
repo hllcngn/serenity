@@ -1,7 +1,7 @@
 #include "serenity.h"
-void clear_screen(int cp);
 vect3f hue_selection(void);
 Map* mapsize_selection(void);
+int choose_difficulty(void);
 void set_names(Map* map, Player* pl);
 
 
@@ -16,10 +16,12 @@ int i=0; while (getline(&l,&n,f)!=-1){
 	mvprintw((LINES-7)/2+i,(COLS-100)/2,"%s",l); i++;}
 free(l); fclose(f); getch();
 
-vect3f hue =hue_selection();
-Map* map =mapsize_selection();
-Player* pl =create_player(NULL,2,5);
-clear_screen(2); refresh(); //refresh needed?
+vect3f hue     =hue_selection();
+Map* map       =mapsize_selection();
+clear_screen(2); refresh();
+int difficulty =choose_difficulty();
+Player* pl     =create_player(NULL,2,5);
+clear_screen(2); refresh();
 set_names(map,pl);
 clear_screen(2); refresh();
 
@@ -89,7 +91,7 @@ init_pair(2,COLOR_BLACK,21);	return hue;}
 
 Map* mapsize_selection(void){
 WINDOW* wmap =newwin(9,30,(LINES-9)/2,(COLS-30)/2);
-wattron(wmap, COLOR_PAIR(1)); box(wmap,0,0);
+wattron(wmap, COLOR_PAIR(CP_NORMAL)); box(wmap,0,0);
 mvwprintw(wmap,0,(30-15)/2,"choose map size");
 mvwprintw(wmap,2,3,"1. pocket");
 mvwprintw(wmap,3,3,"2. small");
@@ -104,6 +106,18 @@ switch (c){  case '1':	map->h=50;  map->w=100;	break;
 	     case '4':	map->h=200; map->w=400;	break;
 	     case '5':	map->h=250; map->w=500; break;
 	     default:				break;}	return map;}
+
+
+int choose_difficulty(void){
+WINDOW* wdiff =newwin(8,30,(LINES-8)/2,(COLS-30)/2);
+wattron(wdiff, COLOR_PAIR(CP_NORMAL)); box(wdiff,0,0);
+mvwprintw(wdiff,0,(30-17)/2,"select difficulty");
+mvwprintw(wdiff,2,3,"1. solar");
+mvwprintw(wdiff,3,3,"2. solar - infinite");
+mvwprintw(wdiff,4,3,"3. troubled");
+mvwprintw(wdiff,5,3,"4. fall of heavens"); wrefresh(wdiff);
+char c; while ((c=getch())<'1'||c>'5'); delwin(wdiff);
+return c-'0';}
 
 
 void set_names(Map* map, Player* pl){
