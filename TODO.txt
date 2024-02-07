@@ -7,6 +7,16 @@ tweaks:
 - review start.c
 - free_arrayint2 tool function
 - save label length in interactive instance
+- assets name in their files
 
 other:
 . improve the code
+
+==
+
+Actions:
+-> create table of all actions
+-> when loading inter, associate actions
+Instances:
+-> have a table of all interactive assets to refer to
+-> list pointers to unique interactive assets

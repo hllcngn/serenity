@@ -19,22 +19,24 @@ free(l); fclose(f); getch();
 vect3f hue =hue_selection();
 Map* map =mapsize_selection();
 Player* pl =create_player(NULL,2,5);
-clear_screen(2); refresh();
+clear_screen(2); refresh(); //refresh needed?
 set_names(map,pl);
-create_map(map);
 clear_screen(2); refresh();
-game(hue, map, pl);
 
+mvprintw(0,0,"about to create Info struct\n"); getch();
+Info *info =malloc(sizeof(Info));
+info->actions =create_actionstable();
+info->interactives =create_intertable(info->actions);
+mvprintw(0,0,"about to create map\n"); getch();
+create_map(map,info);
+
+mvprintw(0,0,"map created, about to start game\n"); getch();
+game(hue, map, pl, info);
+
+free_actionstable(info->actions); free_intertable(info->interactives);
 free_player(pl); free_map(map);
 endwin();	return 0;}
 
-
-
-void clear_screen(int cp){
-move(0,0); attron(COLOR_PAIR(cp));
-for (int y=0;y<LINES;y++)
-	for (int x=0;x<COLS;x++)
-		addch(' ');	return;}
 
 
 vect3f hue_selection(void){

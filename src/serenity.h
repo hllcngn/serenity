@@ -22,21 +22,28 @@
 #define CP_NORMAL  1
 #define CP_BASE	   2
 
+#define NB_ACTIONS 3
+#define NB_INTER   3
+
 typedef struct{ int	y,x;	} vect2i;
 typedef struct{	float	i,j,k;	} vect3f;
 
 typedef struct{ int	h,w;
 		int	**map,**info;	} Asset;
 
-typedef struct{ int	h,w,y,x;
+typedef struct{ int	c;
+		char*	label;
+		int	labellen;
+		void	(*action)();	} Action;
+
+typedef struct{	int	h,w;
 		int	**map,**info,**inter;
-		char*	label;			} Interactive;
+		Action*	action;			} Interactive;
 
 typedef struct Instance{
 	int		id;
-	int		h,w,y,x;
-	int		**map,**info,**inter;
-	char*		label;
+	int		y,x;
+	Interactive*	inter;
 	struct Instance	*previous,*next;	} Instance;
 
 typedef struct{
@@ -48,25 +55,38 @@ typedef struct{
 typedef struct{	char*	name;
 		int	y,x;	} Player;
 
+typedef struct{
+	Action**	actions;
+	Interactive**	interactives;	} Info;
+
 int** malloc_arrayint2(int h,int w);
 int** calloc_arrayint2(int h,int w);
 int** duplicate_arrayint2(int** arr,int h,int w);
 
-Player* create_player(char* name, int y, int x);
-int** fread_map(FILE* f, int h, int w);
+Action** create_actionstable(void);
+void free_actionstable(Action** actions);
+void fall_tree(void);
+void pull_stump(void);
+void harvest_fruits(void);
+Interactive** create_intertable(Action** actionstable);
+void free_intertable(Interactive** inters);
+
 Asset* load_asset(char* path);
-Interactive* load_inter(char* path);
-void create_map(Map* map);
-void free_map(Map* map);
-void free_instlist(Instance* it);
+Interactive* load_inter(char* path, Action** actionstable);
 void free_asset(Asset* ass);
 void free_inter(Interactive* inter);
-void free_player(Player* pl);
+int** fread_map(FILE* f, int h, int w);
 
+void create_map(Map* map, Info* info);
+void free_map(Map* map);
+void free_instlist(Instance* it);
 void paste_asset(Map* map, int y, int x, Asset* ass);
 void add_inst(Map* map, int y, int x, Interactive* inter);
 
-int game(vect3f hue, Map* map, Player* pl);
+Player* create_player(char* name, int y, int x);
+void free_player(Player* pl);
+
+int game(vect3f hue, Map* map, Player* pl, Info* info);
 void movement(char c, Player* pl, Map* map);
 Instance* check_inst(vect2i pos, Map* map);
 int check_collision(vect2i pos, Map* map);

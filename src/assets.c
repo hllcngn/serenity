@@ -21,8 +21,32 @@ for (int y=0;y<ass->h;y++){
 free(ass->map); free(ass->info);
 free(ass);	return;}
 
+void paste_asset(Map* map, int y, int x, Asset* ass){
+for (int yy=0;yy<ass->h;yy++)	//TODO edge cases
+for (int xx=0;xx<ass->w;xx++)
+	switch (ass->info[yy][xx]){
+	case ' ':					    break;
+	case 'b': map->bg[y+yy][x+xx]   =ass->map[yy][xx];  break;
+	case 'X': map->clsn[y+yy][x+xx] =ass->map[yy][xx];  break;
+	case 'f': map->fg[y+yy][x+xx]   =ass->map[yy][xx];  break;
+	default:					    break;}
+return;}
 
-Interactive* load_inter(char* path){
+
+
+Interactive** create_intertable(Action** actionstable){
+Interactive** inters =malloc(sizeof(Interactive*)*NB_INTER);
+inters[0] =load_inter("ass/tree2.txt",actionstable);
+inters[1] =load_inter("ass/fruittree.txt",actionstable);
+inters[2] =load_inter("ass/stump.txt",actionstable);
+mvprintw(0,0,"create_intertable: all inters loaded"); getch();
+return inters;}
+
+void free_intertable(Interactive** inters){
+for (int i=0;i<NB_INTER;i++) free(inters[i]);
+free(inters);	return;}
+
+Interactive* load_inter(char* path, Action** actionstable){
 Interactive* inter =malloc(sizeof(Interactive));
 FILE* f =fopen(path,"r"); while (fgetc(f)!='\n');
 inter->h=0; inter->w=0;
@@ -37,12 +61,12 @@ inter->info =fread_map(f,inter->h,inter->w);
 fseek(f,2,SEEK_CUR);
 inter->inter =fread_map(f,inter->h,inter->w);
 fseek(f,2,SEEK_CUR);
-int len=0; while ((c=fgetc(f))!='\n' &&c!=EOF) len++;
-inter->label =malloc(len+1);
-if (c==EOF)	fseek(f,-(len),SEEK_CUR);
-else		fseek(f,-(len+1),SEEK_CUR);
-for (int i=0;i<len;i++) inter->label[i] =fgetc(f);
-inter->label[len] ='\0';
+mvprintw(0,0,"about to read inter label\n"); getch();
+char* act; size_t n; getline(&act,&n,f);
+for (int i=0;i<NB_ACTIONS;i++)
+if (!strcmp(actionstable[i]->label,act))
+	inter->action =actionstable[i];
+mvprintw(0,0,"inter loaded\n"); getch();
 fclose(f);	return inter;}
 
 void free_inter(Interactive* inter){
@@ -51,46 +75,20 @@ for (int y=0;y<inter->h;y++){
 	free(inter->info[y]);
 	free(inter->inter[y]);}
 free(inter->map); free(inter->info); free(inter->inter);
-free(inter->label); free(inter);	return;}
-
-
-int** fread_map(FILE* f, int h, int w){
-int** map =malloc(sizeof(int*)*h);
-for (int y=0;y<h;y++)
-	map[y] =malloc(sizeof(int)*w);
-for (int y=0;y<h;y++){ for (int x=0;x<w;x++){
-	map[y][x]=fgetc(f);
-	if (map[y][x]=='\n'){
-		for (x;x<w;x++) map[y][x]=' '; break;}
-	else if (x==w-1) fgetc(f);}}
-return map;}
-
-
-
-void paste_asset(Map* map, int y, int x, Asset* ass){
-for (int yy=0;yy<ass->h;yy++)	//TODO edge cases
-for (int xx=0;xx<ass->w;xx++)
-	switch (ass->info[yy][xx]){
-	case ' ':					    break;
-	case 'b': map->bg[y+yy][x+xx]   =ass->map[yy][xx];  break;
-	case 'X': map->clsn[y+yy][x+xx] =ass->map[yy][xx];  break;
-	case 'f': map->fg[y+yy][x+xx]   =ass->map[yy][xx];  break;
-	default:					    break;}
-return;}
-
+free(inter);	return;}
 
 void add_inst(Map* map, int y, int x, Interactive* inter){
+mvprintw(0,0,"add_inst start\n"); getch();
 Instance* inst =malloc(sizeof(Instance));
 if (!map->inst)	inst->id =1;
 else		inst->id =map->inst->id+1;
 inst->previous =NULL; inst->next =map->inst;
-if (map->inst) map->inst->previous =inst; map->inst =inst;
+if (map->inst) map->inst->previous =inst;
+map->inst =inst;
 inst->y =y;	   inst->x =x;
-inst->h =inter->h; inst->w =inter->w;
-inst->map   =duplicate_arrayint2(inter->map,inst->h,inst->w);
-inst->info  =duplicate_arrayint2(inter->info,inst->h,inst->w);
-inst->inter =duplicate_arrayint2(inter->inter,inst->h,inst->w);
-inst->label =strdup(inter->label);
-for (int yy=0;yy<inst->h;yy++)	//TODO edge cases
-for (int xx=0;xx<inst->w;xx++)
-	map->it[y+yy][x+xx]=inst->id;	return;}
+inst->inter =inter;
+for (int yy=0;yy<inst->inter->h;yy++)	//TODO edge cases
+for (int xx=0;xx<inst->inter->w;xx++)
+	map->it[y+yy][x+xx]=inst->id;
+mvprintw(0,0,"add_inst end\n"); getch();
+return;}

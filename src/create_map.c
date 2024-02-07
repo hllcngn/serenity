@@ -1,6 +1,6 @@
 #include "serenity.h"
 
-void create_map(Map* map){
+void create_map(Map* map, Info* info){
 map->bg =malloc_arrayint2(map->h,map->w);
 map->clsn =calloc_arrayint2(map->h,map->w);
 map->fg =calloc_arrayint2(map->h,map->w);
@@ -17,12 +17,17 @@ Asset* atree1 =load_asset("ass/tree1.txt");
 paste_asset(map,10,10,atree1);
 free_asset(atree1);
 
-Interactive* itree2 =load_inter("ass/tree2.txt");
-add_inst(map,20,20,itree2);
-add_inst(map,20,30,itree2);
-for (int i=0;i<20;i++)
-	add_inst(map,rand()%(map->h-10)+5,rand()%(map->w-20)+10,itree2);
-free_inter(itree2);
+mvprintw(0,0,"map creation: about to add insts\n"); getch();
+add_inst(map,20,20,info->interactives[0]);
+add_inst(map,20,30,info->interactives[0]);
+mvprintw(0,0,"map creation: 1\nmap->h=%i map->w=%i\n",map->h,map->w); getch();
+for (int i=0;i<4;i++)
+	add_inst(map, rand()%(map->h-10)+5,rand()%(map->w-20)+10,
+		info->interactives[1]);
+mvprintw(0,0,"map creation: 2\n"); getch();
+for (int i=0;i<10;i++)
+	add_inst(map, rand()%(map->h-10)+5,rand()%(map->w-20)+10,
+		info->interactives[2]);
 	return;}
 
 void free_map(Map* map){
@@ -38,10 +43,4 @@ free(map->name); free(map);	return;}
 void free_instlist(Instance* it){
 if (it==NULL)	return;
 free_instlist(it->next);
-for (int y=0;y<it->h;y++){
-	free(it->map[y]);
-	free(it->info[y]);
-	free(it->inter[y]);}
-free(it->map); free(it->info); free(it->inter);
-free(it->label);
 free(it);	return;}

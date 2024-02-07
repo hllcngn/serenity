@@ -1,12 +1,16 @@
 #include "serenity.h"
 
-int game(vect3f hue, Map* map, Player* pl){
+int game(vect3f hue, Map* map, Player* pl, Info *info){
 char c=0; do { switch (c){
-	case K_UP:
-	case K_DOWN:
-	case K_LEFT:
-	case K_RIGHT:	movement(c,pl,map);	break;
-	default:				break;}
+case K_UP:
+case K_DOWN:
+case K_LEFT:
+case K_RIGHT:	movement(c,pl,map);	break;
+default:
+	Instance* inst =check_inst((vect2i){pl->y,pl->x},map);
+	if (inst &&c==inst->inter->action->label[0]+('a'-'A'))
+		inst->inter->action->action();
+					break;}
 
 display_map(map, (vect2i){pl->y,pl->x});
 display_pl(pl, map);
@@ -39,7 +43,7 @@ if (pos.y>=0	  &&pos.x>=0
   &&pos.y<map->h  &&pos.x<map->w
   &&!map->clsn[pos.y][pos.x]){
 	Instance* it =check_inst(pos,map);
-	if (it &&it->info[pos.y-it->y][pos.x-it->x]=='X')
+	if (it &&it->inter->info[pos.y-it->y][pos.x-it->x]=='X')
 		return 1;
 	return 0;}
 return 1;}
