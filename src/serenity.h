@@ -30,20 +30,17 @@
 #define DIF_TROUBLED	3
 #define DIF_FALL	4
 
+struct Action;
+
 typedef struct{ int	y,x;	} vect2i;
 typedef struct{	float	i,j,k;	} vect3f;
 
 typedef struct{ int	h,w;
 		int	**map,**info;	} Asset;
 
-typedef struct{ int	c;
-		char*	label;
-		int	labellen;
-		void	(*action)();	} Action;
-
 typedef struct{	int	h,w;
 		int	**map,**info,**inter;
-		Action*	action;			} Interactive;
+		struct Action*	action;			} Interactive;
 
 typedef struct Instance{
 	int		id;
@@ -57,12 +54,18 @@ typedef struct{
 	char*		name;
 	Instance*	inst;			} Map;
 
+typedef struct{
+	struct Action**	actions;
+	Interactive**	interactives;	} Info;
+
+typedef struct Action{
+	int	c;
+	char*	label;
+	int	labellen;
+	void	(*action)(Instance* inst, Map* map, Info* info);	} Action;
+
 typedef struct{	char*	name;
 		int	y,x;	} Player;
-
-typedef struct{
-	Action**	actions;
-	Interactive**	interactives;	} Info;
 
 int** malloc_arrayint2(int h,int w);
 int** calloc_arrayint2(int h,int w);
@@ -71,24 +74,25 @@ char* fread_line(FILE* f);
 int** fread_map(FILE* f, int h, int w);
 void clear_screen(int cp);
 
-Action** create_actionstable(void);
-void free_actionstable(Action** actions);
-void fall_tree(void);
-void pull_stump(void);
-void harvest_fruits(void);
 Interactive** create_intertable(Action** actionstable);
 void free_intertable(Interactive** inters);
+Action** create_actionstable(void);
+void free_actionstable(Action** actions);
+void fall_tree(Instance* inst, Map* map, Info* info);
+void pull_stump(Instance* inst, Map* map, Info* info);
+void harvest_fruits(Instance* inst, Map* map, Info* info);
 
 Asset* load_asset(char* path);
-Interactive* load_inter(char* path, Action** actionstable);
 void free_asset(Asset* ass);
+void paste_asset(Map* map, int y, int x, Asset* ass);
+Interactive* load_inter(char* path, Action** actionstable);
 void free_inter(Interactive* inter);
+void add_inst(Map* map, int y, int x, Interactive* inter);
+void destroy_inst(Instance* it);
+void free_instlist(Instance* it);
 
 void create_map(Map* map, Info* info);
 void free_map(Map* map);
-void free_instlist(Instance* it);
-void paste_asset(Map* map, int y, int x, Asset* ass);
-void add_inst(Map* map, int y, int x, Interactive* inter);
 
 Player* create_player(char* name, int y, int x);
 void free_player(Player* pl);

@@ -9,7 +9,7 @@ case K_RIGHT:	movement(c,pl,map);	break;
 default:
 	Instance* inst =check_inst((vect2i){pl->y,pl->x},map);
 	if (inst &&c==inst->inter->action->label[0]+('a'-'A'))
-		inst->inter->action->action();
+		inst->inter->action->action(inst,map,info);
 					break;}
 
 display_map(map, (vect2i){pl->y,pl->x});

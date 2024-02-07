@@ -87,3 +87,14 @@ for (int yy=0;yy<inst->inter->h;yy++)	//TODO edge cases
 for (int xx=0;xx<inst->inter->w;xx++)
 	map->it[y+yy][x+xx]=inst->id;
 return;}
+
+void destroy_inst(Instance* it){
+if (!it) return;
+if (it->previous) it->previous->next =it->next;
+if (it->next) it->next->previous =it->previous;
+free(it);	return;}
+
+void free_instlist(Instance* it){
+if (it==NULL)	return;
+free_instlist(it->next);
+free(it);	return;}

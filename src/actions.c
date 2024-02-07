@@ -23,11 +23,13 @@ for (int i=0;i<NB_ACTIONS;i++){
 free(actions);		return;}
 
 
-void fall_tree(void){
+void fall_tree(Instance* inst, Map* map, Info* info){
+add_inst(map,inst->y+2,inst->x+rand()%2+1,info->interactives[2]);
+destroy_inst(inst);
+return;}
+
+void pull_stump(Instance* inst, Map* map, Info* info){
 	return;}
 
-void pull_stump(void){
-	return;}
-
-void harvest_fruits(void){
+void harvest_fruits(Instance* inst, Map* map, Info* info){
 	return;}

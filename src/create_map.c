@@ -36,8 +36,3 @@ for (int y=0;y<map->h;y++){
 free(map->bg); free(map->clsn); free(map->fg); free(map->it);
 free_instlist(map->inst);
 free(map->name); free(map);	return;}
-
-void free_instlist(Instance* it){
-if (it==NULL)	return;
-free_instlist(it->next);
-free(it);	return;}

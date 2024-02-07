@@ -11,6 +11,7 @@ tweaks:
 
 other:
 . improve the code
+. use enums
 
 ==
 
