@@ -23,14 +23,11 @@ clear_screen(2); refresh(); //refresh needed?
 set_names(map,pl);
 clear_screen(2); refresh();
 
-mvprintw(0,0,"about to create Info struct\n"); getch();
 Info *info =malloc(sizeof(Info));
 info->actions =create_actionstable();
 info->interactives =create_intertable(info->actions);
-mvprintw(0,0,"about to create map\n"); getch();
 create_map(map,info);
 
-mvprintw(0,0,"map created, about to start game\n"); getch();
 game(hue, map, pl, info);
 
 free_actionstable(info->actions); free_intertable(info->interactives);

@@ -62,6 +62,8 @@ typedef struct{
 int** malloc_arrayint2(int h,int w);
 int** calloc_arrayint2(int h,int w);
 int** duplicate_arrayint2(int** arr,int h,int w);
+char* fread_line(FILE* f);
+int** fread_map(FILE* f, int h, int w);
 
 Action** create_actionstable(void);
 void free_actionstable(Action** actions);
@@ -75,7 +77,6 @@ Asset* load_asset(char* path);
 Interactive* load_inter(char* path, Action** actionstable);
 void free_asset(Asset* ass);
 void free_inter(Interactive* inter);
-int** fread_map(FILE* f, int h, int w);
 
 void create_map(Map* map, Info* info);
 void free_map(Map* map);

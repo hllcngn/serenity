@@ -25,6 +25,14 @@ for (int y=0;y<h;y++){ for (int x=0;x<w;x++){
 		for (x;x<w;x++) map[y][x]=' '; break;}
 	else if (x==w-1) fgetc(f);}}
 return map;}
+	
+char* fread_line(FILE* f){
+char c; int len=0; while ((c=fgetc(f))!='\n' &&c!=EOF) len++;
+if (c=='\n')	fseek(f,-(len+1),SEEK_CUR);
+else		fseek(f,-(len),SEEK_CUR);
+char* act =malloc(len+1); act[len]='\0';
+for (int i=0;i<len;i++) act[i]=fgetc(f);    return act;}
+
 
 void clear_screen(int cp){
 move(0,0); attron(COLOR_PAIR(cp));

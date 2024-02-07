@@ -39,7 +39,6 @@ Interactive** inters =malloc(sizeof(Interactive*)*NB_INTER);
 inters[0] =load_inter("ass/tree2.txt",actionstable);
 inters[1] =load_inter("ass/fruittree.txt",actionstable);
 inters[2] =load_inter("ass/stump.txt",actionstable);
-mvprintw(0,0,"create_intertable: all inters loaded"); getch();
 return inters;}
 
 void free_intertable(Interactive** inters){
@@ -61,13 +60,11 @@ inter->info =fread_map(f,inter->h,inter->w);
 fseek(f,2,SEEK_CUR);
 inter->inter =fread_map(f,inter->h,inter->w);
 fseek(f,2,SEEK_CUR);
-mvprintw(0,0,"about to read inter label\n"); getch();
-char* act; size_t n; getline(&act,&n,f);
+char* act =fread_line(f);
 for (int i=0;i<NB_ACTIONS;i++)
-if (!strcmp(actionstable[i]->label,act))
-	inter->action =actionstable[i];
-mvprintw(0,0,"inter loaded\n"); getch();
-fclose(f);	return inter;}
+if (!strcmp(actionstable[i]->label,act)){
+	inter->action =actionstable[i]; break;}
+free(act);	fclose(f);	return inter;}
 
 void free_inter(Interactive* inter){
 for (int y=0;y<inter->h;y++){
@@ -78,7 +75,6 @@ free(inter->map); free(inter->info); free(inter->inter);
 free(inter);	return;}
 
 void add_inst(Map* map, int y, int x, Interactive* inter){
-mvprintw(0,0,"add_inst start\n"); getch();
 Instance* inst =malloc(sizeof(Instance));
 if (!map->inst)	inst->id =1;
 else		inst->id =map->inst->id+1;
@@ -90,5 +86,4 @@ inst->inter =inter;
 for (int yy=0;yy<inst->inter->h;yy++)	//TODO edge cases
 for (int xx=0;xx<inst->inter->w;xx++)
 	map->it[y+yy][x+xx]=inst->id;
-mvprintw(0,0,"add_inst end\n"); getch();
 return;}
