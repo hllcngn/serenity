@@ -48,13 +48,16 @@ Instance* inst =check_inst(pos,map);
 if (inst &&inst->inter->inter[pos.y-inst->y][pos.x-inst->x]=='i'){
 	attron(COLOR_PAIR(CP_BASE));
 	move(WGAMEY+WGAMEH/2+1,WGAMEX+WGAMEW/2+2);
-	for (int i=0;i<inst->inter->action->labellen;i++) addch('-');
-	move(WGAMEY+WGAMEH/2+2,WGAMEX+WGAMEW/2+1);
-	addch('|'); printw("%s",inst->inter->action->label);
-	addch('|'); attron(COLOR_PAIR(CP_BASE));
-	move(WGAMEY+WGAMEH/2+2,WGAMEX+WGAMEW/2+2);
-	attron(A_UNDERLINE);
-	addch(inst->inter->action->label[0]); attroff(A_UNDERLINE);
+	for (int i=0;i<14;i++) addch('-'); //TODO precompute max label len
+	int i=0; Actionlist* al=inst->inter->actionlist;
+	for (al;al;al=al->next){
+		move(WGAMEY+WGAMEH/2+2+i,WGAMEX+WGAMEW/2+1);
+		addch('|');printw("%s",al->action->label);addch('|'); 
+		attron(A_UNDERLINE);
+		move(WGAMEY+WGAMEH/2+2+i,WGAMEX+WGAMEW/2+2);
+		addch(al->action->label[0]); attroff(A_UNDERLINE);
+		i++;}
+	attron(COLOR_PAIR(CP_BASE));
 	move(WGAMEY+WGAMEH/2+3,WGAMEX+WGAMEW/2+2);
-	for (int i=0;i<inst->inter->action->labellen;i++) addch('-');}
+	for (int i=0;i<14;i++) addch('-');}
 return;}

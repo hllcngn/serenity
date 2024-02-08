@@ -22,6 +22,24 @@ for (int i=0;i<NB_ACTIONS;i++){
 	free(actions[i]->label); free(actions[i]);}
 free(actions);		return;}
 
+void add_action(Actionlist** actionlist, Action* action){
+Actionlist* al =malloc(sizeof(Actionlist));
+al->action =action; al->previous =NULL;
+if (!*actionlist){ al->next =NULL; *actionlist =al;}
+else { al->next =(*actionlist)->next; (*actionlist)->previous =al;}
+return;}
+
+void destroy_action(Actionlist* al){
+if (!al) return;
+if (al->previous) al->previous->next =al->next;
+if (al->next) al->next->previous =al->previous;
+free(al);	return;}
+
+void free_actionlist(Actionlist* al){
+if (al==NULL)	return;
+free_actionlist(al->next);
+free(al);	return;}
+
 
 void fall_tree(Instance* inst, Map* map, Info* info){
 add_inst(map,inst->y+2,inst->x+rand()%2+1,info->interactives[2]);

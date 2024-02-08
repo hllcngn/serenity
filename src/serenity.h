@@ -33,28 +33,22 @@
 typedef struct{ int	y,x;	} vect2i;
 typedef struct{	float	i,j,k;	} vect3f;
 
-typedef struct{ int	h,w;
-		int	**map,**info;	} Asset;
-
 typedef struct{	char*	name;
 		int	y,x;	} Player;
 
-typedef struct info Info;
-typedef struct map Map;
+typedef struct{ int	h,w;
+		int	**map,**info;	} Asset;
+
+typedef struct info	Info;
+typedef struct map	Map;
 typedef struct interactive Interactive;
-typedef struct action Action;
-typedef struct instance Instance;
+typedef struct instance	Instance;
+typedef struct action	Action;
+typedef struct actionlist Actionlist;
 
-struct interactive{
-	int		h,w;
-	int		**map,**info,**inter;
-	Action*		action;};
-
-struct instance{
-	int		id;
-	int		y,x;
-	Interactive*	inter;
-	Instance	*previous,*next;};
+struct info{
+	Action**	actions;
+	Interactive**	interactives;};
 
 struct map{
 	int		h,w;
@@ -62,15 +56,24 @@ struct map{
 	char*		name;
 	Instance*	inst;};
 
-struct info{
-	Action**	actions;
-	Interactive**	interactives;};
+struct interactive{
+	int		h,w;
+	int		**map,**info,**inter;
+	Actionlist*	actionlist;};
+
+struct instance{
+	int		id, y,x;
+	Interactive*	inter;
+	Instance	*previous,*next;};
 
 struct action{
-	int		c;
+	int		c, labellen; //TODO add actual key
 	char*		label;
-	int		labellen;
 	void	(*action)(Instance* inst,Map* map,Info* info);};
+
+struct actionlist{
+	Action		*action;
+	Actionlist	*previous,*next;};
 
 int** malloc_arrayint2(int h,int w);
 int** calloc_arrayint2(int h,int w);
@@ -83,6 +86,9 @@ Interactive** create_intertable(Action** actionstable);
 void free_intertable(Interactive** inters);
 Action** create_actionstable(void);
 void free_actionstable(Action** actions);
+void add_action(Actionlist** actionlist, Action* action);
+void destroy_action(Actionlist* al);
+void free_actionlist(Actionlist* al);
 void fall_tree(Instance* inst, Map* map, Info* info);
 void pull_stump(Instance* inst, Map* map, Info* info);
 void harvest_fruits(Instance* inst, Map* map, Info* info);

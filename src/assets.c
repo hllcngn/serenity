@@ -61,9 +61,9 @@ fseek(f,2,SEEK_CUR);
 inter->inter =fread_map(f,inter->h,inter->w);
 fseek(f,2,SEEK_CUR);
 char* act =fread_line(f);
-for (int i=0;i<NB_ACTIONS;i++)
+for (int i=0;i<NB_ACTIONS;i++)	//TODO loop
 if (!strcmp(actionstable[i]->label,act)){
-	inter->action =actionstable[i]; break;}
+	add_action(&(inter->actionlist),actionstable[i]); break;}
 free(act);	fclose(f);	return inter;}
 
 void free_inter(Interactive* inter){
@@ -72,6 +72,7 @@ for (int y=0;y<inter->h;y++){
 	free(inter->info[y]);
 	free(inter->inter[y]);}
 free(inter->map); free(inter->info); free(inter->inter);
+free_actionlist(inter->actionlist);
 free(inter);	return;}
 
 void add_inst(Map* map, int y, int x, Interactive* inter){

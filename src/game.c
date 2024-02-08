@@ -8,9 +8,12 @@ case K_LEFT:
 case K_RIGHT:	movement(c,pl,map);	break;
 default:
 	Instance* inst =check_inst((vect2i){pl->y,pl->x},map);
-	if (inst &&c==inst->inter->action->label[0]+('a'-'A'))
-		inst->inter->action->action(inst,map,info);
-					break;}
+	if (inst &&inst->inter->inter[pl->y-inst->y][pl->x-inst->x]=='i'){
+		Actionlist* al;
+		 for (al=inst->inter->actionlist;
+		   al &&al->action->label[al->action->c]!=c;
+		   al=al->next);
+		 if (al) al->action->action(inst,map,info);}	break;}
 
 display_map(map, (vect2i){pl->y,pl->x});
 display_pl(pl, map);
