@@ -30,42 +30,47 @@
 #define DIF_TROUBLED	3
 #define DIF_FALL	4
 
-struct Action;
-
 typedef struct{ int	y,x;	} vect2i;
 typedef struct{	float	i,j,k;	} vect3f;
 
 typedef struct{ int	h,w;
 		int	**map,**info;	} Asset;
 
-typedef struct{	int	h,w;
-		int	**map,**info,**inter;
-		struct Action*	action;			} Interactive;
+typedef struct{	char*	name;
+		int	y,x;	} Player;
 
-typedef struct Instance{
+typedef struct info Info;
+typedef struct map Map;
+typedef struct interactive Interactive;
+typedef struct action Action;
+typedef struct instance Instance;
+
+struct interactive{
+	int		h,w;
+	int		**map,**info,**inter;
+	Action*		action;};
+
+struct instance{
 	int		id;
 	int		y,x;
 	Interactive*	inter;
-	struct Instance	*previous,*next;	} Instance;
+	Instance	*previous,*next;};
 
-typedef struct{
+struct map{
 	int		h,w;
 	int		**bg,**clsn,**fg,**it;
 	char*		name;
-	Instance*	inst;			} Map;
+	Instance*	inst;};
 
-typedef struct{
-	struct Action**	actions;
-	Interactive**	interactives;	} Info;
+struct info{
+	Action**	actions;
+	Interactive**	interactives;};
 
-typedef struct Action{
-	int	c;
-	char*	label;
-	int	labellen;
-	void	(*action)(Instance* inst, Map* map, Info* info);	} Action;
-
-typedef struct{	char*	name;
-		int	y,x;	} Player;
+struct action{
+	int		c;
+	char*		label;
+	int		labellen;
+	void	(*action)(Instance* inst,Map* map,Info* info);};
 
 int** malloc_arrayint2(int h,int w);
 int** calloc_arrayint2(int h,int w);
