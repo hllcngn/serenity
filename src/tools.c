@@ -15,6 +15,10 @@ int** new =malloc_arrayint2(h,w);
 for (int y=0;y<h;y++) for (int x=0;x<w;x++)
 	new[y][x] =arr[y][x];	return new;}
 
+void free_arrayint2(int** arr,int h,int w){
+for (int y=0;y<h;y++) free(arr[y]);
+free(arr);	return;}
+
 int** fread_map(FILE* f, int h, int w){
 int** map =malloc(sizeof(int*)*h);
 for (int y=0;y<h;y++)
