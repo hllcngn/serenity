@@ -1,36 +1,38 @@
 #include "serenity.h"
 
-Action** create_actionstable(void){
-Action** actions =malloc(sizeof(Action*)*NB_ACTIONS);
-for (int i=0;i<NB_ACTIONS;i++) actions[i] =malloc(sizeof(Action));
-actions[0]->label =strdup("Fall tree");
-actions[0]->labellen =9;
-actions[0]->c =0;
-actions[0]->action =&fall_tree;
-actions[1]->label =strdup("Pull stump");
-actions[1]->labellen =10;
-actions[1]->c =0;
-actions[1]->action =&pull_stump;
-actions[2]->label =strdup("Harvest fruits");
-actions[2]->labellen =14;
-actions[2]->c =0;
-actions[2]->action =&harvest_fruits;
-	return actions;}
+Action** create_actiontable(void){
+Action** action =malloc(sizeof(Action*)*NB_ACTION);
+for (int i=0;i<NB_ACTION;i++)
+	action[i] =malloc(sizeof(Action));
+action[0]->label =strdup("Fall tree");
+action[0]->c =0; action[0]->k ='f';
+action[0]->action =&fall_tree;
+action[1]->label =strdup("Pull stump");
+action[1]->c =0; action[1]->k ='p';
+action[1]->action =&pull_stump;
+action[2]->label =strdup("Harvest fruits");
+action[2]->c =0; action[2]->k ='h';
+action[2]->action =&harvest_fruits;
+for (int i=0;i<NB_ACTION;i++)
+	action[i]->labellen =strlen(action[i]->label);
+return action;}
 
-void free_actionstable(Action** actions){
-for (int i=0;i<NB_ACTIONS;i++){
-	free(actions[i]->label); free(actions[i]);}
-free(actions);		return;}
+void free_actiontable(Action** action){
+for (int i=0;i<NB_ACTION;i++){
+	free(action[i]->label);
+	free(action[i]);}
+free(action);		return;}
+
 
 void add_action(Actionlist** actionlist, Action* action){
 Actionlist* al =malloc(sizeof(Actionlist));
 al->action =action; al->previous =NULL;
-if (!*actionlist){ al->next =NULL; *actionlist =al;}
-else { al->next =(*actionlist)->next; (*actionlist)->previous =al;}
+if (*actionlist) (*actionlist)->previous =al;
+al->next =*actionlist; *actionlist =al;
 return;}
 
 void destroy_action(Actionlist* al){
-if (!al) return;
+if (!al)	return;
 if (al->previous) al->previous->next =al->next;
 if (al->next) al->next->previous =al->previous;
 free(al);	return;}
@@ -41,12 +43,15 @@ free_actionlist(al->next);
 free(al);	return;}
 
 
+
 void fall_tree(Instance* inst, Map* map, Info* info){
-add_inst(map,inst->y+2,inst->x+rand()%2+1,info->interactives[2]);
-destroy_inst(inst);
+int y =inst->y, x =inst->x;
+destroy_inst(inst,map);
+add_inst(map,y+2,x+rand()%2+1,info->interactive[2]);
 return;}
 
 void pull_stump(Instance* inst, Map* map, Info* info){
+destroy_inst(inst,map);
 	return;}
 
 void harvest_fruits(Instance* inst, Map* map, Info* info){

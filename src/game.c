@@ -11,7 +11,7 @@ default:
 	if (inst &&inst->inter->inter[pl->y-inst->y][pl->x-inst->x]=='i'){
 		Actionlist* al;
 		 for (al=inst->inter->actionlist;
-		   al &&al->action->label[al->action->c]!=c;
+		   al &&al->action->k!=c;
 		   al=al->next);
 		 if (al) al->action->action(inst,map,info);}	break;}
 

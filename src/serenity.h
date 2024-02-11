@@ -22,7 +22,7 @@
 #define CP_NORMAL  1
 #define CP_BASE	   2
 
-#define NB_ACTIONS 3
+#define NB_ACTION  3
 #define NB_INTER   3
 
 #define DIF_NORMAL	1
@@ -47,8 +47,8 @@ typedef struct action	Action;
 typedef struct actionlist Actionlist;
 
 struct info{
-	Action**	actions;
-	Interactive**	interactives;};
+	Action**	action;
+	Interactive**	interactive;};
 
 struct map{
 	int		h,w;
@@ -67,7 +67,7 @@ struct instance{
 	Instance	*previous,*next;};
 
 struct action{
-	int		c, labellen; //TODO add actual key
+	int		c,k, labellen;
 	char*		label;
 	void	(*action)(Instance* inst,Map* map,Info* info);};
 
@@ -83,10 +83,10 @@ char* fread_line(FILE* f);
 int** fread_map(FILE* f, int h, int w);
 void clear_screen(int cp);
 
-Interactive** create_intertable(Action** actionstable);
-void free_intertable(Interactive** inters);
-Action** create_actionstable(void);
-void free_actionstable(Action** actions);
+Interactive** create_intertable(Action** actiontable);
+void free_intertable(Interactive** intertable);
+Action** create_actiontable(void);
+void free_actiontable(Action** actions);
 void add_action(Actionlist** actionlist, Action* action);
 void destroy_action(Actionlist* al);
 void free_actionlist(Actionlist* al);
@@ -100,7 +100,7 @@ void paste_asset(Map* map, int y, int x, Asset* ass);
 Interactive* load_inter(char* path, Action** actionstable);
 void free_inter(Interactive* inter);
 void add_inst(Map* map, int y, int x, Interactive* inter);
-void destroy_inst(Instance* it);
+void destroy_inst(Instance* it, Map* map);
 void free_instlist(Instance* it);
 
 void create_map(Map* map, Info* info);

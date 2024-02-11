@@ -26,13 +26,13 @@ set_names(map,pl);
 clear_screen(2); refresh();
 
 Info *info =malloc(sizeof(Info));
-info->actions =create_actionstable();
-info->interactives =create_intertable(info->actions);
+info->action =create_actiontable();
+info->interactive =create_intertable(info->action);
 create_map(map,info);
 
 game(hue, map, pl, info);
 
-free_actionstable(info->actions); free_intertable(info->interactives);
+free_actiontable(info->action); free_intertable(info->interactive);
 free_player(pl); free_map(map);
 endwin();	return 0;}
 

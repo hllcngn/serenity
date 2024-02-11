@@ -5,17 +5,22 @@ serenity - TODO.txt
 
 tweaks:
 - review start.c
-- free_arrayint2 tool function
-- save label length in interactive instance
+v free_arrayint2 tool function
+v save label length in interactive instance
 - assets name in their files
 
 other:
-. improve the code
+. improve the code |
 . use enums
 
-==
+--
+. move actionlist functions to assets.c?
+. simplify assets.c using tool functions
+. review drawing.c and game.c
+. homogenize functions arg order
 
-Actions:
+==
+V Actions:
 -> create table of all actions
 -> when loading inter, associate actions
 Instances:

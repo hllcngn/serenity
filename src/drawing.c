@@ -11,11 +11,11 @@ for (y; pos.y-WGAMEH/2+y<map->h && y<WGAMEH; y++){
 	int x=0;
 	for (x; pos.x-WGAMEW/2+x<0; x++) addch(' ');
 	for (x; pos.x-WGAMEW/2+x<map->w && x<WGAMEW; x++)
-		if	(map->fg[pos.y-WGAMEH/2+y][pos.x-WGAMEW/2+x])
-			addch(map->fg[pos.y-WGAMEH/2+y][pos.x-WGAMEW/2+x]);
-		else if	(map->clsn[pos.y-WGAMEH/2+y][pos.x-WGAMEW/2+x])
-			addch(map->clsn[pos.y-WGAMEH/2+y][pos.x-WGAMEW/2+x]);
-		else	addch(map->bg[pos.y-WGAMEH/2+y][pos.x-WGAMEW/2+x]);
+	if	(map->fg[pos.y-WGAMEH/2+y][pos.x-WGAMEW/2+x])
+		addch(map->fg[pos.y-WGAMEH/2+y][pos.x-WGAMEW/2+x]);
+	else if	(map->clsn[pos.y-WGAMEH/2+y][pos.x-WGAMEW/2+x])
+		addch(map->clsn[pos.y-WGAMEH/2+y][pos.x-WGAMEW/2+x]);
+	else	addch(map->bg[pos.y-WGAMEH/2+y][pos.x-WGAMEW/2+x]);
 	for (x; x<WGAMEW; x++) addch(' ');}
 for (y; y<WGAMEH; y++){
 	move(WGAMEY+y,WGAMEX);
@@ -48,16 +48,17 @@ Instance* inst =check_inst(pos,map);
 if (inst &&inst->inter->inter[pos.y-inst->y][pos.x-inst->x]=='i'){
 	attron(COLOR_PAIR(CP_BASE));
 	move(WGAMEY+WGAMEH/2+1,WGAMEX+WGAMEW/2+2);
-	for (int i=0;i<14;i++) addch('-'); //TODO precompute max label len
-	int i=0; Actionlist* al=inst->inter->actionlist;
+	for (int i=0;i<inst->inter->actionlist->action->labellen;i++)
+		addch('-');
+	int i=0; Actionlist *al=inst->inter->actionlist, *al2;
 	for (al;al;al=al->next){
 		move(WGAMEY+WGAMEH/2+2+i,WGAMEX+WGAMEW/2+1);
 		addch('|');printw("%s",al->action->label);addch('|'); 
 		attron(A_UNDERLINE);
 		move(WGAMEY+WGAMEH/2+2+i,WGAMEX+WGAMEW/2+2);
-		addch(al->action->label[0]); attroff(A_UNDERLINE);
-		i++;}
+		addch(al->action->label[al->action->c]); attroff(A_UNDERLINE);
+		i++; al2=al;}	//TODO use al2 len to box the notices properly
 	attron(COLOR_PAIR(CP_BASE));
-	move(WGAMEY+WGAMEH/2+3,WGAMEX+WGAMEW/2+2);
-	for (int i=0;i<14;i++) addch('-');}
+	move(WGAMEY+WGAMEH/2+2+i,WGAMEX+WGAMEW/2+2);
+	for (int i=0;i<al2->action->labellen;i++) addch('-');}
 return;}
