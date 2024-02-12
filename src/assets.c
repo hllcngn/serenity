@@ -38,9 +38,13 @@ return;}
 
 Interactive** create_intertable(Action** actionstable){
 Interactive** inters =malloc(sizeof(Interactive*)*NB_INTER);
+mvprintw(0,0,"loading tree2.txt\n"); getch();
 inters[0] =load_inter("ass/tree2.txt",	  actionstable);
+mvprintw(0,0,"loading fruittree.txt\n"); getch();
 inters[1] =load_inter("ass/fruittree.txt",actionstable);
+mvprintw(0,0,"loading stump.txt\n"); getch();
 inters[2] =load_inter("ass/stump.txt",	  actionstable);
+mvprintw(0,0,"done loading intertable\n"); getch();
 return inters;}
 
 void free_intertable(Interactive** inters){
@@ -57,10 +61,12 @@ char c; int i =0; while ((c=fgetc(f))!='-'&&c!=EOF){ fseek(f,-1,SEEK_CUR);
 	if (c!= EOF) i++;
 	if (x>inter->w) inter->w=x;
 	inter->h++;} if (c!= EOF) i++;
+mvprintw(0,0,"reading maps\n"); getch();
 fseek(f,-i,SEEK_CUR);inter->map   =fread_map(f,inter->h,inter->w);
 fseek(f,2,SEEK_CUR); inter->info  =fread_map(f,inter->h,inter->w);
 fseek(f,2,SEEK_CUR); inter->inter =fread_map(f,inter->h,inter->w);
 
+mvprintw(0,0,"loading actions\n"); getch();
 fseek(f,2,SEEK_CUR);
 while ((c=fgetc(f))!='\n'&&c!=EOF){ fseek(f,-1,SEEK_CUR);
 	char* act =fread_line(f);

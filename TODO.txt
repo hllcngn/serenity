@@ -1,4 +1,9 @@
 serenity - TODO.txt
+urgent:
+-> there is a segv
+it's not because of display_map
+
+important:
 -> basic interface decoration (title screen, in-game....)
 -> unicode
 -> make the map a little bigger so that assets can overlap the edges for a more natural feel (maybe this will be sorted out with map sculpting)

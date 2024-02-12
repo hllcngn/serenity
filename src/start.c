@@ -28,6 +28,7 @@ clear_screen(2); refresh();
 Info *info =malloc(sizeof(Info));
 info->action =create_actiontable();
 info->interactive =create_intertable(info->action);
+mvprintw(0,0,"create_map\n"); getch();
 create_map(map,info);
 
 game(hue, map, pl, info);

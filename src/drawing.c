@@ -37,29 +37,43 @@ return;}
 
 void display_pl(Player* pl, Map* map){
 if (map->fg[pl->y][pl->x]) return;
-Instance* it =check_inst((vect2i){pl->y,pl->x},map);
-if(it &&it->inter->info[pl->y-it->y][pl->x-it->x]=='f') return;
-move(WGAMEY+WGAMEH/2,WGAMEX+WGAMEW/2); //TODO exact coordinates
-attron(COLOR_PAIR(CP_NORMAL));
-addch(' ');	return;}
+Instance* in =check_inst((vect2i){pl->y,pl->x},map);
+if (in &&in->inter->info[pl->y-in->y][pl->x-in->x]=='f') return;
+vect2i wgame =(vect2i){(LINES-WGAMEH)/2,(COLS-WGAMEW)/2};
+move(wgame.y+WGAMEH/2,wgame.x+WGAMEW/2); //TODO exact coordinates
+attron(COLOR_PAIR(CP_NORMAL)); addch(' ');	return;}
 
 
 void display_notice(vect2i pos, Map* map){
-Instance* inst =check_inst(pos,map);
-if (inst &&inst->inter->inter[pos.y-inst->y][pos.x-inst->x]=='i'){
+Instance* in =check_inst(pos,map);
+if (in &&in->inter->inter[pos.y-in->y][pos.x-in->x]=='i'){
 	attron(COLOR_PAIR(CP_BASE));
-	move(WGAMEY+WGAMEH/2+1,WGAMEX+WGAMEW/2+2);
-	for (int i=0;i<inst->inter->actionlist->action->labellen;i++)
+	vect2i wgame =(vect2i){(LINES-WGAMEH)/2,(COLS-WGAMEW)/2};
+	//move(wgame.y+WGAMEH/2+1,wgame.x+WGAMEW/2+2);
+	move(wgame.y+WGAMEH/2+1,wgame.x+WGAMEW/2+1);
+	for (int i=0;i<in->inter->actionlist->action->labellen+2;i++)
 		addch('-');
-	int i=0; Actionlist *al=inst->inter->actionlist, *al2;
+	int i=0; Actionlist *al=in->inter->actionlist, *al2;
 	for (al;al;al=al->next){
-		move(WGAMEY+WGAMEH/2+2+i,WGAMEX+WGAMEW/2+1);
-		addch('|');printw("%s",al->action->label);addch('|'); 
+		move(wgame.y+WGAMEH/2+2+i,wgame.x+WGAMEW/2+1);
+		addch('|'); printw("%s",al->action->label); addch('|'); 
+		if ((al2 =al->previous)){
+			int labellen =al->action->labellen,
+			    labellenp =al2->action->labellen;
+			if (labellenp>labellen)
+				for (int j=0; j<labellenp-labellen; j++)
+					addch('-');}
+		if ((al2 =al->next)){
+			int labellen =al->action->labellen,
+			    labellenn =al2->action->labellen;
+			if (labellenn>labellen)
+				for (int j; j<labellenn-labellen; j++)
+					addch('-');}
 		attron(A_UNDERLINE);
-		move(WGAMEY+WGAMEH/2+2+i,WGAMEX+WGAMEW/2+2);
-		addch(al->action->label[al->action->c]); attroff(A_UNDERLINE);
-		i++; al2=al;}	//TODO use al2 len to box the notices properly
-	attron(COLOR_PAIR(CP_BASE));
-	move(WGAMEY+WGAMEH/2+2+i,WGAMEX+WGAMEW/2+2);
-	for (int i=0;i<al2->action->labellen;i++) addch('-');}
+			move(wgame.y+WGAMEH/2+2+i,wgame.x+WGAMEW/2+2);
+			addch(al->action->label[al->action->c]);
+		attroff(A_UNDERLINE);
+		i++; al2=al;}
+	move(wgame.y+WGAMEH/2+2+i,wgame.x+WGAMEW/2+1);
+	for (int i=0;i<al2->action->labellen+2;i++) addch('-');}
 return;}
