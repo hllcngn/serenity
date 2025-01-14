@@ -1,13 +1,14 @@
 #include "serenity.h"
 
 int game(vect3f hue, Map* map, Player* pl, Info *info){
-char c=0; do { switch (c){
+char c=0; Instance* inst; do { switch (c){
 case K_UP:
 case K_DOWN:
 case K_LEFT:
 case K_RIGHT:	movement(c,pl,map);	break;
 default:
-	Instance* inst =check_inst((vect2i){pl->y,pl->x},map);
+	//Instance* inst =check_inst((vect2i){pl->y,pl->x},map);
+	inst =check_inst((vect2i){pl->y,pl->x},map);
 	if (inst &&inst->inter->inter[pl->y-inst->y][pl->x-inst->x]=='i'){
 		Actionlist* al;
 		 for (al=inst->inter->actionlist;
@@ -39,7 +40,7 @@ Instance* check_inst(vect2i pos, Map* map){
 if (map->it[pos.y][pos.x]){
 Instance* it; for (it=map->inst;
 it &&it->id!=map->it[pos.y][pos.x];
-it=it->next);	return it;	return NULL;}}
+it=it->next);	return it;}	return NULL;}
 
 int check_collision(vect2i pos, Map* map){
 if (pos.y>=0	  &&pos.x>=0

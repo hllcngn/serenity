@@ -67,9 +67,10 @@ fseek(f,2,SEEK_CUR); inter->info  =fread_map(f,inter->h,inter->w);
 fseek(f,2,SEEK_CUR); inter->inter =fread_map(f,inter->h,inter->w);
 
 mvprintw(0,0,"loading actions\n"); getch();
-fseek(f,2,SEEK_CUR);
+inter->actionlist = NULL; fseek(f,2,SEEK_CUR);
 while ((c=fgetc(f))!='\n'&&c!=EOF){ fseek(f,-1,SEEK_CUR);
 	char* act =fread_line(f);
+	//mvprintw(0,0,"act %s\n", act); getch();
 	for (int i=0;i<NB_ACTION;i++)
 	if (!strcmp(act,actiontable[i]->label))
 		add_action(&(inter->actionlist),actiontable[i]);
