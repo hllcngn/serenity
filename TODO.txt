@@ -3,6 +3,9 @@ urgent:
 -> there is a segv
 it's not because of display_map
 
+new:
+- gui displaying domain name
+
 important:
 -> basic interface decoration (title screen, in-game....)
 -> unicode

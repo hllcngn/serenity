@@ -1,8 +1,9 @@
 #include "serenity.h"
-vect3f hue_selection(void);
-Map* mapsize_selection(void);
-int choose_difficulty(void);
-void set_names(Map* map, Player* pl);
+void new_game(vect3f*, Map**, int*, Player**, int);
+vect3f hue_selection(int);
+Map* mapsize_selection(int);
+int choose_difficulty(int);
+void set_names(Map*, Player*, int);
 
 
 int main(int ac, char** av){
@@ -16,19 +17,13 @@ int i=0; while (getline(&l,&n,f)!=-1){
 	mvprintw((LINES-7)/2+i,(COLS-100)/2,"%s",l); i++;}
 free(l); fclose(f); getch();
 
-vect3f hue     =hue_selection();
-Map* map       =mapsize_selection();
-clear_screen(2); refresh();
-int difficulty =choose_difficulty();
-Player* pl     =create_player(NULL,2,5);
-clear_screen(2); refresh();
-set_names(map,pl);
-clear_screen(2); refresh();
+vect3f hue; Map* map; int difficulty; Player* pl;
+new_game(&hue, &map, &difficulty, &pl, 1);
 
 Info *info =malloc(sizeof(Info));
 info->action =create_actiontable();
 info->interactive =create_intertable(info->action);
-mvprintw(0,0,"create_map\n"); getch();
+//mvprintw(0,0,"create_map\n"); getch();
 create_map(map,info);
 
 game(hue, map, pl, info);
@@ -39,7 +34,24 @@ endwin();	return 0;}
 
 
 
-vect3f hue_selection(void){
+void new_game(vect3f* hue, Map** map, int* diff, Player** pl, int random){
+*hue =hue_selection(random);
+*map =mapsize_selection(random);
+clear_screen(2); refresh();
+*diff =choose_difficulty(random);
+*pl     =create_player(NULL,2,5);
+clear_screen(2); refresh();
+set_names(*map,*pl, random);
+clear_screen(2); refresh();}
+
+
+vect3f hue_selection(int random){
+vect3f hue;
+if (random == 1){
+	int i = rand()%1000, j = rand()%1000, k = rand()%1000;
+	init_color(21,i,j,k);
+	hue = (vect3f){i/1000.0,j/1000.0,k/1000.0};
+} else {
 for (int cp=20,i=1000;cp<30;cp++,i-=30){
 	init_color(cp,i,i,i);
 	init_pair(cp,COLOR_BLACK,cp);
@@ -76,7 +88,6 @@ wmove(whue,4,5); for (int i=40;i<50;i++){
 	if (i==hl){ waddch(whue, '.'); waddch(whue, '.');}
 	else { waddch(whue,' '); waddch(whue,' ');}}
 wrefresh(whue); } while ((c=getch())!='1'); delwin(whue);
-vect3f hue;
 if (hl>40){	int i =1000-hl%10*25;
 		init_color(21,i,i,1000);
 		hue =(vect3f){i/1000.0,i/1000.0,1};}
@@ -85,12 +96,17 @@ else if (hl>30){ int i =1000-hl%10*10; int j =1000-hl%10*20;
 		hue =(vect3f){1,i/1000.0,j/1000.0};}
 else {		int i =1000-hl%10*30;
 		init_color(21,i,i,i);
-		hue =(vect3f){i/1000.0,i/1000.0,i/1000.0};}
-init_pair(1,21,COLOR_BLACK);
-init_pair(2,COLOR_BLACK,21);	return hue;}
+		hue =(vect3f){i/1000.0,i/1000.0,i/1000.0};}}
+
+init_pair(CP_NORMAL,21,COLOR_BLACK);
+init_pair(CP_BASE,COLOR_BLACK,21);	return hue;}
 
 
-Map* mapsize_selection(void){
+Map* mapsize_selection(int random){
+char c;
+if (random == 1) {
+c = rand()%5+1 +'0';
+} else {
 WINDOW* wmap =newwin(9,30,(LINES-9)/2,(COLS-30)/2);
 wattron(wmap, COLOR_PAIR(CP_NORMAL)); box(wmap,0,0);
 mvwprintw(wmap,0,(30-15)/2,"choose map size");
@@ -99,7 +115,8 @@ mvwprintw(wmap,3,3,"2. small");
 mvwprintw(wmap,4,3,"3. normal");
 mvwprintw(wmap,5,3,"4. large");
 mvwprintw(wmap,6,3,"5. xtra large"); wrefresh(wmap);
-char c; while ((c=getch())<'1'||c>'5'); delwin(wmap);
+while ((c=getch())<'1'||c>'5'); delwin(wmap);}
+
 Map* map =malloc(sizeof(Map));
 switch (c){  case '1':	map->h=50;  map->w=100;	break;
 	     case '2':	map->h=100; map->w=200;	break;
@@ -109,7 +126,11 @@ switch (c){  case '1':	map->h=50;  map->w=100;	break;
 	     default:				break;}	return map;}
 
 
-int choose_difficulty(void){
+int choose_difficulty(int random){
+char c;
+if (random == 1)
+c = rand()%4+1 +'0';
+else {
 WINDOW* wdiff =newwin(8,30,(LINES-8)/2,(COLS-30)/2);
 wattron(wdiff, COLOR_PAIR(CP_NORMAL)); box(wdiff,0,0);
 mvwprintw(wdiff,0,(30-17)/2,"select difficulty");
@@ -117,16 +138,25 @@ mvwprintw(wdiff,2,3,"1. solar");
 mvwprintw(wdiff,3,3,"2. solar - infinite");
 mvwprintw(wdiff,4,3,"3. troubled");
 mvwprintw(wdiff,5,3,"4. fall of heavens"); wrefresh(wdiff);
-char c; while ((c=getch())<'1'||c>'5'); delwin(wdiff);
+char c; while ((c=getch())<'1'||c>'5'); delwin(wdiff);}
 return c-'0';}
 
 
-void set_names(Map* map, Player* pl){
+void set_names(Map* map, Player* pl, int random){
 char* name =malloc(32); name[0]='\0';
 strcpy(name, "Domain of Saint ");
-switch (rand()%3){ case 0:  strcat(name, "George");	break;
-		   case 1:  strcat(name, "Joseph");	break;
-		   default: strcat(name, "Martin");	break;}
+int casex = rand()%3;
+switch (casex){	case 0:  strcat(name, "George");	break;
+		case 1:  strcat(name, "Joseph");	break;
+		default: strcat(name, "Martin");	break;}
+if (random == 1) {
+map->name =strdup(name);
+name[0]='\0';
+switch (casex){	case 0:  strcat(name, "George");	break;
+		case 1:  strcat(name, "Joseph");	break;
+		default: strcat(name, "Martin");	break;}
+pl->name =strdup(name);
+} else {
 WINDOW* wname =newwin(7,37,(LINES-7)/2,(COLS-37)/2);
 wattron(wname, COLOR_PAIR(1)); box(wname,0,0);
 mvwprintw(wname,1,3,"Map name:");
@@ -146,7 +176,8 @@ char c=0; do { if (c!=' ') c =getch();
 			mvwprintw(wname,2,3,"%s",name);
 			wrefresh(wname);
 			}while ((c=getch())!='\n'&&len<31);}
-}while (c!='\n'); map->name =strdup(name);
+}while (c!='\n');
+map->name =strdup(name);
 c=' '; do { if (c!=' ') c= getch();
 	  if (c==' '){
 		name[0]='\0';
@@ -159,5 +190,6 @@ c=' '; do { if (c!=' ') c= getch();
 			mvwprintw(wname,5,3,"%s",name);
 			wrefresh(wname);
 			}while ((c=getch())!='\n'&&len<16);}
-}while (c!='\n'); pl->name =strdup(name);
-curs_set(0); free(name); delwin(wname);	return;}
+}while (c!='\n');
+pl->name =strdup(name); curs_set(0); delwin(wname);}
+free(name); return;}
