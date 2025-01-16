@@ -117,3 +117,9 @@ int check_collision(vect2i pos, Map* map);
 void display_map(Map* map, vect2i pos);
 void display_pl(Player* pl, Map* map);
 void display_notice(vect2i pos, Map* map);
+
+void new_game(vect3f*, Map**, int*, Player**, int);
+vect3f hue_selection(int);
+Map* mapsize_selection(int);
+int choose_difficulty(int);
+void set_names(Map*, Player*, int);

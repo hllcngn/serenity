@@ -22,6 +22,23 @@ important:
 v  basic interface decoration (title screen, in-game....)
 -> make the map a little bigger so that assets can overlap the edges for a more natural feel (maybe this will be sorted out with map sculpting)
 
+Menus:
+-> submenu object
+-> display funct with win, offset & max width
+-> display multiple choices as  <  1. pocket  >  and play with the arrows
+-> highlight menu objects within a menu panel
+-> menu object input handling (calls/then display funct)
+-> menu object return set setting
+-> and appropriately display current setting
+=> maybe new game starts with a random hue that can be modified through ig settings panel
+-> new game submenus 1 names 2 difficulty 3 map size
+=> i'm not even sure about the difficulty element
+-> ig settings submenus 1 hue
+-> keep changes/discard/apply changes (intermediary settings struct variable)
+- menu submenus tables
+- and state variable (int)
+- settings struct
+
 V Actions:
 -> create table of all actions
 -> when loading inter, associate actions
