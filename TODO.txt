@@ -4,6 +4,10 @@ v  there is a segv (it's not because of display_map)
 
 new:
 0 review codebase
+- check if Actions is fully implemented
+- go through tweaks and improvements
+- fix random new game option, chiefly the hue
+- fix new game menus into a single menu window
 1 scroll decoration
 - gui displaying domain name
 - and HP
@@ -11,8 +15,6 @@ new:
 - using random trees assets
 3 mobs
 - figure out frame timer for entities actions
-4 inventory
-- farming
 x day/night cycle
 x deactivate day/night cycle
 
