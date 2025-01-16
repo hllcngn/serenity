@@ -1,36 +1,45 @@
 serenity - TODO.txt
 urgent:
--> there is a segv
-it's not because of display_map
+v  there is a segv (it's not because of display_map)
 
 new:
+0 review codebase
+1 scroll decoration
 - gui displaying domain name
+- and HP
+2 house
+- using random trees assets
+3 mobs
+- figure out frame timer for entities actions
+4 inventory
+- farming
+x day/night cycle
+x deactivate day/night cycle
 
 important:
--> basic interface decoration (title screen, in-game....)
--> unicode
+v  basic interface decoration (title screen, in-game....)
 -> make the map a little bigger so that assets can overlap the edges for a more natural feel (maybe this will be sorted out with map sculpting)
 
-tweaks:
-- review start.c
-v free_arrayint2 tool function
-v save label length in interactive instance
-- assets name in their files
-
-other:
-. improve the code |
-. use enums
-
---
-. move actionlist functions to assets.c?
-. simplify assets.c using tool functions
-. review drawing.c and game.c
-. homogenize functions arg order
-
-==
 V Actions:
 -> create table of all actions
 -> when loading inter, associate actions
 Instances:
 -> have a table of all interactive assets to refer to
 -> list pointers to unique interactive assets
+
+tweaks:
+v free_arrayint2 tool function
+v save label length in interactive instance
+- assets name in their files
+. improve the code
+. use enums
+
+improvements:
+- review start.c
+. move actionlist functions to assets.c ?
+. simplify assets.c using tool functions
+. review drawing.c and game.c
+. homogenize functions arg order
+
+beyond:
+-> unicode
