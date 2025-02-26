@@ -80,6 +80,7 @@ int** calloc_arrayint2(int h,int w);
 int** duplicate_arrayint2(int** arr,int h,int w);
 void free_arrayint2(int** arr,int h,int w);
 char* fread_line(FILE* f);
+int flen_line(FILE* f);
 int** fread_map(FILE* f, int h, int w);
 void clear_screen(int cp);
 

@@ -4,9 +4,9 @@ Asset* load_asset(char* path){
 Asset* ass =malloc(sizeof(Asset));
 FILE* f =fopen(path,"r");
 ass->h=0; ass->w=0;
-char c; while ((c=fgetc(f))!=EOF &&c!='-'){ fseek(f,-1,SEEK_CUR); //?
-	int x=0; while ((c=fgetc(f))!='\n' &&c!=EOF) x++; //readline?
-	if (x>ass->w) ass->w=x; ass->h++;}	//make fread_line return len
+char c; while ((c=fgetc(f))!=EOF &&c!='-'){
+	fseek(f,-1,SEEK_CUR); int x=flen_line(f);
+	if (x>ass->w) ass->w=x; ass->h++;}
 rewind(f);
 ass->map =fread_map(f,ass->h,ass->w);
 fseek(f,2,SEEK_CUR);
