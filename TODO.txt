@@ -17,6 +17,7 @@ new:
 - figure out frame timer for entities actions
 x day/night cycle
 x deactivate day/night cycle
+x modern mode
 
 important:
 v  basic interface decoration (title screen, in-game....)
@@ -63,6 +64,8 @@ V Actions: (actions are in lists on instances bc interactives can be modified so
 	or we could have a table of what interactive got what actions depending on their state.)
 -> create table of all actions
 -> when loading inter, associate actions
+
+
 Instances:
 -> have a table of all interactive assets to refer to
 -> list pointers to unique interactive assets

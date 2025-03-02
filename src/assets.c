@@ -31,40 +31,37 @@ free(ass);}
 
 Interactive** create_intertable(Action** actiontable){
 Interactive** inter =malloc(sizeof(Interactive*)*NB_INTER);
-inter[0] =load_inter("ass/tree2.txt",	  actiontable);
+inter[0] =load_inter("ass/tree2.txt",	 actiontable);
 inter[1] =load_inter("ass/fruittree.txt",actiontable);
-inter[2] =load_inter("ass/stump.txt",	  actiontable);
+inter[2] =load_inter("ass/stump.txt",	 actiontable);
 return inter;}
 
 Interactive* load_inter(char* path, Action** actiontable){
 Interactive* inter=malloc(sizeof(Interactive));
 FILE* f=fopen(path,"r");
-int l1=flen_line(f);
 fsize_map(f,&(inter->h),&(inter->w));
-fseek(f,l1+1,SEEK_SET);inter->map   =fread_map(f,inter->h,inter->w);
+rewind(f);	     inter->map   =fread_map(f,inter->h,inter->w);
 fseek(f,2,SEEK_CUR); inter->info  =fread_map(f,inter->h,inter->w);
 fseek(f,2,SEEK_CUR); inter->inter =fread_map(f,inter->h,inter->w);
-
 inter->actionlist = NULL; fseek(f,2,SEEK_CUR);
 char c; while ((c=fgetc(f))!='\n'&&c!=EOF){ fseek(f,-1,SEEK_CUR);
 	char* act =fread_line(f);
 	for (int i=0;i<NB_ACTION;i++)
 	if (!strcmp(act,actiontable[i]->label))
 		add_action(&(inter->actionlist),actiontable[i]);
-	free(act);
-	fgetc(f);}
+	free(act);}
 fclose(f);	return inter;}
+
+void free_inter(Interactive* inter){
+for (int y=0;y<inter->h;y++){	free(inter->map[y]);
+				free(inter->info[y]);
+				free(inter->inter[y]);}
+free(inter->map);free(inter->info);free(inter->inter);
+free_actionlist(inter->actionlist);
+free(inter);}
 
 void free_intertable(Interactive** inter){
 for (int i=0;i<NB_INTER;i++) free_inter(inter[i]);
-free(inter);}
-
-void free_inter(Interactive* inter){
-for (int y=0;y<inter->h;y++) free(inter->map[y]);
-for (int y=0;y<inter->h;y++) free(inter->info[y]);
-for (int y=0;y<inter->h;y++) free(inter->inter[y]);
-free(inter->map);free(inter->info);free(inter->inter);
-free_actionlist(inter->actionlist);
 free(inter);}
 
 

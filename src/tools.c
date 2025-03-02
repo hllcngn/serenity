@@ -30,7 +30,7 @@ if (c=='\n')	fseek(f,-(len+1),SEEK_CUR);
 else		fseek(f,-(len),SEEK_CUR);
 char* act =malloc(len+1); act[len]='\0';
 for (int i=0;i<len;i++) act[i]=fgetc(f); 
-	return act;}
+fgetc(f);	return act;}
 
 void fsize_map(FILE* f, int* h, int* w){
 int hh=0, ww=0;

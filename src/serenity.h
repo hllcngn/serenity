@@ -87,8 +87,6 @@ void clear_screen(int cp);
 void debug_msg(const char* str);
 char* path_cat(const char* path, const char* file);
 
-Interactive** create_intertable(Action** actiontable);
-void free_intertable(Interactive** intertable);
 Action** create_actiontable(void);
 void free_actiontable(Action** actions);
 void add_action(Actionlist** actionlist, Action* action);
@@ -101,9 +99,12 @@ void harvest_fruits(Instance* inst, Map* map, Info* info);
 Asset* load_asset(char* path);
 void free_asset(Asset* ass);
 void paste_asset(Map* map, int y, int x, Asset* ass);
+Interactive** create_intertable(Action** actiontable);
 Interactive* load_inter(char* path, Action** actionstable);
 void free_inter(Interactive* inter);
+void free_intertable(Interactive** intertable);
 void add_inst(Map* map, int y, int x, Interactive* inter);
+Instance* check_inst(vect2i pos, Map* map);
 void destroy_inst(Instance* it, Map* map);
 void free_instlist(Instance* it);
 
@@ -115,13 +116,13 @@ void free_player(Player* pl);
 
 int game(vect3f hue, Map* map, Player* pl, Info* info);
 void movement(char c, Player* pl, Map* map);
-Instance* check_inst(vect2i pos, Map* map);
 int check_collision(vect2i pos, Map* map);
 
 void display_map(Map* map, vect2i pos);
 void display_pl(Player* pl, Map* map);
 void display_notice(vect2i pos, Map* map);
 
+void title_screen(void);
 void new_game(vect3f*, Map**, int*, Player**, int);
 vect3f hue_selection(int);
 Map* mapsize_selection(int);

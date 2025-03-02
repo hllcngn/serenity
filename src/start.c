@@ -1,5 +1,4 @@
 #include "serenity.h"
-void title_screen(void);
 
 
 int main(int ac, char** av){
@@ -17,7 +16,9 @@ info->interactive =create_intertable(info->action);
 
 // new game
 vect3f hue; Map* map; int difficulty; Player* pl;
-new_game(&hue, &map, &difficulty, &pl, 1);
+if (ac>1 && !strcmp(av[1],"random"))
+	new_game(&hue, &map, &difficulty, &pl, 1);
+else	new_game(&hue, &map, &difficulty, &pl, 0);
 create_map(map,info);
 
 game(hue, map, pl, info);

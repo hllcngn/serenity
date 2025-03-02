@@ -28,8 +28,7 @@ for (int i=0;i<map->w/10;i++)
 for (int i=0;i<map->w/10/2;i++)
 	add_inst(map,
 		rand()%(map->h-20)+10,rand()%(map->w-20)+10,
-		info->interactive[2]);
-	return;}
+		info->interactive[2]);}
 
 void free_map(Map* map){
 for (int y=0;y<map->h;y++) free(map->bg[y]);
@@ -38,5 +37,4 @@ for (int y=0;y<map->h;y++) free(map->fg[y]);
 for (int y=0;y<map->h;y++) free(map->it[y]);
 free(map->bg);free(map->clsn);free(map->fg);free(map->it);
 free_instlist(map->inst);
-free(map->name);
-free(map);	return;}
+free(map->name);free(map);}
