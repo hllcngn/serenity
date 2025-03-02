@@ -67,7 +67,7 @@ struct instance{
 	Instance	*previous,*next;};
 
 struct action{
-	int		c,k, labellen;
+	int		c,k,labellen;
 	char*		label;
 	void	(*action)(Instance* inst,Map* map,Info* info);};
 
@@ -81,8 +81,11 @@ int** duplicate_arrayint2(int** arr,int h,int w);
 void free_arrayint2(int** arr,int h,int w);
 char* fread_line(FILE* f);
 int flen_line(FILE* f);
+void fsize_map(FILE* f, int* h, int* w);
 int** fread_map(FILE* f, int h, int w);
 void clear_screen(int cp);
+void debug_msg(const char* str);
+char* path_cat(const char* path, const char* file);
 
 Interactive** create_intertable(Action** actiontable);
 void free_intertable(Interactive** intertable);

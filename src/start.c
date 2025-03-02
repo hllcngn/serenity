@@ -7,11 +7,8 @@ int main(int ac, char** av){
 initscr(); cbreak(); noecho(); curs_set(0); start_color(); refresh();
 srand(time(NULL));
 init_color(0,rand()%100,rand()%100,rand()%100);
-init_color(7,rand()%700+300,rand()%700+300,rand()%700+300);
-//darks are good below 100
-//lights are good above 300
-
-title_screen();
+init_color(7,rand()%650+350,rand()%650+350,rand()%650+350);
+//title_screen();
 
 // loading assets
 Info *info =malloc(sizeof(Info));

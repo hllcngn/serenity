@@ -33,14 +33,7 @@ case K_LEFT:  if(!check_collision((vect2i){pl->y,pl->x-1}, map))
 			pl->x--;	break;
 case K_RIGHT: if(!check_collision((vect2i){pl->y,pl->x+1}, map))
 			pl->x++;	break;
-default:				break;}	return;}
-
-
-Instance* check_inst(vect2i pos, Map* map){
-if (map->it[pos.y][pos.x]){
-Instance* it; for (it=map->inst;
-it &&it->id!=map->it[pos.y][pos.x];
-it=it->next);	return it;}	return NULL;}
+default:				break;}}
 
 int check_collision(vect2i pos, Map* map){
 if (pos.y>=0	  &&pos.x>=0

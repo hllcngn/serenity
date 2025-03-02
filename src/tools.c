@@ -19,6 +19,26 @@ void free_arrayint2(int** arr,int h,int w){
 for (int y=0;y<h;y++) free(arr[y]);
 free(arr);	return;}
 
+
+int flen_line(FILE* f){
+char c; int len=0; while ((c=fgetc(f))!='\n' &&c!=EOF) len++;
+	return len;}
+
+char* fread_line(FILE* f){
+char c; int len=0; while ((c=fgetc(f))!='\n' &&c!=EOF) len++;
+if (c=='\n')	fseek(f,-(len+1),SEEK_CUR);
+else		fseek(f,-(len),SEEK_CUR);
+char* act =malloc(len+1); act[len]='\0';
+for (int i=0;i<len;i++) act[i]=fgetc(f); 
+	return act;}
+
+void fsize_map(FILE* f, int* h, int* w){
+int hh=0, ww=0;
+char c; while((c=fgetc(f))!='-'&&c!=EOF){
+	fseek(f,-1,SEEK_CUR); int x=flen_line(f);
+	if(x>ww) ww=x; hh++;}
+*h=hh; *w=ww;}
+
 int** fread_map(FILE* f, int h, int w){
 int** map =malloc(sizeof(int*)*h);
 for (int y=0;y<h;y++)
@@ -30,21 +50,19 @@ for (int y=0;y<h;y++){ for (int x=0;x<w;x++){
 	else if (x==w-1) fgetc(f);}}
 return map;}
 
-char* fread_line(FILE* f){
-char c; int len=0; while ((c=fgetc(f))!='\n' &&c!=EOF) len++;
-if (c=='\n')	fseek(f,-(len+1),SEEK_CUR);
-else		fseek(f,-(len),SEEK_CUR);
-char* act =malloc(len+1); act[len]='\0';
-for (int i=0;i<len;i++) act[i]=fgetc(f); 
-	return act;}
-
-int flen_line(FILE* f){
-char c; int len=0; while ((c=fgetc(f))!='\n' &&c!=EOF) len++;
-	return len;}
-
 
 void clear_screen(int cp){
 move(0,0); attron(COLOR_PAIR(cp));
 for (int y=0;y<LINES;y++)
 	for (int x=0;x<COLS;x++)
 		addch(' ');}
+
+void debug_msg(const char* str){
+mvprintw(0,0,str); addch('\n'); getch();}
+
+char* path_cat(const char* path, const char* file){
+int l1=strlen(path), l2=strlen(file);
+char* cat=malloc(l1+l2+1);
+strncpy(cat,path,l1+1);
+strncat(cat,file,l2);
+return cat;}
