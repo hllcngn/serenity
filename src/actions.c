@@ -21,26 +21,25 @@ void free_actiontable(Action** action){
 for (int i=0;i<NB_ACTION;i++){
 	free(action[i]->label);
 	free(action[i]);}
-free(action);		return;}
+free(action);}
 
 
 void add_action(Actionlist** actionlist, Action* action){
 Actionlist* al =malloc(sizeof(Actionlist));
 al->action =action; al->previous =NULL;
 if (*actionlist) (*actionlist)->previous =al;
-al->next =*actionlist; *actionlist =al;
-return;}
+al->next =*actionlist; *actionlist =al;}
 
 void destroy_action(Actionlist* al){
 if (!al)	return;
 if (al->previous) al->previous->next =al->next;
 if (al->next) al->next->previous =al->previous;
-free(al);	return;}
+free(al);}
 
 void free_actionlist(Actionlist* al){
 if (al==NULL)	return;
 free_actionlist(al->next);
-free(al);	return;}
+free(al);}
 
 
 

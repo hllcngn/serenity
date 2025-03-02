@@ -14,7 +14,7 @@ clear_screen(2); refresh();}
 vect3f hue_selection(int random){
 vect3f hue;
 if (random == 1){
-	int i = rand()%1000, j = rand()%1000, k = rand()%1000;
+	int i = rand()%700+300, j = rand()%700+300, k = rand()%700+300;
 	init_color(21,i,j,k);
 	hue = (vect3f){i/1000.0,j/1000.0,k/1000.0};
 } else {

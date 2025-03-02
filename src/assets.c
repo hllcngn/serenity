@@ -89,16 +89,14 @@ free(inter);	return;}
 
 void add_inst(Map* map, int y, int x, Interactive* inter){
 Instance* inst =malloc(sizeof(Instance));
-inst->y =y; inst->x =x;
-inst->inter =inter;
+inst->y =y; inst->x =x; inst->inter =inter;
 if (!map->inst)	inst->id =1;
 else {		inst->id =map->inst->id+1;
 		map->inst->previous =inst;}
 inst->previous =NULL; inst->next =map->inst; map->inst =inst;
 for (int yy=0;yy<inst->inter->h;yy++)	//TODO edge cases
 for (int xx=0;xx<inst->inter->w;xx++)  //copy arr tool funct
-	map->it[y+yy][x+xx]=inst->id;
-return;}
+	map->it[y+yy][x+xx]=inst->id;}
 
 void destroy_inst(Instance* it, Map* map){
 if (!it)	return;

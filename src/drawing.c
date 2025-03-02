@@ -31,8 +31,7 @@ for (yy; yy<in->inter->h &&in->y+yy<cam.y+WGAMEH; yy++){
 		move(   wgame.y+WGAMEH-(cam.y+WGAMEH-in->y)+yy,
 			wgame.x+WGAMEW-(cam.x+WGAMEW-in->x)+xx);
 		if (in->inter->map[yy][xx]!=' ')
-			addch(in->inter->map[yy][xx]);}}}
-return;}
+			addch(in->inter->map[yy][xx]);}}}}
 
 
 void display_pl(Player* pl, Map* map){
