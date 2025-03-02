@@ -1,18 +1,18 @@
 serenity - TODO.txt
 urgent:
-v  there is a segv (it's not because of display_map)
 
 new:
 0 review codebase
 - check if Actions is fully implemented
 - go through tweaks and improvements
 - fix random new game option, chiefly the hue
-- fix new game menus into a single menu window
+> adapt gameplay to hue
+- fix new game menus into a single menu window (see Menus section)
 1 scroll decoration
 - gui displaying domain name
 - and HP
 2 house
-- using random trees assets
+- use of random trees assets
 3 mobs
 - figure out frame timer for entities actions
 x day/night cycle
@@ -22,7 +22,24 @@ important:
 v  basic interface decoration (title screen, in-game....)
 -> make the map a little bigger so that assets can overlap the edges for a more natural feel (maybe this will be sorted out with map sculpting)
 
+improvements:
+- review start.c
+. move actionlist functions to assets.c ?
+. simplify assets.c using tool functions
+. review drawing.c and game.c
+. homogenize functions arg order
+
+tweaks:
+- assets name in their files
+. improve the code
+. use enums
+
+
 Menus:
+- settings struct
+- big menu funct (display, hide)
+- menu submenus tables
+- and state variable (int)
 -> submenu object
 -> display funct with win, offset & max width
 -> display multiple choices as  <  1. pocket  >  and play with the arrows
@@ -30,35 +47,26 @@ Menus:
 -> menu object input handling (calls/then display funct)
 -> menu object return set setting
 -> and appropriately display current setting
-=> maybe new game starts with a random hue that can be modified through ig settings panel
 -> new game submenus 1 names 2 difficulty 3 map size
-=> i'm not even sure about the difficulty element
--> ig settings submenus 1 hue
+=> i'm not even sure about the difficulty element (just add everything in)
+x ig settings submenus 1 hue
+x random hue can be modified through ig settings panel
 -> keep changes/discard/apply changes (intermediary settings struct variable)
-- menu submenus tables
-- and state variable (int)
-- settings struct
 
-V Actions:
+
+V Actions: (actions are in lists on instances bc interactives can be modified so that possible actions are modified
+	possibly environment changes can affect the available actions on a given interactive.
+	this might need to be handled by the player, but i don't see how it could keep track of numerous such modificators
+	we can also imagine that depending on player skill, some actions become possible later on in the game.
+	also this prevents from hitting the bottom of the array when looking for an action
+	to sort this out we could reset an action array when the interactive is modified
+	or we could have a table of what interactive got what actions depending on their state.)
 -> create table of all actions
 -> when loading inter, associate actions
 Instances:
 -> have a table of all interactive assets to refer to
 -> list pointers to unique interactive assets
 
-tweaks:
-v free_arrayint2 tool function
-v save label length in interactive instance
-- assets name in their files
-. improve the code
-. use enums
-
-improvements:
-- review start.c
-. move actionlist functions to assets.c ?
-. simplify assets.c using tool functions
-. review drawing.c and game.c
-. homogenize functions arg order
 
 beyond:
 -> unicode
