@@ -21,16 +21,19 @@ free(arr);	return;}
 
 
 int flen_line(FILE* f){
-char c; int len=0; while ((c=fgetc(f))!='\n' &&c!=EOF) len++;
-	return len;}
+char c; int len=0;
+while (len<255 &&(c=fgetc(f))!='\n' &&c!=EOF)
+	len++;
+return len;}
 
 char* fread_line(FILE* f){
-char c; int len=0; while ((c=fgetc(f))!='\n' &&c!=EOF) len++;
-if (c=='\n')	fseek(f,-(len+1),SEEK_CUR);
-else		fseek(f,-(len),SEEK_CUR);
-char* act =malloc(len+1); act[len]='\0';
-for (int i=0;i<len;i++) act[i]=fgetc(f); 
-fgetc(f);	return act;}
+char buf[256], c; int len=0;
+while (len<255 &&(c=fgetc(f))!='\n' &&c!=EOF){
+	buf[len]=c; len++;}
+char* line=malloc(len+1); line[len]='\0';
+for (len--; len>=0; len--)
+	line[len]=buf[len];
+return line;}
 
 void fsize_map(FILE* f, int* h, int* w){
 int hh=0, ww=0;

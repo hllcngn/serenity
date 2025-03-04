@@ -2,8 +2,8 @@ serenity - TODO.txt
 urgent:
 
 new:
-0 review codebase
-- check if Actions is fully implemented
+v review codebase
+v check if Actions is fully implemented
 - go through tweaks and improvements
 - fix random new game option, chiefly the hue
 > adapt gameplay to hue
@@ -29,6 +29,9 @@ improvements:
 . simplify assets.c using tool functions
 . review drawing.c and game.c
 . homogenize functions arg order
+. Game structure ?
+. why am i not using getline instead of my own fread_line?
+   Because I tested all that in the past already, and none of fread, fgets or getline does exactly what I need
 
 tweaks:
 - assets name in their files
