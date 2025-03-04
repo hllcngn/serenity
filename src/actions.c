@@ -42,7 +42,6 @@ free_actionlist(al->next);
 free(al);}
 
 
-
 void fall_tree(Instance* inst, Map* map, Info* info){
 int y =inst->y, x =inst->x;
 destroy_inst(inst,map);

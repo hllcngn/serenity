@@ -22,13 +22,13 @@ free(arr);	return;}
 
 int flen_line(FILE* f){
 char c; int len=0;
-while (len<255 &&(c=fgetc(f))!='\n' &&c!=EOF)
+while (len<255 &&(c=getc(f))!='\n' &&c!=EOF)
 	len++;
 return len;}
 
 char* fread_line(FILE* f){
 char buf[256], c; int len=0;
-while (len<255 &&(c=fgetc(f))!='\n' &&c!=EOF){
+while (len<255 &&(c=getc(f))!='\n' &&c!=EOF){
 	buf[len]=c; len++;}
 char* line=malloc(len+1); line[len]='\0';
 for (len--; len>=0; len--)
@@ -37,7 +37,7 @@ return line;}
 
 void fsize_map(FILE* f, int* h, int* w){
 int hh=0, ww=0;
-char c; while((c=fgetc(f))!='-'&&c!=EOF){
+char c; while((c=getc(f))!='-'&&c!=EOF){
 	fseek(f,-1,SEEK_CUR); int x=flen_line(f);
 	if(x>ww) ww=x; hh++;}
 *h=hh; *w=ww;}
@@ -47,10 +47,10 @@ int** map =malloc(sizeof(int*)*h);
 for (int y=0;y<h;y++)
 	map[y] =malloc(sizeof(int)*w);
 for (int y=0;y<h;y++){ for (int x=0;x<w;x++){
-	map[y][x]=fgetc(f);
+	map[y][x]=getc(f);
 	if (map[y][x]=='\n'){
 		for (x;x<w;x++) map[y][x]=' '; break;}
-	else if (x==w-1) fgetc(f);}}
+	else if (x==w-1) getc(f);}}
 return map;}
 
 
