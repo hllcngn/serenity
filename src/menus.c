@@ -5,7 +5,7 @@ void new_game(vect3f* hue, Map** map, int* diff, Player** pl, int random){
 *map	=mapsize_selection(random);
 clear_screen(2); refresh();
 *diff	=choose_difficulty(random);
-*pl     =create_player(NULL,2,5);
+*pl     =create_player(NULL,(*map)->h/2,(*map)->w/2);
 clear_screen(2); refresh();
 set_names(*map,*pl, random);
 clear_screen(2); refresh();}
@@ -70,7 +70,7 @@ init_pair(CP_BASE,COLOR_BLACK,21);	return hue;}
 Map* mapsize_selection(int random){
 char c;
 if (random == 1) {
-c = rand()%5+1 +'0';
+c = rand()%3+1 +'0';
 } else {
 WINDOW* wmap =newwin(9,30,(LINES-9)/2,(COLS-30)/2);
 wattron(wmap, COLOR_PAIR(CP_NORMAL)); box(wmap,0,0);
@@ -113,13 +113,21 @@ int casex = rand()%3;
 switch (casex){	case 0:  strcat(name, "George");	break;
 		case 1:  strcat(name, "Joseph");	break;
 		default: strcat(name, "Martin");	break;}
+
 if (random == 1) {
-map->name =strdup(name);
+int mnl=rand()%6+5;
+char* mapname = malloc(mnl+1); mapname[mnl]='\0';
+mapname[0]='A'+rand()%26;
+for (int i=1; i<mnl; i++)
+	mapname[i]='a'+rand()%26;
+map->name = mapname;
+
 name[0]='\0';
 switch (casex){	case 0:  strcat(name, "George");	break;
 		case 1:  strcat(name, "Joseph");	break;
 		default: strcat(name, "Martin");	break;}
 pl->name =strdup(name);
+
 } else {
 WINDOW* wname =newwin(7,37,(LINES-7)/2,(COLS-37)/2);
 wattron(wname, COLOR_PAIR(1)); box(wname,0,0);
@@ -156,4 +164,4 @@ c=' '; do { if (c!=' ') c= getch();
 			}while ((c=getch())!='\n'&&len<16);}
 }while (c!='\n');
 pl->name =strdup(name); curs_set(0); delwin(wname);}
-free(name); return;}
+free(name);}

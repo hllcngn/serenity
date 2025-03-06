@@ -1,9 +1,10 @@
 #include "serenity.h"
 
 void display_map(Map* map, vect2i pos){
-vect2i wgame =(vect2i){(LINES-WGAMEH)/2,(COLS-WGAMEW)/2};
+vect2i wgame =(vect2i){(LINES-WGAMEH)/2,(COLS-WGAMEW)/2};//why isn't this in a window for simplicity
 vect2i cam   =(vect2i){pos.y-WGAMEH/2,  pos.x-WGAMEW/2};
 int y=0; attron(COLOR_PAIR(CP_BASE));
+mvprintw(wgame.y-2,wgame.x+WGAMEW-20,"location: %s",map->name);
 for (y; cam.y+y<0; y++){
 	move(wgame.y+y,wgame.x);
 	for (int x=0;x<WGAMEW;x++) addch(' ');}

@@ -9,7 +9,7 @@ srand(time(NULL));
 init_color(COLOR_BLACK,rand()%100,rand()%100,rand()%100);
 init_color(COLOR_WHITE,rand()%600+400,rand()%600+400,rand()%600+400);
 
-title_screen();
+//title_screen();
 
 // loading assets (into info structure)
 Info	*info =malloc(sizeof(Info));

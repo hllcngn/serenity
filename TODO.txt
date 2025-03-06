@@ -2,14 +2,9 @@ serenity - TODO.txt
 urgent:
 
 new:
-v review codebase
-v check if Actions is fully implemented
-- go through tweaks and improvements
-- fix random new game option, chiefly the hue
 > adapt gameplay to hue
-- fix new game menus into a single menu window (see Menus section)
-1 scroll decoration
-- gui displaying domain name
+x scroll decoration
+v gui displaying domain name
 - and HP
 2 house
 - use of random trees assets
@@ -39,7 +34,7 @@ tweaks:
 . use enums
 
 
-Menus:
+X Menus:
 - settings struct
 - big menu funct (display, hide)
 - menu submenus tables
