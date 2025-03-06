@@ -5,7 +5,7 @@ new:
 > adapt gameplay to hue
 x scroll decoration
 v gui displaying domain name
-- and HP
+v and HP
 2 house
 - use of random trees assets
 3 mobs

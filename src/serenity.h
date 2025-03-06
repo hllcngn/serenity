@@ -34,7 +34,7 @@ typedef struct{ int	y,x;	} vect2i;
 typedef struct{	float	i,j,k;	} vect3f;
 
 typedef struct{	char*	name;
-		int	y,x;	} Player;
+		int	y,x,hp;	} Player;
 
 typedef struct{ int	h,w;
 		int	**map,**info;	} Asset;
@@ -111,7 +111,7 @@ void free_instlist(Instance* it);
 void create_map(Map* map, Info* info);
 void free_map(Map* map);
 
-Player* create_player(char* name, int y, int x);
+Player* create_player(char* name, int y, int x, int hp);
 void free_player(Player* pl);
 
 int game(vect3f hue, Map* map, Player* pl, Info* info);
