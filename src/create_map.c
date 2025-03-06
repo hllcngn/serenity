@@ -6,6 +6,7 @@ map->clsn =calloc_arrayint2(map->h,map->w);
 map->fg   =calloc_arrayint2(map->h,map->w);
 map->it   =calloc_arrayint2(map->h,map->w);
 map->inst =NULL;
+int** blckd =calloc_arrayint2(map->h,map->w);
 
 for (int y=0; y<map->h; y++)
 	if (!(y%2))
@@ -27,6 +28,14 @@ for (int y=2; y<map->h-2; y+=2)
 for (int y=map->w%2+1; y<map->h-2; y+=2)
 	if (!(rand()%2)) map->bg[y][map->w-1]=' ';
 
+Asset* ahouse =load_asset("ass/house.txt");
+int yhouse =map->h/2-15, xhouse =map->w/2-15;
+paste_asset(map,map->h/2-15,map->w/2-15,ahouse);
+for (int y=0; y<ahouse->h; y++)
+	for (int x=0; x<ahouse->w; x++)
+		blckd[yhouse+y][xhouse+x] ='X';
+free_asset(ahouse);
+
 Asset* atree1 =load_asset("ass/tree1.txt");
 paste_asset(map,10,10,atree1);
 free_asset(atree1);
@@ -34,14 +43,16 @@ free_asset(atree1);
 add_inst(map,20,20,info->interactive[0]);
 add_inst(map,20,30,info->interactive[0]);
 
-for (int i=0;i<map->w/3;i++)
-	add_inst(map,
-		rand()%(map->h-20)+10,rand()%(map->w-20)+10,
-		info->interactive[1]);
-for (int i=0;i<map->w/6;i++)
-	add_inst(map,
-		rand()%(map->h-20)+10,rand()%(map->w-20)+10,
-		info->interactive[2]);}
+for (int i=0;i<map->w/3;i++){
+	int yinst =rand()%(map->h-20)+10, xinst =rand()%(map->w-20)+10;
+	if (!(blckd[yinst][xinst]))
+		add_inst(map,yinst,xinst,info->interactive[1]);}
+for (int i=0;i<map->w/6;i++){
+	int yinst =rand()%(map->h-20)+10, xinst =rand()%(map->w-20)+10;
+	if (!(blckd[yinst][xinst]))
+		add_inst(map,yinst,xinst,info->interactive[2]);}
+}
+
 
 
 void free_map(Map* map){
