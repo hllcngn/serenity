@@ -1,6 +1,6 @@
 #include "serenity.h"
 
-int game(vect3f hue, Map* map, Player* pl, Info *info){
+int game(vect3f hue, Map* map, Player* pl, Info *info, int interface_style){
 char c=0; Instance* inst; do { switch (c){
 case K_UP:
 case K_DOWN:
@@ -18,7 +18,7 @@ default:
 
 display_map(map, (vect2i){pl->y,pl->x});
 display_pl(pl, map);
-display_notice((vect2i){pl->y,pl->x},map);
+display_notice((vect2i){pl->y,pl->x},map,interface_style);
 } while((c=getch())!=K_QUIT);	return 0;}
 
 

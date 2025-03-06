@@ -27,7 +27,7 @@ Player*	pl;
 create_map(map,info);
 
 // launch game
-game(hue, map, pl, info);
+game(hue, map, pl, info, MODERN);
 
 // end
 free_actiontable(info->action); free_intertable(info->interactive); free(info);

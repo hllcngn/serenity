@@ -30,6 +30,9 @@
 #define DIF_TROUBLED	3
 #define DIF_FALL	4
 
+#define OLDSCHOOL	0
+#define MODERN		1
+
 typedef struct{ int	y,x;	} vect2i;
 typedef struct{	float	i,j,k;	} vect3f;
 
@@ -114,13 +117,13 @@ void free_map(Map* map);
 Player* create_player(char* name, int y, int x, int hp);
 void free_player(Player* pl);
 
-int game(vect3f hue, Map* map, Player* pl, Info* info);
+int game(vect3f hue, Map* map, Player* pl, Info* info, int interface_style);
 void movement(char c, Player* pl, Map* map);
 int check_collision(vect2i pos, Map* map);
 
 void display_map(Map* map, vect2i pos);
 void display_pl(Player* pl, Map* map);
-void display_notice(vect2i pos, Map* map);
+void display_notice(vect2i pos, Map* map, int interface_style);
 
 void title_screen(void);
 void new_game(vect3f*, Map**, int*, Player**, int);

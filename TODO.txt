@@ -3,16 +3,16 @@ urgent:
 
 new:
 > adapt gameplay to hue
-x scroll decoration
-v gui displaying domain name
-v and HP
 2 house
 - use of random trees assets
+- trees overlap
+- overlapping interactives bug
 3 mobs
 - figure out frame timer for entities actions
 x day/night cycle
 x deactivate day/night cycle
-x modern mode
+v modern mode
+x scroll decoration
 
 important:
 v  basic interface decoration (title screen, in-game....)
