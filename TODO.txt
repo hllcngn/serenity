@@ -24,7 +24,7 @@ v  basic interface decoration (title screen, in-game....)
 -> make the map a little bigger so that assets can overlap the edges for a more natural feel (maybe this will be sorted out with map sculpting)
 
 improvements:
-- review start.c
+v review start.c
 . move actionlist functions to assets.c ?
 . simplify assets.c using tool functions
 . review drawing.c and game.c

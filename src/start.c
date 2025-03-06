@@ -7,9 +7,9 @@ int main(int ac, char** av){
 initscr(); cbreak(); noecho(); curs_set(0); start_color(); refresh();
 srand(time(NULL));
 init_color(COLOR_BLACK,rand()%100,rand()%100,rand()%100);
-init_color(COLOR_WHITE,rand()%650+350,rand()%650+350,rand()%650+350);
+init_color(COLOR_WHITE,rand()%600+400,rand()%600+400,rand()%600+400);
 
-//title_screen();
+title_screen();
 
 // loading assets (into info structure)
 Info	*info =malloc(sizeof(Info));
@@ -37,12 +37,10 @@ endwin();
 return 0;}
 
 
+
 void title_screen(){
 FILE* f =fopen("ass/title.txt","r");
-char l[256];
-int i=0; while (fgets(l,256,f)){
-	mvprintw((LINES-7)/2+i,(COLS-100)/2,"%s",l); i++;}
-	//these numbers correspond to the size of the boxed title text
-//TODO use a generic tool function similar to fread_map
-fclose(f);
-getch();}
+int h,w; fsize_map(f,&h,&w); rewind(f);
+char l[w+2]; for (int i=0;fgets(l,w+2,f);i++)
+	mvprintw((LINES-h)/2+i,(COLS-w)/2,"%s",l);
+fclose(f); getch();}
