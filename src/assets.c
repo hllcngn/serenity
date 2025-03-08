@@ -3,22 +3,21 @@
 Asset* load_asset(char* path){
 Asset* ass =malloc(sizeof(Asset));
 FILE* f =fopen(path,"r");
-fsize_map(f,&(ass->h),&(ass->w));
-rewind(f);	     ass->map =fread_map(f,ass->h,ass->w);
-fseek(f,2,SEEK_CUR); ass->info =fread_map(f,ass->h,ass->w);
+int h,w; fsize_map(f,&h,&w);
+rewind(f);	     ass->map =fread_map(f,h,w);
+fseek(f,2,SEEK_CUR); ass->info =fread_map(f,h,w);
+ass->h =h; ass->w =w;
 fclose(f);	return ass;}
 
-void paste_asset(Map* map, int y, int x, Asset* ass){
-for (int yy=0;yy<ass->h;yy++){
-	if (y+yy<0 ||y+yy>=map->h) continue;
-	for (int xx=0;xx<ass->w;xx++){
-		if (x+xx<0 ||x+xx>=map->w) continue;
-		switch (ass->info[yy][xx]){
-		case ' ':					    break;
-		case 'b': map->bg[y+yy][x+xx]   =ass->map[yy][xx];  break;
-		case 'f': map->fg[y+yy][x+xx]   =ass->map[yy][xx];  break;
-		case 'X': map->clsn[y+yy][x+xx] =ass->map[yy][xx];  break;
-		default:					    break;}}}}
+void paste_asset(Map* map, Asset* ass, int desty, int destx){
+for (int y=0; y<ass->h; y++){
+	if (desty+y<0 ||desty+y>=map->h) continue;
+	for (int x=0; x<ass->w; x++){
+		if (destx+x<0 ||destx+x>=map->w) continue;
+		switch (ass->info[y][x]){
+		case 'b': map->bg[desty+y][destx+x] =ass->map[y][x];	break;
+		case 'f': map->fg[desty+y][destx+x] =ass->map[y][x];	break;
+		case 'X': map->clsn[desty+y][destx+x] =ass->map[y][x];	break;}}}}
 
 void free_asset(Asset* ass){
 for (int y=0;y<ass->h;y++) free(ass->map[y]);

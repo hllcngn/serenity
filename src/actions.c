@@ -24,6 +24,7 @@ for (int i=0;i<NB_ACTION;i++){
 free(action);}
 
 
+
 void add_action(Actionlist** actionlist, Action* action){
 Actionlist* al =malloc(sizeof(Actionlist));
 al->action =action; al->previous =NULL;
@@ -42,15 +43,15 @@ free_actionlist(al->next);
 free(al);}
 
 
+
+// ACTION FUNCTIONS
 void fall_tree(Instance* inst, Map* map, Ref* ref){
 int y =inst->y, x =inst->x;
 destroy_inst(inst,map);
-add_inst(map,y+2,x+rand()%2+1,ref->interactive[2]);
-return;}
+add_inst(map,y+2,x+rand()%2+1,ref->interactive[2]);} //lookup the right inter by name?
 
 void pull_stump(Instance* inst, Map* map, Ref* ref){
-destroy_inst(inst,map);
-	return;}
+destroy_inst(inst,map);}
 
 void harvest_fruits(Instance* inst, Map* map, Ref* ref){
-	return;}
+}

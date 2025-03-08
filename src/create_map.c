@@ -54,11 +54,11 @@ House* hahouse =load_house("ass/houses/house1.txt");
 map->house =hahouse;
 
 Asset* atree1 =load_asset("ass/tree1.txt");
-paste_asset(map,10,10,atree1);
+paste_asset(map,atree1,10,10);
 free_asset(atree1);
 
 Asset* umbrella =load_asset("ass/umbrella.txt");
-paste_asset(map,yhouse+20,xhouse+5,umbrella);
+paste_asset(map,umbrella,yhouse+20,xhouse+5);
 free_asset(umbrella);
 
 //add_inst(map,20,20,ref->interactive[0]);

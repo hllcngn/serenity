@@ -115,7 +115,7 @@ void display_notice(WINDOW* gwin, Instance* in, v2i pos, Map* map, int interface
 void display_gui(WINDOW* guiwin, Player* pl, Map* map);
 
 Asset* load_asset(char* path);
-void paste_asset(Map* map, int y, int x, Asset* ass);
+void paste_asset(Map* map, Asset* ass, int y, int x);
 void free_asset(Asset* ass);
 House* load_house(char* path);
 void paste_house(Map* map, int y, int x, House* house);
