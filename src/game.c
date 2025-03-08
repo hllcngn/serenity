@@ -1,6 +1,7 @@
 #include "serenity.h"
 
 int game(vect3f hue, Map* map, Player* pl, Info *info, int interface_style){
+WINDOW* gwin =newwin(GWIN_H,GWIN_W,(LINES-GWIN_H)/2,(COLS-GWIN_W)/2);
 Map *newmap,*oldmap; newmap=oldmap=map;
 char c=0; Instance* inst; do { switch (c){
 case K_UP:
@@ -21,10 +22,12 @@ default:
 		   al=al->next);
 		 if (al) al->action->action(inst,map,info);}	break;}
 
-display_map(map, (vect2i){pl->y,pl->x});
-display_pl(pl, map);
-display_notice((vect2i){pl->y,pl->x},map,interface_style);
-} while((c=getch())!=K_QUIT);	return 0;}
+display_map(gwin, map, (vect2i){pl->y,pl->x});
+display_pl(gwin, pl, map);
+display_notice(gwin, (vect2i){pl->y,pl->x},map,interface_style);
+wrefresh(gwin);
+} while((c=getch())!=K_QUIT);
+delwin(gwin); return 0;}
 
 
 

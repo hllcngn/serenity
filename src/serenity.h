@@ -1,23 +1,12 @@
 #pragma once
-
 #include <ncurses.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <time.h>
 #include <string.h>
-
-#define K_QUIT	'='
-#define K_UP	'w'
-#define K_DOWN	's'
-#define K_LEFT	'a'
-#define K_RIGHT	'd'
-
-#define WGAMEH	30
-#define WGAMEW	50
-#define WGAMEY  (LINES-WGAMEH)/2
-#define WGAMEX  (COLS-WGAMEW)/2
-//TODO macro POSY(pos.y) and POSX
+#include "controls.h"
+#include "settings.h"
 
 #define CP_NORMAL  1
 #define CP_BASE	   2
@@ -77,11 +66,13 @@ struct actionlist{
 	Actionlist	*previous,*next;};
 
 struct map{
-	int		h,w;
-	int		**bg,**clsn,**fg,**it,**tp;
+	int		type;
 	char*		name;
-	House*		house;
-	Instance*	inst;};
+	int		h,w;
+	int		**bg,**clsn,**fg;
+	int		**it,**tp;
+	Instance*	inst;
+	House*		house;};
 
 int** malloc_arrayint2(int h,int w);
 int** calloc_arrayint2(int h,int w);
@@ -131,9 +122,9 @@ Map* movement(char c, Player* pl, Map* map);
 int check_collision(vect2i pos, Map* map);
 int check_tp(vect2i pos, Map* map);
 
-void display_map(Map* map, vect2i pos);
-void display_pl(Player* pl, Map* map);
-void display_notice(vect2i pos, Map* map, int interface_style);
+void display_map(WINDOW* gwin, Map* map, vect2i pos);
+void display_pl(WINDOW* gwin, Player* pl, Map* map);
+void display_notice(WINDOW* gwin, vect2i pos, Map* map, int interface_style);
 
 void title_screen(void);
 void new_game(vect3f*, Map**, int*, Player**, int);
