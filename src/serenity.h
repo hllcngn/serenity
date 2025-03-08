@@ -55,7 +55,7 @@ typedef struct{ int	h,w;
 
 typedef struct{	int	h,w;
 		int	**map,**info;
-		char*	path;		} HAsset;
+		char*	path;		} House;
 
 struct interactive{
 	int		h,w;
@@ -80,7 +80,7 @@ struct map{
 	int		h,w;
 	int		**bg,**clsn,**fg,**it,**tp;
 	char*		name;
-	HAsset*		hass;
+	House*		house;
 	Instance*	inst;};
 
 int** malloc_arrayint2(int h,int w);
@@ -107,9 +107,9 @@ void harvest_fruits(Instance* inst, Map* map, Info* info);
 Asset* load_asset(char* path);
 void paste_asset(Map* map, int y, int x, Asset* ass);
 void free_asset(Asset* ass);
-HAsset* load_hasset(char* path);
-void paste_hasset(Map* map, int y, int x, HAsset* hass);
-void free_hasset(HAsset* hass);
+House* load_house(char* path);
+void paste_house(Map* map, int y, int x, House* house);
+void free_house(House* house);
 Interactive** create_intertable(Action** actiontable);
 Interactive* load_inter(char* path, Action** actionstable);
 void free_inter(Interactive* inter);
@@ -121,7 +121,7 @@ void free_instlist(Instance* it);
 
 void create_map(Map* map, Info* info);
 void free_map(Map* map);
-Map* load_map(HAsset* hass);
+Map* load_map(House* house);
 
 Player* create_player(char* name, int y, int x, int hp);
 void free_player(Player* pl);

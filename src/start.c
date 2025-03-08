@@ -39,7 +39,7 @@ return 0;}
 
 
 void title_screen(){
-FILE* f =fopen("ass/title.txt","r");
+FILE* f =fopen("ass/titles/title.txt","r");
 int h,w; fsize_map(f,&h,&w); rewind(f);
 char l[w+2]; for (int i=0;fgets(l,w+2,f);i++)
 	mvprintw((LINES-h)/2+i,(COLS-w)/2,"%s",l);

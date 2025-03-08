@@ -35,7 +35,7 @@ case K_UP:    if(!check_collision((vect2i){pl->y-1,pl->x}, map)
 		&&!(tp=check_tp((vect2i){pl->y-1,pl->x}, map))){
 			pl->y--;	break;}
 	      else if (tp){
-		      newmap =load_map(map->hass);
+		      newmap =load_map(map->house);
 	      } break;
 case K_DOWN:  if(!check_collision((vect2i){pl->y+1,pl->x}, map))
 			pl->y++;	break;

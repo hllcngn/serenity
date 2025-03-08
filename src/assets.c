@@ -27,34 +27,34 @@ for (int y=0;y<ass->h;y++) free(ass->info[y]);
 free(ass->info);
 free(ass);}
 
-HAsset* load_hasset(char* path){
-HAsset* hass =malloc(sizeof(HAsset));
+House* load_house(char* path){
+House* house =malloc(sizeof(House));
 FILE* f =fopen(path,"r");
-fsize_map(f,&(hass->h),&(hass->w));
-rewind(f);	     hass->map =fread_map(f,hass->h,hass->w);
-fseek(f,2,SEEK_CUR); hass->info =fread_map(f,hass->h,hass->w);
-fseek(f,2,SEEK_CUR); hass->path = fread_line(f);
-fclose(f);	return hass;}
+fsize_map(f,&(house->h),&(house->w));
+rewind(f);	     house->map =fread_map(f,house->h,house->w);
+fseek(f,2,SEEK_CUR); house->info =fread_map(f,house->h,house->w);
+fseek(f,2,SEEK_CUR); house->path = fread_line(f);
+fclose(f);	return house;}
 
-void paste_hasset(Map* map, int y, int x, HAsset* hass){
-for (int yy=0;yy<hass->h;yy++){
+void paste_house(Map* map, int y, int x, House* house){
+for (int yy=0;yy<house->h;yy++){
 	if (y+yy<0 ||y+yy>=map->h) continue;
-	for (int xx=0;xx<hass->w;xx++){
+	for (int xx=0;xx<house->w;xx++){
 		if (x+xx<0 ||x+xx>=map->w) continue;
-		switch (hass->info[yy][xx]){
+		switch (house->info[yy][xx]){
 		case ' ':					    break;
-		case 'b': map->bg[y+yy][x+xx]   =hass->map[yy][xx];  break;
-		case 'f': map->fg[y+yy][x+xx]   =hass->map[yy][xx];  break;
-		case 'X': map->clsn[y+yy][x+xx] =hass->map[yy][xx];  break;
-		default:  map->tp[y+yy][x+xx]	=hass->info[yy][xx]; break;}}}}
+		case 'b': map->bg[y+yy][x+xx]   =house->map[yy][xx];  break;
+		case 'f': map->fg[y+yy][x+xx]   =house->map[yy][xx];  break;
+		case 'X': map->clsn[y+yy][x+xx] =house->map[yy][xx];  break;
+		default:  map->tp[y+yy][x+xx]	=house->info[yy][xx]; break;}}}}
 
-void free_hasset(HAsset* hass){
-for (int y=0;y<hass->h;y++) free(hass->map[y]);
-free(hass->map);
-for (int y=0;y<hass->h;y++) free(hass->info[y]);
-free(hass->info);
-free(hass->path);
-free(hass);}
+void free_house(House* house){
+for (int y=0;y<house->h;y++) free(house->map[y]);
+free(house->map);
+for (int y=0;y<house->h;y++) free(house->info[y]);
+free(house->info);
+free(house->path);
+free(house);}
 
 
 
