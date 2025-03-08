@@ -1,6 +1,6 @@
 #include "serenity.h"
 
-void new_game(vect3f* hue, Map** map, int* diff, Player** pl, int random){
+void new_game(v3f* hue, Map** map, int* diff, Player** pl, int random){
 *hue	=hue_selection(random);
 *map	=mapsize_selection(random);
 if (!random){ clear_screen(CP_BASE); refresh();}
@@ -11,12 +11,12 @@ set_names(*map,*pl, random);
 clear_screen(CP_BASE); refresh();}
 
 
-vect3f hue_selection(int random){
-vect3f hue;
+v3f hue_selection(int random){
+v3f hue;
 if (random){
 	int i = rand()%650+350, j = rand()%650+350, k = rand()%650+350;
 	init_color(21,i,j,k);
-	hue = (vect3f){i/1000.0,j/1000.0,k/1000.0};
+	hue = (v3f){i/1000.0,j/1000.0,k/1000.0};
 } else {
 for (int cp=20,i=1000;cp<30;cp++,i-=30){
 	init_color(cp,i,i,i);
@@ -56,13 +56,13 @@ wmove(whue,4,5); for (int i=40;i<50;i++){
 wrefresh(whue); } while ((c=getch())!='1'); delwin(whue);
 if (hl>40){	int i =1000-hl%10*25;
 		init_color(21,i,i,1000);
-		hue =(vect3f){i/1000.0,i/1000.0,1};}
+		hue =(v3f){i/1000.0,i/1000.0,1};}
 else if (hl>30){ int i =1000-hl%10*10; int j =1000-hl%10*20;
 		init_color(21,1000,i,j);
-		hue =(vect3f){1,i/1000.0,j/1000.0};}
+		hue =(v3f){1,i/1000.0,j/1000.0};}
 else {		int i =1000-hl%10*30;
 		init_color(21,i,i,i);
-		hue =(vect3f){i/1000.0,i/1000.0,i/1000.0};}}
+		hue =(v3f){i/1000.0,i/1000.0,i/1000.0};}}
 init_pair(CP_NORMAL,21,COLOR_BLACK);
 init_pair(CP_BASE,COLOR_BLACK,21);	return hue;}
 

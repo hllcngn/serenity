@@ -5,13 +5,13 @@ Action** action =malloc(sizeof(Action*)*NB_ACTION);
 for (int i=0;i<NB_ACTION;i++)
 	action[i] =malloc(sizeof(Action));
 action[0]->label =strdup("Fall tree");
-action[0]->c =0; action[0]->k ='f';
+action[0]->c =0; action[0]->key ='f';
 action[0]->action =&fall_tree;
 action[1]->label =strdup("Pull stump");
-action[1]->c =0; action[1]->k ='p';
+action[1]->c =0; action[1]->key ='p';
 action[1]->action =&pull_stump;
 action[2]->label =strdup("Harvest fruits");
-action[2]->c =0; action[2]->k ='h';
+action[2]->c =0; action[2]->key ='h';
 action[2]->action =&harvest_fruits;
 for (int i=0;i<NB_ACTION;i++)
 	action[i]->labellen =strlen(action[i]->label);
@@ -42,15 +42,15 @@ free_actionlist(al->next);
 free(al);}
 
 
-void fall_tree(Instance* inst, Map* map, Info* info){
+void fall_tree(Instance* inst, Map* map, Ref* ref){
 int y =inst->y, x =inst->x;
 destroy_inst(inst,map);
-add_inst(map,y+2,x+rand()%2+1,info->interactive[2]);
+add_inst(map,y+2,x+rand()%2+1,ref->interactive[2]);
 return;}
 
-void pull_stump(Instance* inst, Map* map, Info* info){
+void pull_stump(Instance* inst, Map* map, Ref* ref){
 destroy_inst(inst,map);
 	return;}
 
-void harvest_fruits(Instance* inst, Map* map, Info* info){
+void harvest_fruits(Instance* inst, Map* map, Ref* ref){
 	return;}

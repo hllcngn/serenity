@@ -12,7 +12,7 @@ map->inst =NULL;
 paste_house(map,0,0,house);
 return map;}
 
-void create_map(Map* map, Info* info){
+void create_map(Map* map, Ref* ref){
 map->bg   =malloc_arrayint2(map->h,map->w);
 map->clsn =calloc_arrayint2(map->h,map->w);
 map->fg   =calloc_arrayint2(map->h,map->w);
@@ -61,8 +61,8 @@ Asset* umbrella =load_asset("ass/umbrella.txt");
 paste_asset(map,yhouse+20,xhouse+5,umbrella);
 free_asset(umbrella);
 
-//add_inst(map,20,20,info->interactive[0]);
-//add_inst(map,20,30,info->interactive[0]);
+//add_inst(map,20,20,ref->interactive[0]);
+//add_inst(map,20,30,ref->interactive[0]);
 
 //very naive solution
 //-> it doesn't consider foreground items
@@ -71,14 +71,14 @@ free_asset(umbrella);
 //-> blckd might be useful in the future
 for (int i=0;i<map->w/3;i++){
 	int yinst =rand()%(map->h-20)+10, xinst =rand()%(map->w-20)+10;
-	if (!(blckd[yinst][xinst]) &&!(blckd[yinst+info->interactive[1]->h][xinst])
-			&&!(blckd[yinst+info->interactive[1]->h][xinst+info->interactive[1]->w])
-			&&!(blckd[yinst][xinst+info->interactive[1]->w]))
-		add_inst(map,yinst,xinst,info->interactive[1]);}
+	if (!(blckd[yinst][xinst]) &&!(blckd[yinst+ref->interactive[1]->h][xinst])
+			&&!(blckd[yinst+ref->interactive[1]->h][xinst+ref->interactive[1]->w])
+			&&!(blckd[yinst][xinst+ref->interactive[1]->w]))
+		add_inst(map,yinst,xinst,ref->interactive[1]);}
 for (int i=0;i<map->w/6;i++){
 	int yinst =rand()%(map->h-20)+10, xinst =rand()%(map->w-20)+10;
 	if (!(blckd[yinst][xinst]))
-		add_inst(map,yinst,xinst,info->interactive[2]);}
+		add_inst(map,yinst,xinst,ref->interactive[2]);}
 }
 
 

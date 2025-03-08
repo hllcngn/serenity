@@ -11,30 +11,28 @@ init_color(COLOR_WHITE,rand()%600+400,rand()%600+400,rand()%600+400);
 
 //title_screen();
 
-// loading assets (into info structure)
-Info	*info =malloc(sizeof(Info));
-info->action =create_actiontable();
-info->interactive =create_intertable(info->action);
+// loading instantiable assets (into ref structure)
+Ref	*ref =malloc(sizeof(Ref));
+ref->action =create_actiontable();
+ref->interactive =create_intertable(ref->action);
 
 // creating new game
-vect3f	hue;
+v3f	hue;
 Map*	map;
 int	difficulty;
 Player*	pl;
 //if (ac>1 && !strcmp(av[1],"random"))
 	new_game(&hue, &map, &difficulty, &pl, RANDOM);
 //else	new_game(&hue, &map, &difficulty, &pl, NORANDOM);
-create_map(map,info);
+create_map(map,ref);
 
 // launch game
-game(hue, map, pl, info, OLDSCHOOL);
+game(hue, map, pl, ref, OLDSCHOOL);
 
 // end
-free_actiontable(info->action); free_intertable(info->interactive); free(info);
+free_actiontable(ref->action); free_intertable(ref->interactive); free(ref);
 free_player(pl); free_map(map);
-endwin();
-
-return 0;}
+endwin(); return 0;}
 
 
 

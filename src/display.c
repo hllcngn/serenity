@@ -9,8 +9,8 @@ wattron(guiwin,COLOR_PAIR(CP_NORMAL));
 mvwprintw(guiwin,0,0,"HP        50/50");}
 
 
-void display_map(WINDOW* gwin, Map* map, vect2i pos){
-vect2i cam   =(vect2i){pos.y-GWIN_H/2,pos.x-GWIN_W/2};
+void display_map(WINDOW* gwin, Map* map, v2i pos){
+v2i cam   =(v2i){pos.y-GWIN_H/2,pos.x-GWIN_W/2};
 wattron(gwin,COLOR_PAIR(CP_BASE)); int y=0;
 for (; cam.y+y<0; y++){
 	wmove(gwin,y,0);
@@ -42,14 +42,14 @@ for (yy; yy<in->inter->h &&in->y+yy<cam.y+GWIN_H; yy++){
 
 void display_pl(WINDOW* gwin,Player* pl, Map* map){
 if (map->fg[pl->y][pl->x]) return;
-Instance* in =check_inst((vect2i){pl->y,pl->x},map);
+Instance* in =check_inst((v2i){pl->y,pl->x},map);
 if (in &&in->inter->info[pl->y-in->y][pl->x-in->x]=='f') return;
 wmove(gwin,GWIN_H/2,GWIN_W/2); //TODO exact coordinates
 wattron(gwin,COLOR_PAIR(CP_NORMAL));
 waddch(gwin,' ');}
 
 
-void display_notice(WINDOW* gwin, Instance* in, vect2i pos, Map* map, int interface_style){
+void display_notice(WINDOW* gwin, Instance* in, v2i pos, Map* map, int interface_style){
 if (interface_style == OLDSCHOOL){
 	wattron(gwin,COLOR_PAIR(CP_BASE));
 	wmove(gwin,GWIN_H/2+1,GWIN_W/2+1);

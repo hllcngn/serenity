@@ -106,7 +106,7 @@ for (int yy=0;yy<inst->inter->h;yy++)	//TODO edge cases
 for (int xx=0;xx<inst->inter->w;xx++)  //copy arr tool funct
 	map->it[y+yy][x+xx]=inst->id;}
 
-Instance* check_inst(vect2i pos, Map* map){
+Instance* check_inst(v2i pos, Map* map){
 if (map->it[pos.y][pos.x]){
 Instance* it; for (it=map->inst;
 it &&it->id!=map->it[pos.y][pos.x];
