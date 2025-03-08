@@ -1,12 +1,16 @@
 #include "serenity.h"
 
+void display_gui(WINDOW* guiwin, Player* pl, Map* map){
+wattron(guiwin,COLOR_PAIR(CP_BASE));
+for (int i=0; i<GWIN_W; i++) waddch(guiwin,' ');
+mvwprintw(guiwin,0,GWIN_W-20,"location: %s",map->name);
+for (int i=strlen(map->name); i<10; i++) waddch(guiwin,' ');
+wattron(guiwin,COLOR_PAIR(CP_NORMAL));
+mvwprintw(guiwin,0,0,"HP        50/50");}
+
+
 void display_map(WINDOW* gwin, Map* map, vect2i pos){
 vect2i cam   =(vect2i){pos.y-GWIN_H/2,pos.x-GWIN_W/2};
-/* MOVE TO DEDICATED FUNCTION
-attron(COLOR_PAIR(CP_NORMAL));
-mvprintw(gwin.y-2,gwin.x,"HP        50/50");
-mvprintw(gwin.y-2,gwin.x+GWIN_W-20,"location: %s",map->name);
-*/
 wattron(gwin,COLOR_PAIR(CP_BASE)); int y=0;
 for (; cam.y+y<0; y++){
 	wmove(gwin,y,0);
@@ -45,44 +49,40 @@ wattron(gwin,COLOR_PAIR(CP_NORMAL));
 waddch(gwin,' ');}
 
 
-void display_notice(WINDOW* gwin, vect2i pos, Map* map, int interface_style){
-Instance* in =check_inst(pos,map); //TODO move the check out
-if (in &&in->inter->inter[pos.y-in->y][pos.x-in->x]=='i'){
+void display_notice(WINDOW* gwin, Instance* in, vect2i pos, Map* map, int interface_style){
+if (interface_style == OLDSCHOOL){
 	wattron(gwin,COLOR_PAIR(CP_BASE));
-	if (interface_style == OLDSCHOOL){
-		wmove(gwin,GWIN_H/2+1,GWIN_W/2+1);
-		for (int i=0;i<in->inter->actionlist->action->labellen+2;i++)
-			waddch(gwin,'-');
-		int i=0; Actionlist *al=in->inter->actionlist, *al2;
-		for (al;al;al=al->next){
-			wmove(gwin,GWIN_H/2+2+i,GWIN_W/2+1);
-			waddch(gwin,'|'); wprintw(gwin,"%s",al->action->label); waddch(gwin,'|'); 
-			if ((al2 =al->previous)){
-				int labellen =al->action->labellen,
-				    labellenp =al2->action->labellen;
-				if (labellenp>labellen)
-					for (int j=0; j<labellenp-labellen; j++)
-						waddch(gwin,'-');}
-			if ((al2 =al->next)){
-				int labellen =al->action->labellen,
-				    labellenn =al2->action->labellen;
-				if (labellenn>labellen)
-					for (int j; j<labellenn-labellen; j++)
-						waddch(gwin,'-');}
-			wattron(gwin,A_UNDERLINE);
-				wmove(gwin,GWIN_H/2+2+i,GWIN_W/2+2);
-				waddch(gwin,al->action->label[al->action->c]);
-			wattroff(gwin,A_UNDERLINE);
-			i++; al2=al;}
+	wmove(gwin,GWIN_H/2+1,GWIN_W/2+1);
+	for (int i=0;i<in->inter->actionlist->action->labellen+2;i++)
+		waddch(gwin,'-');
+	int i=0; Actionlist *al=in->inter->actionlist, *al2;
+	for (al;al;al=al->next){
 		wmove(gwin,GWIN_H/2+2+i,GWIN_W/2+1);
-		for (int i=0;i<al2->action->labellen+2;i++) waddch(gwin,'-');}
-	else if (interface_style == MODERN){
-		wattron(gwin,COLOR_PAIR(CP_NORMAL));
-		int i=0; for (Actionlist *al=in->inter->actionlist;al;al=al->next){ i++;
-			mvwprintw(gwin,GWIN_H/2+i,GWIN_W/2+1,"%s",al->action->label);
+		waddch(gwin,'|'); wprintw(gwin,"%s",al->action->label); waddch(gwin,'|'); 
+		if ((al2 =al->previous)){
+			int labellen =al->action->labellen,
+			    labellenp =al2->action->labellen;
+			if (labellenp>labellen)
+				for (int j=0; j<labellenp-labellen; j++)
+					waddch(gwin,'-');}
+		if ((al2 =al->next)){
+			int labellen =al->action->labellen,
+			    labellenn =al2->action->labellen;
+			if (labellenn>labellen)
+				for (int j; j<labellenn-labellen; j++)
+					waddch(gwin,'-');}
 		wattron(gwin,A_UNDERLINE);
-			wmove(gwin,GWIN_H/2+i,GWIN_W/2+1);
+			wmove(gwin,GWIN_H/2+2+i,GWIN_W/2+2);
 			waddch(gwin,al->action->label[al->action->c]);
-		wattroff(gwin,A_UNDERLINE);}
-	}
-}}
+		wattroff(gwin,A_UNDERLINE);
+		i++; al2=al;}
+	wmove(gwin,GWIN_H/2+2+i,GWIN_W/2+1);
+	for (int i=0;i<al2->action->labellen+2;i++) waddch(gwin,'-');}
+else if (interface_style == MODERN){
+	wattron(gwin,COLOR_PAIR(CP_NORMAL));
+	int i=0; for (Actionlist *al=in->inter->actionlist;al;al=al->next){ i++;
+		mvwprintw(gwin,GWIN_H/2+i,GWIN_W/2+1,"%s",al->action->label);
+	wattron(gwin,A_UNDERLINE);
+		wmove(gwin,GWIN_H/2+i,GWIN_W/2+1);
+		waddch(gwin,al->action->label[al->action->c]);
+	wattroff(gwin,A_UNDERLINE);}}}

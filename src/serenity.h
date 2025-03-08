@@ -19,6 +19,9 @@
 #define DIF_TROUBLED	3
 #define DIF_FALL	4
 
+#define NORANDOM	0
+#define RANDOM		1
+
 #define OLDSCHOOL	0
 #define MODERN		1
 
@@ -124,7 +127,8 @@ int check_tp(vect2i pos, Map* map);
 
 void display_map(WINDOW* gwin, Map* map, vect2i pos);
 void display_pl(WINDOW* gwin, Player* pl, Map* map);
-void display_notice(WINDOW* gwin, vect2i pos, Map* map, int interface_style);
+void display_notice(WINDOW* gwin, Instance* in, vect2i pos, Map* map, int interface_style);
+void display_gui(WINDOW* guiwin, Player* pl, Map* map);
 
 void title_screen(void);
 void new_game(vect3f*, Map**, int*, Player**, int);

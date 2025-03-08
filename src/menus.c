@@ -3,17 +3,17 @@
 void new_game(vect3f* hue, Map** map, int* diff, Player** pl, int random){
 *hue	=hue_selection(random);
 *map	=mapsize_selection(random);
-clear_screen(2); refresh();
+if (!random){ clear_screen(CP_BASE); refresh();}
 *diff	=choose_difficulty(random);
 *pl     =create_player(NULL,(*map)->h/2+5,(*map)->w/2,50);
-clear_screen(2); refresh();
+if (!random){ clear_screen(CP_BASE); refresh();}
 set_names(*map,*pl, random);
-clear_screen(2); refresh();}
+clear_screen(CP_BASE); refresh();}
 
 
 vect3f hue_selection(int random){
 vect3f hue;
-if (random == 1){
+if (random){
 	int i = rand()%650+350, j = rand()%650+350, k = rand()%650+350;
 	init_color(21,i,j,k);
 	hue = (vect3f){i/1000.0,j/1000.0,k/1000.0};
@@ -69,7 +69,7 @@ init_pair(CP_BASE,COLOR_BLACK,21);	return hue;}
 
 Map* mapsize_selection(int random){
 char c;
-if (random == 1) {
+if (random) {
 c = rand()%3+1 +'0';
 } else {
 WINDOW* wmap =newwin(9,30,(LINES-9)/2,(COLS-30)/2);
@@ -92,7 +92,7 @@ switch (c){  case '1':	map->h=50;  map->w=100;	break;
 
 int choose_difficulty(int random){
 char c;
-if (random == 1)
+if (random)
 c = rand()%4+1 +'0';
 else {
 WINDOW* wdiff =newwin(8,30,(LINES-8)/2,(COLS-30)/2);
@@ -114,7 +114,7 @@ switch (casex){	case 0:  strcat(name, "George");	break;
 		case 1:  strcat(name, "Joseph");	break;
 		default: strcat(name, "Martin");	break;}
 
-if (random == 1) {
+if (random) {
 int mnl=rand()%6+5;
 char* mapname = malloc(mnl+1); mapname[mnl]='\0';
 mapname[0]='A'+rand()%26;
@@ -130,7 +130,7 @@ pl->name =strdup(name);
 
 } else {
 WINDOW* wname =newwin(7,37,(LINES-7)/2,(COLS-37)/2);
-wattron(wname, COLOR_PAIR(1)); box(wname,0,0);
+wattron(wname, COLOR_PAIR(CP_NORMAL)); box(wname,0,0);
 mvwprintw(wname,1,3,"Map name:");
 mvwprintw(wname,2,3,"%s",name);
 mvwprintw(wname,4,3,"Player name:");

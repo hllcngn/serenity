@@ -22,8 +22,8 @@ Map*	map;
 int	difficulty;
 Player*	pl;
 //if (ac>1 && !strcmp(av[1],"random"))
-	new_game(&hue, &map, &difficulty, &pl, 1);
-//else	new_game(&hue, &map, &difficulty, &pl, 0);
+	new_game(&hue, &map, &difficulty, &pl, RANDOM);
+//else	new_game(&hue, &map, &difficulty, &pl, NORANDOM);
 create_map(map,info);
 
 // launch game

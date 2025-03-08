@@ -1,7 +1,9 @@
 #include "serenity.h"
 
 int game(vect3f hue, Map* map, Player* pl, Info *info, int interface_style){
-WINDOW* gwin =newwin(GWIN_H,GWIN_W,(LINES-GWIN_H)/2,(COLS-GWIN_W)/2);
+vect2i gwin_pos ={(LINES-GWIN_H)/2,(COLS-GWIN_W)/2};
+WINDOW* gwin =newwin(GWIN_H,GWIN_W,gwin_pos.y,gwin_pos.x);
+WINDOW* guiwin =newwin(1,GWIN_W,gwin_pos.y-2,gwin_pos.x);
 Map *newmap,*oldmap; newmap=oldmap=map;
 char c=0; Instance* inst; do { switch (c){
 case K_UP:
@@ -13,7 +15,6 @@ case K_RIGHT:	newmap=movement(c,pl,map);
 			pl->x =2; pl->y =2;}
 		break;
 default:
-	//Instance* inst =check_inst((vect2i){pl->y,pl->x},map);
 	inst =check_inst((vect2i){pl->y,pl->x},map);
 	if (inst &&inst->inter->inter[pl->y-inst->y][pl->x-inst->x]=='i'){
 		Actionlist* al;
@@ -24,8 +25,12 @@ default:
 
 display_map(gwin, map, (vect2i){pl->y,pl->x});
 display_pl(gwin, pl, map);
-display_notice(gwin, (vect2i){pl->y,pl->x},map,interface_style);
+Instance* in =check_inst((vect2i){pl->y,pl->x},map);
+if (in &&in->inter->inter[pl->y-in->y][pl->x-in->x]=='i')
+	display_notice(gwin,in,(vect2i){pl->y,pl->x},map,interface_style);
 wrefresh(gwin);
+display_gui(guiwin,pl,map);
+wrefresh(guiwin);
 } while((c=getch())!=K_QUIT);
 delwin(gwin); return 0;}
 
