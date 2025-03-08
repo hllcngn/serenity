@@ -31,11 +31,10 @@ display_notice((vect2i){pl->y,pl->x},map,interface_style);
 Map* movement(char c, Player* pl, Map* map){
 Map* newmap=map;
 int tp; switch (c){
-case K_UP:    if(!check_collision((vect2i){pl->y-1,pl->x}, map)
-		&&!(tp=check_tp((vect2i){pl->y-1,pl->x}, map))){
-			pl->y--;	break;}
-	      else if (tp){
-		      newmap =load_map(map->house);
+case K_UP:    if(!check_collision((vect2i){pl->y-1,pl->x}, map)){
+			pl->y--;
+			if(check_tp((vect2i){pl->y,pl->x},map))
+				newmap =load_map(map->house);
 	      } break;
 case K_DOWN:  if(!check_collision((vect2i){pl->y+1,pl->x}, map))
 			pl->y++;	break;
@@ -63,4 +62,4 @@ if (pos.y>=0	  &&pos.x>=0
 	if (map->tp[pos.y][pos.x])
 		return map->tp[pos.y][pos.x];
 	return 0;}
-return 1;}
+return 0;}

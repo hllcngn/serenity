@@ -24,11 +24,13 @@ int** blckd =calloc_arrayint2(map->h,map->w);
 for (int y=0; y<map->h; y++)
 	if (!(y%2))
 		for (int x=0; x<map->w; x++)
-			if (!(x%2))	map->bg[y][x]='=';
-			else		map->bg[y][x]=' ';
+			if (!(rand()%5))	map->bg[y][x]='v';
+			else if (!(x%2))	map->bg[y][x]='=';
+			else			map->bg[y][x]=' ';
 	else	for (int x=0; x<map->w; x++)
-			if (!(x%2))	map->bg[y][x]=' ';
-			else		map->bg[y][x]='=';
+			if (!(rand()%5))	map->bg[y][x]='v';
+			else if (!(x%2))	map->bg[y][x]=' ';
+			else			map->bg[y][x]='=';
 
 map->bg[0][0]=' '; map->bg[0][map->w-1]=' ';
 map->bg[map->h-1][0]=' '; map->bg[map->h-1][map->w-1]=' ';
@@ -54,6 +56,10 @@ map->house =hahouse;
 Asset* atree1 =load_asset("ass/tree1.txt");
 paste_asset(map,10,10,atree1);
 free_asset(atree1);
+
+Asset* umbrella =load_asset("ass/umbrella.txt");
+paste_asset(map,yhouse+20,xhouse+5,umbrella);
+free_asset(umbrella);
 
 //add_inst(map,20,20,info->interactive[0]);
 //add_inst(map,20,30,info->interactive[0]);
