@@ -39,9 +39,6 @@ typedef struct{	float	i,j,k;	} vect3f;
 typedef struct{	char*	name;
 		int	y,x,hp;	} Player;
 
-typedef struct{ int	h,w;
-		int	**map,**info;	} Asset;
-
 typedef struct info	Info;
 typedef struct map	Map;
 typedef struct interactive Interactive;
@@ -53,11 +50,12 @@ struct info{
 	Action**	action;
 	Interactive**	interactive;};
 
-struct map{
-	int		h,w;
-	int		**bg,**clsn,**fg,**it;
-	char*		name;
-	Instance*	inst;};
+typedef struct{ int	h,w;
+		int	**map,**info;	} Asset;
+
+typedef struct{	int	h,w;
+		int	**map,**info;
+		char*	path;		} HAsset;
 
 struct interactive{
 	int		h,w;
@@ -77,6 +75,13 @@ struct action{
 struct actionlist{
 	Action		*action;
 	Actionlist	*previous,*next;};
+
+struct map{
+	int		h,w;
+	int		**bg,**clsn,**fg,**it,**tp;
+	char*		name;
+	HAsset*		hass;
+	Instance*	inst;};
 
 int** malloc_arrayint2(int h,int w);
 int** calloc_arrayint2(int h,int w);
@@ -100,8 +105,11 @@ void pull_stump(Instance* inst, Map* map, Info* info);
 void harvest_fruits(Instance* inst, Map* map, Info* info);
 
 Asset* load_asset(char* path);
-void free_asset(Asset* ass);
 void paste_asset(Map* map, int y, int x, Asset* ass);
+void free_asset(Asset* ass);
+HAsset* load_hasset(char* path);
+void paste_hasset(Map* map, int y, int x, HAsset* hass);
+void free_hasset(HAsset* hass);
 Interactive** create_intertable(Action** actiontable);
 Interactive* load_inter(char* path, Action** actionstable);
 void free_inter(Interactive* inter);
@@ -113,13 +121,15 @@ void free_instlist(Instance* it);
 
 void create_map(Map* map, Info* info);
 void free_map(Map* map);
+Map* load_map(HAsset* hass);
 
 Player* create_player(char* name, int y, int x, int hp);
 void free_player(Player* pl);
 
 int game(vect3f hue, Map* map, Player* pl, Info* info, int interface_style);
-void movement(char c, Player* pl, Map* map);
+Map* movement(char c, Player* pl, Map* map);
 int check_collision(vect2i pos, Map* map);
+int check_tp(vect2i pos, Map* map);
 
 void display_map(Map* map, vect2i pos);
 void display_pl(Player* pl, Map* map);

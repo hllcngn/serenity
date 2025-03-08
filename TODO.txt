@@ -4,7 +4,9 @@ urgent:
 new:
 > adapt gameplay to hue
 2 house
+- saving map
 - use of random trees assets
+- fix create_map with inst collisions
 - trees overlap
 - overlapping interactives bug
 3 mobs

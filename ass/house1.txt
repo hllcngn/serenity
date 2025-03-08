@@ -1,0 +1,39 @@
++----------------------------------------------------------------------+
+|- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+| - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -|
+|- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+| - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -|
+|- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+| - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -|
+|- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+| - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -|
+|- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+| - - - - - - - - - -++-+--+-+--+-+--+-+--+-+--+-++ - - - - - - - - - -|
+|- - - - - - - - - - /   \/   \/   \/   \/   \/   \- - - - - - - - - - |
+| - - - - - - - - - -|   ||   ||   ||   ||   ||   | - - - - - - - - - -|
+|- - - - - - - - - - x   xx   xx   xx   xx   xx   x- - - - - - - - - - |
+|-+-+--+-+--+-+--+-+-|                            |-+-+--+-+--+-+--+-+-|
+|/   \/   \/   \/   \|                            |/   \/   \/   \/   \|
+||   ||   ||   ||   ||                            ||   ||   ||   ||   ||
+xx   xx   xx   xx   xx                            xx   xx   xx   xx   xx
+-
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbX
+XbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbX
+XbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbX
+XbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbX
+XbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbX
+XbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbX
+XbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbX
+XbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbX
+XbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbX
+XbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbX
+XbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbX
+XbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbX
+XbbbbbbbbbbbbbbbbbbbbXaaaXXaaaXXaaaXXaaaXXaaaXXaaaXbbbbbbbbbbbbbbbbbbbbX
+XXbbbbbbbbbbbbbbbbbbbX                            XbbbbbbbbbbbbbbbbbbbXX
+XXbbbbbbbbbbbbbbbbbbXX                            XXbbbbbbbbbbbbbbbbbbXX
+XXbbbbbbbbbbbbbbbbbbXX                            XXbbbbbbbbbbbbbbbbbbXX
+XXaaaXXaaaXXaaaXXaaaXX                            XXaaaXXaaaXXaaaXXaaaXX
+
+a map

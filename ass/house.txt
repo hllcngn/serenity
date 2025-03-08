@@ -1,33 +1,45 @@
-+------------------------------------------------------------+
-|------------------------------------------------------------|
-|------------------------------------------------------------|
-|------------------------------------------------------------|
-|------------------------------------------------------------|
-|------------------------------------------------------------|
-|------------------------------------------------------------|
-|----------------+-+--+-+--+-+--+-+--+-+--+-+----------------|
-|---------------/   \/   \/   \/   \/   \/   \---------------|
-|---------------|   ||   ||   ||   ||   ||   |---------------|
-|---------------x   xx   xx   xx   xx   xx   x---------------|
-|-+-+--+-+--+-+-|                            |-+-+--+-+--+-+-|
-|/   \/   \/   \|         xxxxxxxxx          |/   \/   \/   \|
-||   ||   ||   ||        x~ ~ ~ ~ ~x         ||   ||   ||   ||
-xx   xx   xx   xx        x ~ ~ ~ ~ x         xx   xx   xx   xx
-                          xxxxxxxxx
+ /--------------------------------------------------------------------\ 
+/----------------------------------------------------------------------\
+|----------------------------------------------------------------------|
+|----------------------------------------------------------------------|
+|----------------------------------------------------------------------|
+|----------------------------------------------------------------------|
+|----------------------------------------------------------------------|
+|-+-+--+-+--+-+--+-+--------------------------------+-+--+-+--+-+--+-+-|
+|/   \/   \/   \/   \|----------------------------|/   \/   \/   \/   \|
+||   ||   ||   ||   ||----------------------------||   ||   ||   ||   ||
+xx   xx   xx   xx   xx+-+--+-+--+-+--+-+--+-+--+-+xx   xx   xx   xx   xx
+|--------------------/   \/   \/   \/   \/   \/   \--------------------|
+|--------------------|   ||   ||   ||   ||   ||   |--------------------|
+|--------------------x   xx   xx   xx   xx   xx   x--------------------|
+|-+-+--+-+--+-+--+-+-|                            |-+-+--+-+--+-+--+-+-|
+|/   \/   \/   \/   \|                            |/   \/   \/   \/   \|
+||   ||   ||   ||   ||         xxxxxxxxx          ||   ||   ||   ||   ||
+xx   xx   xx   xx   xx        x~ ~ ~ ~ ~x         xx   xx   xx   xx   xx
+                              x ~ ~ ~ ~ x
+                              x~ ~ ~ ~ ~x
+                               xxxxxxxxx
 -
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-XffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffX
-XffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffX
-XffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffX
-XffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffX
-XffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffX
-XffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffX
-XffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffX
-Xffffffffffffffff   ff   ff   ff   ff   ff   ffffffffffffffffX
-Xffffffffffffffff   ff   ff   ff   ff   ff   ffffffffffffffffX
-Xffffffffffffffff   XX   XX   XX   XX   XX   ffffffffffffffffX
-XXfffffffffffffff                            fffffffffffffffXX
-XX   ff   ff   XX         XXXXXXXXXX         XX   ff   ff   XX
-XX   ff   ff   XX        XffffffffffX        XX   ff   ff   XX
-XX   XX   XX   XX        XffffffffffX        XX   XX   XX   XX
-                          XXXXXXXXXX
+ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffX
+XffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffX
+XffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffX
+XffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffX
+XffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffX
+XffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffX
+XffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffX
+XffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffX
+XffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffX
+XffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffX
+XffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffX
+XffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffX
+XffffffffffffffffffffXaaaXXaaaXXaaaXXaaaXXaaaXXaaaXffffffffffffffffffffX
+XXfffffffffffffffffffX                            XfffffffffffffffffffXX
+XXffffffffffffffffffXX                            XXffffffffffffffffffXX
+XXffffffffffffffffffXX         XXXXXXXXXX         XXffffffffffffffffffXX
+XXaaaXXaaaXXaaaXXaaaXX        XffffffffffX        XXaaaXXaaaXXaaaXXaaaXX
+                              XffffffffffX
+                              XffffffffffX
+                               XXXXXXXXXX
+-
+a ass/house1.txt

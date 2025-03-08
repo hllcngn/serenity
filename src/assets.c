@@ -16,8 +16,8 @@ for (int yy=0;yy<ass->h;yy++){
 		switch (ass->info[yy][xx]){
 		case ' ':					    break;
 		case 'b': map->bg[y+yy][x+xx]   =ass->map[yy][xx];  break;
-		case 'X': map->clsn[y+yy][x+xx] =ass->map[yy][xx];  break;
 		case 'f': map->fg[y+yy][x+xx]   =ass->map[yy][xx];  break;
+		case 'X': map->clsn[y+yy][x+xx] =ass->map[yy][xx];  break;
 		default:					    break;}}}}
 
 void free_asset(Asset* ass){
@@ -26,6 +26,35 @@ free(ass->map);
 for (int y=0;y<ass->h;y++) free(ass->info[y]);
 free(ass->info);
 free(ass);}
+
+HAsset* load_hasset(char* path){
+HAsset* hass =malloc(sizeof(HAsset));
+FILE* f =fopen(path,"r");
+fsize_map(f,&(hass->h),&(hass->w));
+rewind(f);	     hass->map =fread_map(f,hass->h,hass->w);
+fseek(f,2,SEEK_CUR); hass->info =fread_map(f,hass->h,hass->w);
+fseek(f,2,SEEK_CUR); hass->path = fread_line(f);
+fclose(f);	return hass;}
+
+void paste_hasset(Map* map, int y, int x, HAsset* hass){
+for (int yy=0;yy<hass->h;yy++){
+	if (y+yy<0 ||y+yy>=map->h) continue;
+	for (int xx=0;xx<hass->w;xx++){
+		if (x+xx<0 ||x+xx>=map->w) continue;
+		switch (hass->info[yy][xx]){
+		case ' ':					    break;
+		case 'b': map->bg[y+yy][x+xx]   =hass->map[yy][xx];  break;
+		case 'f': map->fg[y+yy][x+xx]   =hass->map[yy][xx];  break;
+		case 'X': map->clsn[y+yy][x+xx] =hass->map[yy][xx];  break;
+		default:  map->tp[y+yy][x+xx]	=hass->info[yy][xx]; break;}}}}
+
+void free_hasset(HAsset* hass){
+for (int y=0;y<hass->h;y++) free(hass->map[y]);
+free(hass->map);
+for (int y=0;y<hass->h;y++) free(hass->info[y]);
+free(hass->info);
+free(hass->path);
+free(hass);}
 
 
 

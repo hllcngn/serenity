@@ -5,7 +5,7 @@ void new_game(vect3f* hue, Map** map, int* diff, Player** pl, int random){
 *map	=mapsize_selection(random);
 clear_screen(2); refresh();
 *diff	=choose_difficulty(random);
-*pl     =create_player(NULL,(*map)->h/2,(*map)->w/2,50);
+*pl     =create_player(NULL,(*map)->h/2+5,(*map)->w/2,50);
 clear_screen(2); refresh();
 set_names(*map,*pl, random);
 clear_screen(2); refresh();}
