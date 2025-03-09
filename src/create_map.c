@@ -1,18 +1,23 @@
 #include "serenity.h"
-Map* load_map(House* house){
-Map* map =malloc(sizeof(Map));
+Map* load_map(House* house){ //TODO move between indoors maps
+Map* map =malloc(sizeof(Map)); //TODO go back to outdoors map
+map->type =INDOORS;		//TODO exit to a different outdoors map
 map->h =house->h; map->w =house->w;
 map->name =strdup("House");
 map->bg   =malloc_arrayint2(map->h,map->w);
+for (int y=0; y<map->h; y++)
+for (int x=0; x<map->w; x++)
+	map->bg[y][x]=' ';
 map->clsn =calloc_arrayint2(map->h,map->w);
 map->fg   =calloc_arrayint2(map->h,map->w);
 map->it   =calloc_arrayint2(map->h,map->w);
 map->tp   =calloc_arrayint2(map->h,map->w);
 map->inst =NULL;
-paste_house(map,0,0,house);
+paste_house(map,house,0,0);
 return map;}
 
 void create_map(Map* map, Ref* ref){
+map->type =OUTDOORS;
 map->bg   =malloc_arrayint2(map->h,map->w);
 map->clsn =calloc_arrayint2(map->h,map->w);
 map->fg   =calloc_arrayint2(map->h,map->w);
@@ -45,7 +50,7 @@ for (int y=map->w%2+1; y<map->h-2; y+=2)
 
 House* ahouse =load_house("ass/house.txt");
 int yhouse =map->h/2-15, xhouse =map->w/2-30;
-paste_house(map,yhouse,xhouse,ahouse);
+paste_house(map,ahouse,yhouse,xhouse);
 for (int y=0; y<ahouse->h; y++)
 	for (int x=0; x<ahouse->w; x++)
 		blckd[yhouse+y][xhouse+x] ='X';

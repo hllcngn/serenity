@@ -83,6 +83,6 @@ else if (interface_style == MODERN){
 	int i=0; for (Actionlist *al=in->inter->actionlist;al;al=al->next){ i++;
 		mvwprintw(gwin,GWIN_H/2+i,GWIN_W/2+1,"%s",al->action->label);
 	wattron(gwin,A_UNDERLINE);
-		wmove(gwin,GWIN_H/2+i,GWIN_W/2+1);
+		wmove(gwin,GWIN_H/2+i,GWIN_W/2+1+al->action->c);
 		waddch(gwin,al->action->label[al->action->c]);
 	wattroff(gwin,A_UNDERLINE);}}}

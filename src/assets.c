@@ -9,15 +9,15 @@ fseek(f,2,SEEK_CUR); ass->info =fread_map(f,h,w);
 ass->h =h; ass->w =w;
 fclose(f);	return ass;}
 
-void paste_asset(Map* map, Asset* ass, int desty, int destx){
-for (int y=0; y<ass->h; y++){
-	if (desty+y<0 ||desty+y>=map->h) continue;
-	for (int x=0; x<ass->w; x++){
-		if (destx+x<0 ||destx+x>=map->w) continue;
-		switch (ass->info[y][x]){
-		case 'b': map->bg[desty+y][destx+x] =ass->map[y][x];	break;
-		case 'f': map->fg[desty+y][destx+x] =ass->map[y][x];	break;
-		case 'X': map->clsn[desty+y][destx+x] =ass->map[y][x];	break;}}}}
+void paste_asset(Map* map, Asset* ass, int y, int x){
+int yy =y<0? -y: 0;
+for (; yy<ass->h &&y+yy<map->h; yy++){
+	int xx =x<0? -x: 0;
+	for (; xx<ass->w &&x+xx<map->w; xx++){
+		switch (ass->info[yy][xx]){
+		case 'b': map->bg[y+yy][x+xx] =ass->map[yy][xx];   break;
+		case 'f': map->fg[y+yy][x+xx] =ass->map[yy][xx];   break;
+		case 'X': map->clsn[y+yy][x+xx] =ass->map[yy][xx]; break;}}}}
 
 void free_asset(Asset* ass){
 for (int y=0;y<ass->h;y++) free(ass->map[y]);
@@ -25,6 +25,7 @@ free(ass->map);
 for (int y=0;y<ass->h;y++) free(ass->info[y]);
 free(ass->info);
 free(ass);}
+
 
 House* load_house(char* path){
 House* house =malloc(sizeof(House));
@@ -35,17 +36,18 @@ fseek(f,2,SEEK_CUR); house->info =fread_map(f,house->h,house->w);
 fseek(f,2,SEEK_CUR); house->path = fread_line(f);
 fclose(f);	return house;}
 
-void paste_house(Map* map, int y, int x, House* house){
-for (int yy=0;yy<house->h;yy++){
-	if (y+yy<0 ||y+yy>=map->h) continue;
-	for (int xx=0;xx<house->w;xx++){
-		if (x+xx<0 ||x+xx>=map->w) continue;
+void paste_house(Map* map, House* house, int y, int x){
+int yy =y<0? -y: 0;
+for (; yy<house->h &&y+yy<map->h; yy++){
+	int xx =x<0? -x: 0;
+	for (; xx<house->w &&x+xx<map->w; xx++){
 		switch (house->info[yy][xx]){
-		case ' ':					    break;
+		case ' ':					      break;
 		case 'b': map->bg[y+yy][x+xx]   =house->map[yy][xx];  break;
 		case 'f': map->fg[y+yy][x+xx]   =house->map[yy][xx];  break;
 		case 'X': map->clsn[y+yy][x+xx] =house->map[yy][xx];  break;
-		default:  map->tp[y+yy][x+xx]	=house->info[yy][xx]; break;}}}}
+		default:  map->tp[y+yy][x+xx]	=house->info[yy][xx];
+			  map->bg[y+yy][x+xx]	=house->map[yy][xx];  break;}}}}
 
 void free_house(House* house){
 for (int y=0;y<house->h;y++) free(house->map[y]);
@@ -59,13 +61,14 @@ free(house);}
 
 Interactive** create_intertable(Action** actiontable){
 Interactive** inter =malloc(sizeof(Interactive*)*NB_INTER);
-inter[0] =load_inter("ass/tree2.txt",	 actiontable);
-inter[1] =load_inter("ass/fruittree.txt",actiontable);
-inter[2] =load_inter("ass/stump.txt",	 actiontable);
+inter[0] =load_inter("ass/tree2.txt", "tree2", actiontable);
+inter[1] =load_inter("ass/fruittree.txt", "fruittree", actiontable);
+inter[2] =load_inter("ass/stump.txt", "stump", actiontable);
 return inter;}
 
-Interactive* load_inter(char* path, Action** actiontable){
+Interactive* load_inter(char* path, char* name, Action** actiontable){
 Interactive* inter=malloc(sizeof(Interactive));
+inter->name =strdup(name);
 FILE* f=fopen(path,"r");
 fsize_map(f,&(inter->h),&(inter->w));
 rewind(f);	     inter->map   =fread_map(f,inter->h,inter->w);
@@ -80,13 +83,19 @@ char c; while ((c=getc(f))!='\n'&&c!=EOF){ fseek(f,-1,SEEK_CUR);
 	free(act);}
 fclose(f);	return inter;}
 
+Interactive* find_inter(Ref* ref, char* name){
+for (int i=0; i<NB_INTER; i++)
+	if (!strcmp(name, ref->interactive[i]->name))
+		return ref->interactive[i];
+return NULL;}
+
 void free_inter(Interactive* inter){
 for (int y=0;y<inter->h;y++){	free(inter->map[y]);
 				free(inter->info[y]);
 				free(inter->inter[y]);}
 free(inter->map);free(inter->info);free(inter->inter);
 free_actionlist(inter->actionlist);
-free(inter);}
+free(inter->name); free(inter);}
 
 void free_intertable(Interactive** inter){
 for (int i=0;i<NB_INTER;i++) free_inter(inter[i]);

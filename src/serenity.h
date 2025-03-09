@@ -5,7 +5,6 @@
 #include <unistd.h>
 #include <time.h>
 #include <string.h>
-#include "controls.h"
 #include "settings.h"
 
 #define NB_ACTION  3 //TODO turn these into lists
@@ -16,8 +15,12 @@
 
 #define NORANDOM	0
 #define RANDOM		1
+
 #define OLDSCHOOL	0
 #define MODERN		1
+
+#define OUTDOORS	0
+#define INDOORS		1
 
 
 
@@ -59,6 +62,7 @@ typedef struct{	int	h,w;
 struct interactive{
 	int		h,w;
 	int		**map,**info,**inter;
+	char*		name;
 	Actionlist*	actionlist;	};
 
 struct instance{
@@ -84,7 +88,7 @@ struct map{
 	int		**it,**tp;
 	char*		name;
 	Instance*	inst;
-	House*		house;		};
+	House*		house;		}; //TODO multiple houses/map
 
 typedef struct{	int	y,x;
 		int	hp;
@@ -118,10 +122,11 @@ Asset* load_asset(char* path);
 void paste_asset(Map* map, Asset* ass, int y, int x);
 void free_asset(Asset* ass);
 House* load_house(char* path);
-void paste_house(Map* map, int y, int x, House* house);
+void paste_house(Map* map, House* house, int y, int x);
 void free_house(House* house);
 Interactive** create_intertable(Action** actiontable);
-Interactive* load_inter(char* path, Action** actionstable);
+Interactive* load_inter(char* path, char* name, Action** actiontable);
+Interactive* find_inter(Ref* ref, char* name);
 void free_inter(Interactive* inter);
 void free_intertable(Interactive** intertable);
 void add_inst(Map* map, int y, int x, Interactive* inter);

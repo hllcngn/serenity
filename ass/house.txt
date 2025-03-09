@@ -21,25 +21,25 @@ xx   xx   xx   xx   xx        x~ ~ ~ ~ ~x         xx   xx   xx   xx   xx
                                xxxxxxxxx
 -
  XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-XffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffX
-XffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffX
-XffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffX
-XffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffX
-XffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffX
-XffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffX
-XffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffX
-XffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffX
-XffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffX
-XffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffX
-XffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffX
-XffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffX
-XffffffffffffffffffffXaaaXXaaaXXaaaXXaaaXXaaaXXaaaXffffffffffffffffffffX
-XXfffffffffffffffffffX                            XfffffffffffffffffffXX
-XXffffffffffffffffffXX                            XXffffffffffffffffffXX
-XXffffffffffffffffffXX         XXXXXXXXXX         XXffffffffffffffffffXX
-XXaaaXXaaaXXaaaXXaaaXX        XffffffffffX        XXaaaXXaaaXXaaaXXaaaXX
-                              XffffffffffX
-                              XffffffffffX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXaaaXXaaaXXaaaXXaaaXXaaaXXaaaXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXX                            XXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXX                            XXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXX         XXXXXXXXXX         XXXXXXXXXXXXXXXXXXXXXX
+XXaaaXXaaaXXaaaXXaaaXX        XXXXXXXXXXXX        XXaaaXXaaaXXaaaXXaaaXX
+                              XXXXXXXXXXXX
+                              XXXXXXXXXXXX
                                XXXXXXXXXX
 -
 a ass/house1.txt

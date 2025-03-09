@@ -44,11 +44,11 @@ free(al);}
 
 
 
-// ACTION FUNCTIONS
 void fall_tree(Instance* inst, Map* map, Ref* ref){
 int y =inst->y, x =inst->x;
 destroy_inst(inst,map);
-add_inst(map,y+2,x+rand()%2+1,ref->interactive[2]);} //lookup the right inter by name?
+Interactive* stump =find_inter(ref, "stump");
+if (stump) add_inst(map,y+2,x+rand()%2+1,stump);}
 
 void pull_stump(Instance* inst, Map* map, Ref* ref){
 destroy_inst(inst,map);}
