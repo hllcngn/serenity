@@ -9,7 +9,7 @@ char c=0; Instance* inst; do { switch (c){
 case K_UP:
 case K_DOWN:
 case K_LEFT:
-case K_RIGHT:	newmap=movement(c,pl,map);
+case K_RIGHT:	newmap=movement(c,pl,map,oldmap);
 		if (newmap!=map){
 			map=newmap;
 			pl->x =2; pl->y =2;}
@@ -36,16 +36,25 @@ delwin(gwin); return 0;}
 
 
 
-Map* movement(char c, Player* pl, Map* map){
+Map* movement(char c, Player* pl, Map* map, Map* oldmap){
 Map* newmap=map;
 int tp; switch (c){
 case K_UP:    if(!check_collision((v2i){pl->y-1,pl->x}, map)){
 			pl->y--;
-			if(check_tp((v2i){pl->y,pl->x},map))
-				newmap =load_map(map->house);
+			if(check_tp((v2i){pl->y,pl->x},map)){
+				save_map(map);
+				if (map->type==OUTDOORS)
+					newmap =load_map(map->house,map);
+				else	newmap =oldmap;}
 	      } break;
-case K_DOWN:  if(!check_collision((v2i){pl->y+1,pl->x}, map))
-			pl->y++;	break;
+case K_DOWN:    if(!check_collision((v2i){pl->y+1,pl->x}, map)){
+			pl->y++;
+			if(check_tp((v2i){pl->y,pl->x},map)){
+				save_map(map);
+				if (map->type==OUTDOORS)
+					newmap =load_map(map->house,map);
+				else	newmap =oldmap;}
+	      } break;
 case K_LEFT:  if(!check_collision((v2i){pl->y,pl->x-1}, map))
 			pl->x--;	break;
 case K_RIGHT: if(!check_collision((v2i){pl->y,pl->x+1}, map))
@@ -64,10 +73,6 @@ if (pos.y>=0	  &&pos.x>=0
 return 1;}
 
 int check_tp(v2i pos, Map* map){
-if (pos.y>=0	  &&pos.x>=0
-  &&pos.y<map->h  &&pos.x<map->w
-  &&!map->clsn[pos.y][pos.x]){
-	if (map->tp[pos.y][pos.x])
-		return map->tp[pos.y][pos.x];
-	return 0;}
+if (map->tp[pos.y][pos.x])
+	return map->tp[pos.y][pos.x];
 return 0;}

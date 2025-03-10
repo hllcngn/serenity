@@ -3,21 +3,66 @@
 int** malloc_arrayint2(int h,int w){
 int** arr =malloc(sizeof(int*)*h);
 for (int i=0;i<h;i++) arr[i] =malloc(sizeof(int)*w);
-	return arr;}
+return arr;}
 
 int** calloc_arrayint2(int h,int w){
 int** arr =malloc(sizeof(int*)*h);
 for (int i=0;i<h;i++) arr[i] =calloc(w, sizeof(int));
-	return arr;}
+return arr;}
 
 int** duplicate_arrayint2(int** arr,int h,int w){
 int** new =malloc_arrayint2(h,w);
 for (int y=0;y<h;y++) for (int x=0;x<w;x++)
-	new[y][x] =arr[y][x];	return new;}
+	new[y][x] =arr[y][x];
+return new;}
+
+int** spacoc_arrayint2(int h,int w){
+int** arr =malloc(sizeof(int*)*h);
+for (int y=0;y<h;y++){
+       arr[y] =malloc(sizeof(int)*w);
+       for (int x=0;x<w;x++)
+	       arr[y][x]=' ';}
+return arr;}
+
+void fput_arrayint2(FILE* f,int** arr,int h,int w){
+for (int y=0;y<h;y++){
+	for (int x=0;x<w;x++)
+		if (!arr[y][x])	putc(' ',f);
+		else		putc((char)(arr[y][x]),f);
+	putc('\n',f);}}
+
+char** malloc_arraychar2(int h,int w){
+char** arr =malloc(sizeof(char*)*h);
+for (int y=0;y<h;y++) arr[y] =malloc(w*sizeof(char));
+return arr;}
+
+char** calloc_arraychar2(int h,int w){
+char** arr =malloc(sizeof(char*)*h);
+for (int y=0;y<h;y++) arr[y] =calloc(w, sizeof(char));
+return arr;}
+
+char** spacoc_arraychar2(int h,int w){
+char** arr =malloc(sizeof(char*)*h);
+for (int y=0;y<h;y++){
+       arr[y] =malloc(sizeof(char)*w);
+       for (int x=0;x<w;x++)
+	       arr[y][x]=' ';}
+return arr;}
+
+void fput_arraychar2(FILE* f,char** arr,int h,int w){
+for (int y=0;y<h;y++){
+	for (int x=0;x<w;x++)
+		if (!arr[y][x])	putc(' ',f);
+		else		putc(arr[y][x],f);
+	putc('\n',f);}}
 
 void free_arrayint2(int** arr,int h,int w){
 for (int y=0;y<h;y++) free(arr[y]);
-free(arr);	return;}
+free(arr);}
+
+void free_arraychar2(char** arr,int h,int w){
+for (int y=0;y<h;y++) free(arr[y]);
+free(arr);}
 
 
 int flen_line(FILE* f){

@@ -1,28 +1,29 @@
 #include "serenity.h"
-Map* load_map(House* house){ //TODO move between indoors maps
+Map* load_map(House* house,Map* oldmap){ //TODO move between indoors maps
 Map* map =malloc(sizeof(Map)); //TODO go back to outdoors map
 map->type =INDOORS;		//TODO exit to a different outdoors map
 map->h =house->h; map->w =house->w;
 map->name =strdup("House");
-map->bg   =malloc_arrayint2(map->h,map->w);
+map->oldmap =house->oldmap;
+map->bg   =malloc_arraychar2(map->h,map->w);
 for (int y=0; y<map->h; y++)
 for (int x=0; x<map->w; x++)
 	map->bg[y][x]=' ';
-map->clsn =calloc_arrayint2(map->h,map->w);
-map->fg   =calloc_arrayint2(map->h,map->w);
+map->clsn =calloc_arraychar2(map->h,map->w);
+map->fg   =calloc_arraychar2(map->h,map->w);
 map->it   =calloc_arrayint2(map->h,map->w);
-map->tp   =calloc_arrayint2(map->h,map->w);
+map->tp   =calloc_arraychar2(map->h,map->w);
 map->inst =NULL;
 paste_house(map,house,0,0);
 return map;}
 
 void create_map(Map* map, Ref* ref){
 map->type =OUTDOORS;
-map->bg   =malloc_arrayint2(map->h,map->w);
-map->clsn =calloc_arrayint2(map->h,map->w);
-map->fg   =calloc_arrayint2(map->h,map->w);
+map->bg   =malloc_arraychar2(map->h,map->w);
+map->clsn =calloc_arraychar2(map->h,map->w);
+map->fg   =calloc_arraychar2(map->h,map->w);
 map->it   =calloc_arrayint2(map->h,map->w);
-map->tp   =calloc_arrayint2(map->h,map->w);
+map->tp   =calloc_arraychar2(map->h,map->w);
 map->inst =NULL;
 int** blckd =calloc_arrayint2(map->h,map->w);
 
@@ -87,13 +88,33 @@ for (int i=0;i<map->w/6;i++){
 }
 
 
+void save_map(Map* map){
+mkdir("saves", 0744);
+char path[17];
+strcpy(path,"saves/");
+strcat(path,map->name);
+FILE* f =fopen(path, "w");
+fputs(map->name,f); putc('\n',f);
+fprintf(f,"%d %d\n",map->h,map->w);
+for (int y=0; y<map->h; y++){
+	fwrite(map->bg[y],sizeof(char),map->w,f);
+	putc('\n',f);} putc('\n',f);
+fput_arraychar2(f,map->clsn,map->h,map->w); putc('\n',f);
+fput_arraychar2(f,map->fg,map->h,map->w); putc('\n',f);
+for (int y=0; y<map->h; y++){
+	fwrite(map->it[y],sizeof(int),map->w,f);
+	putc('\n',f);} putc('\n',f);
+fput_arraychar2(f,map->tp,map->h,map->w); putc('\n',f);
+fclose(f);}
+
 
 void free_map(Map* map){
-for (int y=0;y<map->h;y++) free(map->bg[y]);
-for (int y=0;y<map->h;y++) free(map->clsn[y]);
-for (int y=0;y<map->h;y++) free(map->fg[y]);
-for (int y=0;y<map->h;y++) free(map->it[y]);
-free(map->bg);free(map->clsn);free(map->fg);free(map->it);
+free_arraychar2(map->bg,map->h,map->w);
+free_arraychar2(map->clsn,map->h,map->w);
+free_arraychar2(map->fg,map->h,map->w);
+free_arrayint2(map->it,map->h,map->w);
+free_arraychar2(map->tp,map->h,map->w);
 free_instlist(map->inst);
 free_house(map->house);
-free(map->name);free(map);}
+free(map->name);
+free(map);}

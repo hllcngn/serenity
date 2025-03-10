@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <time.h>
 #include <string.h>
+#include <sys/stat.h>
 #include "settings.h"
 
 #define NB_ACTION  3 //TODO turn these into lists
@@ -30,7 +31,14 @@ typedef struct{	float	i,j,k;	} v3f;
 int** malloc_arrayint2(int h,int w);
 int** calloc_arrayint2(int h,int w);
 int** duplicate_arrayint2(int** arr,int h,int w);
+int** spacoc_arrayint2(int h,int w);
+void fput_arrayint2(FILE* f,int** arr,int h,int w);
 void free_arrayint2(int** arr,int h,int w);
+char** malloc_arraychar2(int h,int w);
+char** calloc_arraychar2(int h,int w);
+char** spacoc_arraychar2(int h,int w);
+void fput_arraychar2(FILE* f,char** arr,int h,int w);
+void free_arraychar2(char** arr,int h,int w);
 char* fread_line(FILE* f);
 int flen_line(FILE* f);
 void fsize_map(FILE* f, int* h, int* w);
@@ -57,7 +65,8 @@ typedef struct{ int	h,w;
 
 typedef struct{	int	h,w;
 		int	**map,**info;
-		char*	path;		} House;
+		char*	path;
+		Map*	oldmap;		} House;
 
 struct interactive{
 	int		h,w;
@@ -84,10 +93,11 @@ struct actionlist{
 struct map{
 	int		type;
 	int		h,w;
-	int		**bg,**clsn,**fg;
-	int		**it,**tp;
+	char		**bg,**clsn,**fg,**tp;
+	int		**it;
 	char*		name;
-	Instance*	inst;
+	Map*		oldmap;
+	Instance*	inst;	//TODO add a max n of instances
 	House*		house;		}; //TODO multiple houses/map
 
 typedef struct{	int	y,x;
@@ -102,7 +112,7 @@ int choose_difficulty(int);
 void set_names(Map*, Player*, int);
 
 int game(v3f hue, Map* map, Player* pl, Ref* ref, int interface_style);
-Map* movement(char c, Player* pl, Map* map);
+Map* movement(char c, Player* pl, Map* map, Map* oldmap);
 int check_collision(v2i pos, Map* map);
 int check_tp(v2i pos, Map* map);
 
@@ -110,8 +120,9 @@ Player* create_player(char* name, int y, int x, int hp);
 void free_player(Player* pl);
 
 void create_map(Map* map, Ref* ref);
+Map* load_map(House* house,Map* oldmap);
+void save_map(Map* map);
 void free_map(Map* map);
-Map* load_map(House* house);
 
 void display_map(WINDOW* gwin, Map* map, v2i pos);
 void display_pl(WINDOW* gwin, Player* pl, Map* map);
