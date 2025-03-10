@@ -16,6 +16,7 @@
 |/   \/   \/   \/   \|                            |/   \/   \/   \/   \|
 ||   ||   ||   ||   ||                            ||   ||   ||   ||   ||
 xx   xx   xx   xx   xx                            xx   xx   xx   xx   xx
+
 -
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 XbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbX
@@ -31,9 +32,10 @@ XbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbX
 XbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbX
 XbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbX
 XbbbbbbbbbbbbbbbbbbbbXaaaXXaaaXXaaaXXaaaXXaaaXXaaaXbbbbbbbbbbbbbbbbbbbbX
-XXbbbbbbbbbbbbbbbbbbbX                            XbbbbbbbbbbbbbbbbbbbXX
-XXbbbbbbbbbbbbbbbbbbXX                            XXbbbbbbbbbbbbbbbbbbXX
-XXbbbbbbbbbbbbbbbbbbXX                            XXbbbbbbbbbbbbbbbbbbXX
+XXfffffffffffffffffffXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXfffffffffffffffffffXX
+XXbbbffbbbffbbbffbbbXX                            XXbbbffbbbffbbbffbbbXX
+XXbbbffbbbffbbbffbbbXX                            XXbbbffbbbffbbbffbbbXX
 XXaaaXXaaaXXaaaXXaaaXX                            XXaaaXXaaaXXaaaXXaaaXX
+XXXXXXXXXXXXXXXXXXXXXX                            XXXXXXXXXXXXXXXXXXXXXX
 -
 a map

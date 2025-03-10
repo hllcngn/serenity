@@ -63,7 +63,8 @@ struct ref{
 typedef struct{ int	h,w;
 		int	**map,**info;	} Asset;
 
-typedef struct{	int	h,w;
+typedef struct{	int	y,x;
+		int	h,w;
 		int	**map,**info;
 		char*	path;
 		Map*	oldmap;		} House;
@@ -90,15 +91,16 @@ struct actionlist{
 	Action		*action;
 	Actionlist	*previous,*next;};
 
-struct map{
+struct map{	//TODO Map** maps
 	int		type;
+	int		ply,plx;
 	int		h,w;
 	char		**bg,**clsn,**fg,**tp;
 	int		**it;
 	char*		name;
 	Map*		oldmap;
 	Instance*	inst;	//TODO add a max n of instances
-	House*		house;		}; //TODO multiple houses/map
+	House*		house;		}; //TODO multiple houses per map
 
 typedef struct{	int	y,x;
 		int	hp;

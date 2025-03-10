@@ -11,9 +11,17 @@ case K_DOWN:
 case K_LEFT:
 case K_RIGHT:	newmap=movement(c,pl,map,oldmap);
 		if (newmap!=map){
+			if (map->type ==OUTDOORS){
+				map->ply=pl->y;
+				map->plx=pl->x;}
+			if (newmap->type ==OUTDOORS){
+				pl->y =newmap->house->y+pl->y;
+				pl->x =newmap->house->x+pl->x;}
+			else if (newmap->type ==INDOORS){
+				pl->y =pl->y-map->house->y;
+				pl->x =pl->x-map->house->x;}
 			map=newmap;
-			pl->x =2; pl->y =2;}
-		break;
+		} break;
 default:
 	inst =check_inst((v2i){pl->y,pl->x},map);
 	if (inst &&inst->inter->inter[pl->y-inst->y][pl->x-inst->x]=='i'){
