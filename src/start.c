@@ -22,7 +22,7 @@ Map*	map;
 int	difficulty;
 Player*	pl;
 //if (ac>1 && !strcmp(av[1],"random"))
-	new_game(&hue, &map, &difficulty, &pl, RANDOM);
+	new_game(ref, &hue, &map, &difficulty, &pl, RANDOM);
 //else	new_game(&hue, &map, &difficulty, &pl, NORANDOM);
 create_map(map,ref);
 

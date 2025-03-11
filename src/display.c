@@ -81,7 +81,8 @@ if (interface_style == OLDSCHOOL){ //TODO action conditions in OLDSCHOOL mode
 else if (interface_style == MODERN){
 	wattron(gwin,COLOR_PAIR(CP_NORMAL));
 	int i=0; for (Actionlist *al=in->inter->actionlist; al; al=al->next){
-		if (pl->actions[al->action->id] ||al->condition==SUPERABLE){
+		Actionlist* plal =find_action(al->action->label,pl->actionlist);
+		if ((plal &&plal->condition) ||al->condition==SUPERABLE){
 			i++;
 			mvwprintw(gwin,GWIN_H/2+i,GWIN_W/2+1,"%s",al->action->label);
 			wattron(gwin,A_UNDERLINE);

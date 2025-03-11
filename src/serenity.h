@@ -40,10 +40,10 @@ typedef struct game World;
 {	Action**	action;
 	Interactive**	interactive;
 }; struct player
-{	int	y,x;
-	int	hp;
-	char*	name;
-	int*	actions;
+{	int		y,x;
+	int		hp;
+	char*		name;
+	Actionlist*	actionlist;
 }; struct world		//TODO implement this
 {	Map**	maps;
 }; struct map
@@ -108,7 +108,7 @@ Map* movement(char c, Player* pl, Map* map, Map* oldmap);
 int check_collision(v2i pos, Map* map);
 int check_tp(v2i pos, Map* map);
 // = player.c =
-Player* create_player(char* name, int y, int x, int hp);
+Player* create_player(Ref* ref, char* name, int y, int x, int hp);
 void free_player(Player* pl);
 
 // = map.c =
@@ -140,7 +140,7 @@ void add_action(Actionlist** actionlist, Action* action, int condition);
 void destroy_action(Actionlist* al);
 Actionlist* find_action(char* label, Actionlist* al);
 void free_actionlist(Actionlist* al);
-void enable_light_fire(Ref* ref);
+//
 void act_fall_tree(Instance* inst, Map* map, Ref* ref);
 void act_pull_stump(Instance* inst, Map* map, Ref* ref);
 void act_harvest_fruits(Instance* inst, Map* map, Ref* ref);
@@ -156,7 +156,7 @@ void display_gui(WINDOW* guiwin, Player* pl, Map* map);
 // = start.c =
 void title_screen(void);
 // = menus.c =
-void new_game(v3f*, Map**, int*, Player**, int);
+void new_game(Ref* ref, v3f* hue, Map** map, int* diff, Player** pl, int random);
 v3f hue_selection(int);
 Map* mapsize_selection(int);
 int choose_difficulty(int);
@@ -175,10 +175,12 @@ char** calloc_arraychar2(int h,int w);
 char** spacoc_arraychar2(int h,int w);
 void fput_arraychar2(FILE* f,char** arr,int h,int w);
 void free_arraychar2(char** arr,int h,int w);
+//
 char* fread_line(FILE* f);
 int flen_line(FILE* f);
 void fsize_map(FILE* f, int* h, int* w);
 int** fread_map(FILE* f, int h, int w);
+//
 void clear_screen(int cp);
 void debug_msg(const char* str);
 char* path_cat(const char* path, const char* file);

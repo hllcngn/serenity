@@ -28,13 +28,12 @@ default:
 	inst =check_inst((v2i){pl->y,pl->x},map);
 	if (inst &&inst->inter->inter[pl->y-inst->y][pl->x-inst->x]=='i'){
 		Actionlist* al;
-		 for (al=inst->inter->actionlist;
+		for (al=inst->inter->actionlist;
 		   al &&al->action->key!=c;
 		   al=al->next);
-		 if (al)
-			if (pl->actions[al->action->id]
-				||al->condition==SUPERABLE)
-				al->action->action(inst,map,ref);}	break;}
+		 if (al){ Actionlist* plal =find_action(al->action->label,pl->actionlist);
+			if ((plal &&plal->condition) ||al->condition==SUPERABLE)
+				al->action->action(inst,map,ref);}}	break;}
 
 display_map(gwin, map, (v2i){pl->y,pl->x});
 display_pl(gwin, pl, map);

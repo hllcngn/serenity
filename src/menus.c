@@ -1,11 +1,11 @@
 #include "serenity.h"
 
-void new_game(v3f* hue, Map** map, int* diff, Player** pl, int random){
+void new_game(Ref* ref, v3f* hue, Map** map, int* diff, Player** pl, int random){
 *hue	=hue_selection(random);
 *map	=mapsize_selection(random);
 if (!random){ clear_screen(CP_BASE); refresh();}
 *diff	=choose_difficulty(random);
-*pl     =create_player(NULL,(*map)->h/2+5,(*map)->w/2,50);
+*pl     =create_player(ref,NULL,(*map)->h/2+5,(*map)->w/2,50);
 if (!random){ clear_screen(CP_BASE); refresh();}
 set_names(*map,*pl, random);
 clear_screen(CP_BASE); refresh();}

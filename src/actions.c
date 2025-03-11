@@ -64,10 +64,10 @@ if (al->next) al->next->previous =al->previous;
 free(al);}
 
 
-Action* find_action_list(char* label, Actionlist* al){
+Actionlist* find_action(char* label, Actionlist* al){
 for (Actionlist* all=al; all; all=all->next)
 	if (!strcmp(label,all->action->label))
-		return all->action;
+		return all;
 return NULL;}
 /*
 Action* find_action_table(char* label, Action** at){
