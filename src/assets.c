@@ -26,7 +26,6 @@ for (int y=0;y<ass->h;y++) free(ass->info[y]);
 free(ass->info);
 free(ass);}
 
-
 House* load_house(char* path){
 House* house =malloc(sizeof(House));
 FILE* f =fopen(path,"r");
@@ -61,9 +60,9 @@ free(house);}
 
 Interactive** create_intertable(Action** actiontable){
 Interactive** inter =malloc(sizeof(Interactive*)*NB_INTER);
-inter[0] =load_inter("ass/tree2.txt", "tree2", actiontable);
-inter[1] =load_inter("ass/fruittree.txt", "fruittree", actiontable);
-inter[2] =load_inter("ass/stump.txt", "stump", actiontable);
+inter[0] =load_inter("ass/inter/tree2.txt", "tree2", actiontable);
+inter[1] =load_inter("ass/inter/fruittree.txt", "fruittree", actiontable);
+inter[2] =load_inter("ass/inter/stump.txt", "stump", actiontable);
 return inter;}
 
 Interactive* load_inter(char* path, char* name, Action** actiontable){
@@ -76,8 +75,8 @@ fseek(f,2,SEEK_CUR); inter->info  =fread_map(f,inter->h,inter->w);
 fseek(f,2,SEEK_CUR); inter->inter =fread_map(f,inter->h,inter->w);
 inter->actionlist = NULL; fseek(f,2,SEEK_CUR);
 char c; while ((c=getc(f))!='\n'&&c!=EOF){ fseek(f,-1,SEEK_CUR);
-	char* act =fread_line(f);
-	for (int i=0;i<NB_ACTION;i++)
+	char* act =fread_line(f);	//TODO read actions in reverse order
+	for (int i=0;i<nb_action;i++)
 	if (!strcmp(act,actiontable[i]->label))
 		add_action(&(inter->actionlist),actiontable[i]);
 	free(act);}

@@ -1,6 +1,7 @@
 #include "serenity.h"
 
 int game(v3f hue, Map* map, Player* pl, Ref *ref, int interface_style){
+//enable_light_fire(pl,ref);
 v2i gwin_pos ={(LINES-GWIN_H)/2,(COLS-GWIN_W)/2};
 WINDOW* gwin =newwin(GWIN_H,GWIN_W,gwin_pos.y,gwin_pos.x);
 WINDOW* guiwin =newwin(1,GWIN_W,gwin_pos.y-2,gwin_pos.x);
@@ -11,9 +12,6 @@ case K_DOWN:
 case K_LEFT:
 case K_RIGHT:	newmap=movement(c,pl,map,oldmap);
 		if (newmap!=map){
-			if (map->type ==OUTDOORS){
-				map->ply=pl->y;
-				map->plx=pl->x;}
 			if (newmap->type ==OUTDOORS){
 				pl->y =newmap->house->y+pl->y;
 				pl->x =newmap->house->x+pl->x;}
@@ -35,7 +33,7 @@ display_map(gwin, map, (v2i){pl->y,pl->x});
 display_pl(gwin, pl, map);
 Instance* in =check_inst((v2i){pl->y,pl->x},map);
 if (in &&in->inter->inter[pl->y-in->y][pl->x-in->x]=='i')
-	display_notice(gwin,in,(v2i){pl->y,pl->x},map,interface_style);
+	display_notice(gwin,pl,in,(v2i){pl->y,pl->x},map,interface_style);
 wrefresh(gwin);
 display_gui(guiwin,pl,map);
 wrefresh(guiwin);

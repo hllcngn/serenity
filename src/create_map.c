@@ -32,7 +32,7 @@ for (int y=2; y<map->h-2; y+=2)
 for (int y=map->w%2+1; y<map->h-2; y+=2)
 	if (!(rand()%2)) map->bg[y][map->w-1]=' ';
 
-House* ahouse =load_house("ass/house.txt");
+House* ahouse =load_house("ass/houseassets/house.txt");
 int yhouse =map->h/2-15, xhouse =map->w/2-30;
 paste_house(map,ahouse,yhouse,xhouse);
 for (int y=0; y<ahouse->h; y++)
@@ -43,11 +43,11 @@ hahouse->y =yhouse; hahouse->x =xhouse;
 map->house =hahouse;
 free_house(ahouse);
 
-Asset* atree1 =load_asset("ass/tree1.txt");
+Asset* atree1 =load_asset("ass/assets/tree1.txt");
 paste_asset(map,atree1,10,10);
 free_asset(atree1);
 
-Asset* umbrella =load_asset("ass/umbrella.txt");
+Asset* umbrella =load_asset("ass/assets/umbrella.txt");
 paste_asset(map,umbrella,yhouse+20,xhouse+5);
 free_asset(umbrella);
 

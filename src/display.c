@@ -49,8 +49,8 @@ wattron(gwin,COLOR_PAIR(CP_NORMAL));
 waddch(gwin,' ');}
 
 
-void display_notice(WINDOW* gwin, Instance* in, v2i pos, Map* map, int interface_style){
-if (interface_style == OLDSCHOOL){
+void display_notice(WINDOW* gwin, Player* pl, Instance* in, v2i pos, Map* map, int interface_style){
+if (interface_style == OLDSCHOOL){ //TODO action conditions in OLDSCHOOL mode
 	wattron(gwin,COLOR_PAIR(CP_BASE));
 	wmove(gwin,GWIN_H/2+1,GWIN_W/2+1);
 	for (int i=0;i<in->inter->actionlist->action->labellen+2;i++)
@@ -80,9 +80,11 @@ if (interface_style == OLDSCHOOL){
 	for (int i=0;i<al2->action->labellen+2;i++) waddch(gwin,'-');}
 else if (interface_style == MODERN){
 	wattron(gwin,COLOR_PAIR(CP_NORMAL));
-	int i=0; for (Actionlist *al=in->inter->actionlist;al;al=al->next){ i++;
-		mvwprintw(gwin,GWIN_H/2+i,GWIN_W/2+1,"%s",al->action->label);
-	wattron(gwin,A_UNDERLINE);
-		wmove(gwin,GWIN_H/2+i,GWIN_W/2+1+al->action->c);
-		waddch(gwin,al->action->label[al->action->c]);
-	wattroff(gwin,A_UNDERLINE);}}}
+	int i=0; for (Actionlist *al=in->inter->actionlist;al;al=al->next){
+		if (pl->actions[al->action->id]){
+			i++;
+			mvwprintw(gwin,GWIN_H/2+i,GWIN_W/2+1,"%s",al->action->label);
+			wattron(gwin,A_UNDERLINE);
+			wmove(gwin,GWIN_H/2+i,GWIN_W/2+1+al->action->c);
+			waddch(gwin,al->action->label[al->action->c]);
+			wattroff(gwin,A_UNDERLINE);}}}}

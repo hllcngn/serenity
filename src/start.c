@@ -15,6 +15,7 @@ init_color(COLOR_WHITE,rand()%600+400,rand()%600+400,rand()%600+400);
 Ref	*ref =malloc(sizeof(Ref));
 ref->action =create_actiontable();
 ref->interactive =create_intertable(ref->action);
+//mvprintw(0,0,"segv\n");getch();
 
 // creating new game
 v3f	hue;

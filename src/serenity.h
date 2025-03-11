@@ -8,7 +8,7 @@
 #include <sys/stat.h>
 #include "settings.h"
 
-#define NB_ACTION  3 //TODO turn these into lists
+//#define NB_ACTION  4 //TODO turn these into lists
 #define NB_INTER   3
 
 #define CP_NORMAL  1
@@ -55,10 +55,17 @@ typedef struct instance	Instance;
 typedef struct action Action;
 typedef struct actionlist Actionlist;
 typedef struct map Map;
+typedef struct game World;
 
 struct ref{
 	Action**	action;
 	Interactive**	interactive;	};
+
+typedef enum act_id{	fall_tree,
+			pull_stump,
+			harvest_fruits,
+			light_fire,
+			nb_action	} AID;
 
 typedef struct{ int	h,w;
 		int	**map,**info;	} Asset;
@@ -73,6 +80,7 @@ struct interactive{
 	int		h,w;
 	int		**map,**info,**inter;
 	char*		name;
+	int		nb_action_inter;
 	Actionlist*	actionlist;	};
 
 struct instance{
@@ -82,6 +90,7 @@ struct instance{
 	Instance	*previous,*next;};
 
 struct action{
+	AID		id;
 	int		key;
 	int		labellen, c;
 	char*		label;
@@ -93,7 +102,6 @@ struct actionlist{
 
 struct map{	//TODO Map** maps
 	int		type;
-	int		ply,plx;
 	int		h,w;
 	char		**bg,**clsn,**fg,**tp;
 	int		**it;
@@ -102,9 +110,13 @@ struct map{	//TODO Map** maps
 	Instance*	inst;	//TODO add a max n of instances
 	House*		house;		}; //TODO multiple houses per map
 
+struct world{
+	Map**	maps;			};
+
 typedef struct{	int	y,x;
 		int	hp;
-		char*	name;		} Player;
+		char*	name;
+		int*	actions;	} Player;
 
 void title_screen(void);
 void new_game(v3f*, Map**, int*, Player**, int);
@@ -128,7 +140,7 @@ void free_map(Map* map);
 
 void display_map(WINDOW* gwin, Map* map, v2i pos);
 void display_pl(WINDOW* gwin, Player* pl, Map* map);
-void display_notice(WINDOW* gwin, Instance* in, v2i pos, Map* map, int interface_style);
+void display_notice(WINDOW* gwin, Player* pl, Instance* in, v2i pos, Map* map, int interface_style);
 void display_gui(WINDOW* guiwin, Player* pl, Map* map);
 
 Asset* load_asset(char* path);
@@ -151,7 +163,11 @@ Action** create_actiontable(void);
 void free_actiontable(Action** actions);
 void add_action(Actionlist** actionlist, Action* action);
 void destroy_action(Actionlist* al);
+Actionlist* find_action(char* label, Actionlist* al);
+Action* find_action_table(char* label, Action** at);
 void free_actionlist(Actionlist* al);
-void fall_tree(Instance* inst, Map* map, Ref* ref);
-void pull_stump(Instance* inst, Map* map, Ref* ref);
-void harvest_fruits(Instance* inst, Map* map, Ref* ref);
+void enable_light_fire(Ref* ref);
+void act_fall_tree(Instance* inst, Map* map, Ref* ref);
+void act_pull_stump(Instance* inst, Map* map, Ref* ref);
+void act_harvest_fruits(Instance* inst, Map* map, Ref* ref);
+void act_light_fire(Instance* inst, Map* map, Ref* ref);
