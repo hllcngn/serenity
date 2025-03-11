@@ -59,15 +59,16 @@ free(house);}
 
 
 Interactive** create_intertable(Action** actiontable){
-Interactive** inter =malloc(sizeof(Interactive*)*NB_INTER);
-inter[0] =load_inter("ass/inter/tree2.txt", "tree2", actiontable);
-inter[1] =load_inter("ass/inter/fruittree.txt", "fruittree", actiontable);
-inter[2] =load_inter("ass/inter/stump.txt", "stump", actiontable);
+Interactive** inter =malloc(sizeof(Interactive*)*nb_inter);
+inter[tree2] =load_inter("ass/inter/tree2.txt", actiontable);
+inter[fruittree] =load_inter("ass/inter/fruittree.txt", actiontable);
+inter[stump] =load_inter("ass/inter/stump.txt", actiontable);
+inter[umbrella] =load_inter("ass/inter/umbrella.txt", actiontable);
 return inter;}
 
-Interactive* load_inter(char* path, char* name, Action** actiontable){
+Interactive* load_inter(char* path, Action** actiontable){
 Interactive* inter=malloc(sizeof(Interactive));
-inter->name =strdup(name);
+//inter->name =strdup(name);
 FILE* f=fopen(path,"r");
 fsize_map(f,&(inter->h),&(inter->w));
 rewind(f);	     inter->map   =fread_map(f,inter->h,inter->w);
@@ -78,15 +79,17 @@ char c; while ((c=getc(f))!='\n'&&c!=EOF){ fseek(f,-1,SEEK_CUR);
 	char* act =fread_line(f);	//TODO read actions in reverse order
 	for (int i=0;i<nb_action;i++)
 	if (!strcmp(act,actiontable[i]->label))
-		add_action(&(inter->actionlist),actiontable[i]);
+		add_action(&(inter->actionlist),actiontable[i], ABLE);
 	free(act);}
 fclose(f);	return inter;}
 
+/*
 Interactive* find_inter(Ref* ref, char* name){
-for (int i=0; i<NB_INTER; i++)
+for (int i=0; i<nb_inter; i++)
 	if (!strcmp(name, ref->interactive[i]->name))
 		return ref->interactive[i];
 return NULL;}
+*/
 
 void free_inter(Interactive* inter){
 for (int y=0;y<inter->h;y++){	free(inter->map[y]);
@@ -94,10 +97,11 @@ for (int y=0;y<inter->h;y++){	free(inter->map[y]);
 				free(inter->inter[y]);}
 free(inter->map);free(inter->info);free(inter->inter);
 free_actionlist(inter->actionlist);
-free(inter->name); free(inter);}
+//free(inter->name);
+free(inter);}
 
 void free_intertable(Interactive** inter){
-for (int i=0;i<NB_INTER;i++) free_inter(inter[i]);
+for (int i=0;i<nb_inter;i++) free_inter(inter[i]);
 free(inter);}
 
 

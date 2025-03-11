@@ -47,9 +47,10 @@ Asset* atree1 =load_asset("ass/assets/tree1.txt");
 paste_asset(map,atree1,10,10);
 free_asset(atree1);
 
-Asset* umbrella =load_asset("ass/assets/umbrella.txt");
-paste_asset(map,umbrella,yhouse+20,xhouse+5);
-free_asset(umbrella);
+Asset* aumbrella =load_asset("ass/assets/umbrella.txt");
+paste_asset(map,aumbrella,yhouse+20,xhouse+5);
+free_asset(aumbrella);
+add_inst(map,yhouse+20,xhouse+30,ref->interactive[umbrella]);
 
 //add_inst(map,20,20,ref->interactive[0]);
 //add_inst(map,20,30,ref->interactive[0]);

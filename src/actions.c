@@ -3,6 +3,17 @@
 //to a specific asset, upon a special condition
 //otherwise i would need to have conditions per inter
 //in addition to conditions on the player
+//actually
+//if i had tables of actions on each inter
+//it would be easier to also have a table of conditions
+//or
+//i associate a condition to each actionlist
+//that way i can still pull the suddenly you're able to set
+//the altar -or say, umbrella-  on fire even though it's
+//stone/not normally possible but you have that superpower now
+//or would the condition for an action always be 1
+//and actually the umbrella is an asset not an inter
+//i could homogenize everything and make all assets inters
 
 Action** create_actiontable(){
 Action** action =malloc(sizeof(Action*)*nb_action);
@@ -40,9 +51,9 @@ free(action);}
 
 
 
-void add_action(Actionlist** actionlist, Action* action){
+void add_action(Actionlist** actionlist, Action* action, int condition){
 Actionlist* al =malloc(sizeof(Actionlist));
-al->action =action; al->previous =NULL;
+al->action =action; al->condition =condition; al->previous =NULL;
 if (*actionlist) (*actionlist)->previous =al;
 al->next =*actionlist; *actionlist =al;}
 
@@ -58,13 +69,13 @@ for (Actionlist* all=al; all; all=all->next)
 	if (!strcmp(label,all->action->label))
 		return all->action;
 return NULL;}
-
+/*
 Action* find_action_table(char* label, Action** at){
 for (int i=0; i<nb_action; i++)
 	if (!strcmp(label,at[i]->label))
 		return at[i];
 return NULL;}
-
+*/
 
 void free_actionlist(Actionlist* al){
 if (al==NULL)	return;
@@ -76,8 +87,8 @@ free(al);}
 void act_fall_tree(Instance* inst, Map* map, Ref* ref){
 int y =inst->y, x =inst->x;
 destroy_inst(inst,map);
-Interactive* stump =find_inter(ref, "stump");
-if (stump) add_inst(map,y+2,x+rand()%2+1,stump);}
+//Interactive* stump =find_inter(ref, "stump");
+if (stump) add_inst(map,y+2,x+rand()%2+1,ref->interactive[stump]);}
 
 void act_pull_stump(Instance* inst, Map* map, Ref* ref){
 destroy_inst(inst,map);}

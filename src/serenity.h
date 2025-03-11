@@ -8,11 +8,8 @@
 #include <sys/stat.h>
 #include "settings.h"
 
-//#define NB_ACTION  4 //TODO turn these into lists
-#define NB_INTER   3
-
-#define CP_NORMAL  1
-#define CP_BASE	   2
+#define CP_NORMAL	1
+#define CP_BASE		2
 
 #define NORANDOM	0
 #define RANDOM		1
@@ -22,6 +19,10 @@
 
 #define OUTDOORS	0
 #define INDOORS		1
+
+#define UNABLE		0
+#define ABLE		1
+#define SUPERABLE	2
 
 
 
@@ -66,6 +67,11 @@ typedef enum act_id{	fall_tree,
 			harvest_fruits,
 			light_fire,
 			nb_action	} AID;
+typedef enum int_id{	tree2,
+			fruittree,
+			stump,
+			umbrella,
+			nb_inter	} IID;
 
 typedef struct{ int	h,w;
 		int	**map,**info;	} Asset;
@@ -80,7 +86,6 @@ struct interactive{
 	int		h,w;
 	int		**map,**info,**inter;
 	char*		name;
-	int		nb_action_inter;
 	Actionlist*	actionlist;	};
 
 struct instance{
@@ -97,6 +102,7 @@ struct action{
 	void	(*action)(Instance* inst,Map* map,Ref* ref);};
 
 struct actionlist{
+	int		condition;
 	Action		*action;
 	Actionlist	*previous,*next;};
 
@@ -150,8 +156,8 @@ House* load_house(char* path);
 void paste_house(Map* map, House* house, int y, int x);
 void free_house(House* house);
 Interactive** create_intertable(Action** actiontable);
-Interactive* load_inter(char* path, char* name, Action** actiontable);
-Interactive* find_inter(Ref* ref, char* name);
+Interactive* load_inter(char* path, Action** actiontable);
+//Interactive* find_inter(Ref* ref, char* name);
 void free_inter(Interactive* inter);
 void free_intertable(Interactive** intertable);
 void add_inst(Map* map, int y, int x, Interactive* inter);
@@ -161,10 +167,10 @@ void free_instlist(Instance* it);
 
 Action** create_actiontable(void);
 void free_actiontable(Action** actions);
-void add_action(Actionlist** actionlist, Action* action);
+void add_action(Actionlist** actionlist, Action* action, int condition);
 void destroy_action(Actionlist* al);
 Actionlist* find_action(char* label, Actionlist* al);
-Action* find_action_table(char* label, Action** at);
+//Action* find_action_table(char* label, Action** at);
 void free_actionlist(Actionlist* al);
 void enable_light_fire(Ref* ref);
 void act_fall_tree(Instance* inst, Map* map, Ref* ref);

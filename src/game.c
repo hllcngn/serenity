@@ -7,6 +7,10 @@ WINDOW* gwin =newwin(GWIN_H,GWIN_W,gwin_pos.y,gwin_pos.x);
 WINDOW* guiwin =newwin(1,GWIN_W,gwin_pos.y-2,gwin_pos.x);
 Map *newmap,*oldmap; newmap=oldmap=map;
 char c=0; Instance* inst; do { switch (c){
+case '1':
+		add_action(&(ref->interactive[umbrella]->actionlist),
+				ref->action[light_fire], SUPERABLE);
+		break;
 case K_UP:
 case K_DOWN:
 case K_LEFT:
@@ -27,7 +31,10 @@ default:
 		 for (al=inst->inter->actionlist;
 		   al &&al->action->key!=c;
 		   al=al->next);
-		 if (al) al->action->action(inst,map,ref);}	break;}
+		 if (al)
+			if (pl->actions[al->action->id]
+				||al->condition==SUPERABLE)
+				al->action->action(inst,map,ref);}	break;}
 
 display_map(gwin, map, (v2i){pl->y,pl->x});
 display_pl(gwin, pl, map);
