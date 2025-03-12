@@ -88,4 +88,14 @@ else if (interface_style == MODERN){
 			wattron(gwin,A_UNDERLINE);
 			wmove(gwin,GWIN_H/2+i,GWIN_W/2+1+al->action->c);
 			waddch(gwin,al->action->label[al->action->c]);
+			wattroff(gwin,A_UNDERLINE);}}
+		for (Actionlist *al=in->actionlist; al; al=al->next){
+		Actionlist* plal =find_action(al->action->label,pl->actionlist);
+		if ((plal &&plal->condition) ||al->condition==SUPERABLE){
+			i++;
+			mvwprintw(gwin,GWIN_H/2+i,GWIN_W/2+1,"%s",al->action->label);
+			wattron(gwin,A_UNDERLINE);
+			wmove(gwin,GWIN_H/2+i,GWIN_W/2+1+al->action->c);
+			waddch(gwin,al->action->label[al->action->c]);
 			wattroff(gwin,A_UNDERLINE);}}}}
+			//}}

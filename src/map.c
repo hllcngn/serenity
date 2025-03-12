@@ -50,7 +50,7 @@ free_asset(atree1);
 Asset* aumbrella =load_asset("ass/assets/umbrella.txt");
 paste_asset(map,aumbrella,yhouse+20,xhouse+5);
 free_asset(aumbrella);
-add_inst(map,yhouse+20,xhouse+30,ref->interactive[umbrella]);
+Instance* uminst =add_inst(map,yhouse+20,xhouse+30,ref->interactive[umbrella]);
 
 //add_inst(map,20,20,ref->interactive[0]);
 //add_inst(map,20,30,ref->interactive[0]);
@@ -60,6 +60,7 @@ add_inst(map,yhouse+20,xhouse+30,ref->interactive[umbrella]);
 //-> I can make the house fully collisionable bg now
 //-> check collisions on background items only
 //-> blckd might be useful in the future
+//=>check collision on instance spawning instead
 for (int i=0;i<map->w/3;i++){
 	int yinst =rand()%(map->h-20)+10, xinst =rand()%(map->w-20)+10;
 	if (!(blckd[yinst][xinst]) &&!(blckd[yinst+ref->interactive[1]->h][xinst])

@@ -76,8 +76,10 @@ typedef struct game World;
 {	int		id;
 	int		y,x;
 	Interactive*	inter;
-	Instance	*previous,*next;
-};
+	Actionlist*	actionlist;
+	Instance	*previous,*next; //TODO maybe i don't need
+};					//it to be double linked
+					//no that's useful to erase items easily
 typedef enum int_id{	tree2,
 			fruittree,
 			stump,
@@ -94,8 +96,8 @@ typedef enum int_id{	tree2,
 }; struct actionlist
 {	int		condition;
 	Action		*action;
-	Actionlist	*previous,*next;
-};
+	Actionlist	*previous,*next; //TODO maybe i don't need
+};					//it to be double linked
 typedef enum act_id{	fall_tree,
 			pull_stump,
 			harvest_fruits,
@@ -128,8 +130,9 @@ Interactive** create_intertable(Action** actiontable);
 Interactive* load_inter(char* path, Action** actiontable);
 void free_inter(Interactive* inter);
 void free_intertable(Interactive** intertable);
-void add_inst(Map* map, int y, int x, Interactive* inter);
+Instance* add_inst(Map* map, int y, int x, Interactive* inter);
 Instance* check_inst(v2i pos, Map* map);
+Instance* find_inst(Ref* ref, Map* map, Interactive* inter);
 void destroy_inst(Instance* it, Map* map);
 void free_instlist(Instance* it);
 

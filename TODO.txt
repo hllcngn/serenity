@@ -2,41 +2,56 @@ serenity - TODO.txt
 urgent:
 
 new:
-> adapt gameplay to hue
-2 house
-- saving map
+~ saving map
 - use of random trees assets
 - fix create_map with inst collisions
 - trees overlap
 - overlapping interactives bug
-3 mobs
+- check adding duplicates actions to actionlist
+- mobs
 - figure out frame timer for entities actions
+- improve map name generation
+- update oldschool mode
+- create functional settings presets
+- make map int** tp into sth not such a large array
+  or merge it with int** inter
 x day/night cycle
 x deactivate day/night cycle
-v modern mode
-x scroll decoration
+- adapt gameplay to hue
 
 important:
-v  basic interface decoration (title screen, in-game....)
--> make the map a little bigger so that assets can overlap the edges for a more natural feel (maybe this will be sorted out with map sculpting)
+v basic interface decoration (title screen, in-game....)
+- interface decoration: player name
+x scroll decoration
+- make the map a little bigger so that assets can overlap the edges for a more natural feel (maybe this will be sorted out with map sculpting)
 
 improvements:
-v review start.c
-. move actionlist functions to assets.c ?
-. simplify assets.c using tool functions
-. review drawing.c and game.c
-. homogenize functions arg order
-. Game structure ?
-. why am i not using getline instead of my own fread_line?
-   Because I tested all that in the past already, and none of fread, fgets or getline does exactly what I need
+- move actionlist functions to assets.c ?
+~ simplify assets.c using tool functions
+- review drawing.c and game.c
+~ homogenize functions arg order
+- Game structure ?
+~ World structure
+- moving through more than 2 maps
 
 tweaks:
-- assets name in their files
-. improve the code
-. use enums
+- assets name in their files(?)
 
 
-X Menus:
+Instances:
+v have a table of all interactive assets to refer to
+v list pointers to unique interactive assets
+
+
+V Actions:
+v create table of all actions
+v when loading inter, associate actions
+v actions conditions on ref inter and player
+- actions conditions on individual instances
+- change lists to realloc arrays?
+
+
+X Complex menus:
 - settings struct
 - big menu funct (display, hide)
 - menu submenus tables
@@ -53,22 +68,6 @@ X Menus:
 x ig settings submenus 1 hue
 x random hue can be modified through ig settings panel
 -> keep changes/discard/apply changes (intermediary settings struct variable)
-
-
-V Actions: (actions are in lists on instances bc interactives can be modified so that possible actions are modified
-	possibly environment changes can affect the available actions on a given interactive.
-	this might need to be handled by the player, but i don't see how it could keep track of numerous such modificators
-	we can also imagine that depending on player skill, some actions become possible later on in the game.
-	also this prevents from hitting the bottom of the array when looking for an action
-	to sort this out we could reset an action array when the interactive is modified
-	or we could have a table of what interactive got what actions depending on their state.)
--> create table of all actions
--> when loading inter, associate actions
-
-
-Instances:
--> have a table of all interactive assets to refer to
--> list pointers to unique interactive assets
 
 
 beyond:
