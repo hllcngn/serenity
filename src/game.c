@@ -15,6 +15,9 @@ case '2':
 		inst =find_inst(ref, map, ref->interactive[umbrella]);
 		add_action(&(inst->actionlist), ref->action[light_fire], SUPERABLE);
 		break;
+case '3':
+		add_action(&(pl->actionlist), ref->action[light_fire], SUPERABLE);
+		break;
 case K_UP:
 case K_DOWN:
 case K_LEFT:
@@ -38,6 +41,11 @@ default:
 				al=al->next);
 		if (!al){
 			for (al=inst->actionlist;
+				al &&al->action->key!=c;
+				al=al->next);
+		}
+		if (!al){
+			for (al=pl->actionlist;
 				al &&al->action->key!=c;
 				al=al->next);
 		}

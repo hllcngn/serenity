@@ -78,8 +78,8 @@ if (interface_style == OLDSCHOOL){ //TODO action conditions in OLDSCHOOL mode
 		i++; al2=al;}
 	wmove(gwin,GWIN_H/2+2+i,GWIN_W/2+1);
 	for (int i=0;i<al2->action->labellen+2;i++) waddch(gwin,'-');}
-else if (interface_style == MODERN){
-	wattron(gwin,COLOR_PAIR(CP_NORMAL));
+else if (interface_style == MODERN){ //TODO craft a list of possible actions
+	wattron(gwin,COLOR_PAIR(CP_NORMAL)); //to avoid repeated labels
 	int i=0; for (Actionlist *al=in->inter->actionlist; al; al=al->next){
 		Actionlist* plal =find_action(al->action->label,pl->actionlist);
 		if ((plal &&plal->condition) ||al->condition==SUPERABLE){
@@ -89,6 +89,12 @@ else if (interface_style == MODERN){
 			wmove(gwin,GWIN_H/2+i,GWIN_W/2+1+al->action->c);
 			waddch(gwin,al->action->label[al->action->c]);
 			wattroff(gwin,A_UNDERLINE);}}
+		/* action arrays tryout
+		for (int i=0; i<in->nb_action; i++){
+			Actiontoken* at =in->actiontokens[i];
+			Actiontoken* atpl =find_action(at->action,pl->actiontokens);
+			if (atpl &&atpl->condition ||at->condition==SUPERABLE)
+				print(at->action->label);}	*/
 		for (Actionlist *al=in->actionlist; al; al=al->next){
 		Actionlist* plal =find_action(al->action->label,pl->actionlist);
 		if ((plal &&plal->condition) ||al->condition==SUPERABLE){
@@ -97,5 +103,12 @@ else if (interface_style == MODERN){
 			wattron(gwin,A_UNDERLINE);
 			wmove(gwin,GWIN_H/2+i,GWIN_W/2+1+al->action->c);
 			waddch(gwin,al->action->label[al->action->c]);
+			wattroff(gwin,A_UNDERLINE);}}
+		for (Actionlist *al=pl->actionlist; al; al=al->next){
+		if (al &&al->condition==SUPERABLE){
+			i++;
+			mvwprintw(gwin,GWIN_H/2+i,GWIN_W/2+1,"%s",al->action->label);
+			wattron(gwin,A_UNDERLINE);
+			wmove(gwin,GWIN_H/2+i,GWIN_W/2+1+al->action->c);
+			waddch(gwin,al->action->label[al->action->c]);
 			wattroff(gwin,A_UNDERLINE);}}}}
-			//}}

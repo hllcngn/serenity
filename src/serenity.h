@@ -19,8 +19,9 @@
 #define INDOORS		1
 
 #define UNABLE		0
-#define ABLE		1
-#define SUPERABLE	2
+#define POSSIBLE	1
+#define ABLE		2
+#define SUPERABLE	3
 typedef struct{ int	y,x;	} v2i;
 typedef struct{	float	i,j,k;	} v3f;
 
