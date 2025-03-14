@@ -1,20 +1,4 @@
 #include "serenity.h"
-//lists of actions are useful when i want to add a particular action
-//to a specific asset, upon a special condition
-//otherwise i would need to have conditions per inter
-//in addition to conditions on the player
-//actually
-//if i had tables of actions on each inter
-//it would be easier to also have a table of conditions
-//or
-//i associate a condition to each actionlist
-//that way i can still pull the suddenly you're able to set
-//the altar -or say, umbrella-  on fire even though it's
-//stone/not normally possible but you have that superpower now
-//or would the condition for an action always be 1
-//and actually the umbrella is an asset not an inter
-//i could homogenize everything and make all assets inters
-
 Action** create_actiontable(){
 Action** action =malloc(sizeof(Action*)*nb_action);
 for (int i=0;i<nb_action;i++)
@@ -69,6 +53,10 @@ for (Actionlist* all=al; all; all=all->next)
 	if (!strcmp(label,all->action->label))
 		return all;
 return NULL;}
+Actionlist* find_action_key(char key, Actionlist* al){
+Actionlist* all;
+for (all=al; all &&all->action->key!=key; all=all->next);
+return all;}
 /*
 Action* find_action_table(char* label, Action** at){
 for (int i=0; i<nb_action; i++)
@@ -83,6 +71,16 @@ free_actionlist(al->next);
 free(al);}
 
 
+void act(Ref* ref, Map* map, Player* pl, char c){
+int inst_id =map->it[pl->y][pl->x];
+if (inst_id){ Instance* inst =find_inst_id(map, inst_id);
+if (inst){ Actionlist* plal =find_action_key(c,pl->actionlist);
+	Actionlist* al =find_action_key(c,inst->inter->actionlist);
+	if (!al) al =find_action_key(c,inst->actionlist);
+	if ((al &&plal &&plal->condition==ABLE)
+		||(plal &&plal->condition==SUPERABLE)
+		||(al &&al->condition==SUPERABLE))
+		al->action->action(inst,map,ref);}}}
 
 void act_fall_tree(Instance* inst, Map* map, Ref* ref){
 int y =inst->y, x =inst->x;

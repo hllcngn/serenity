@@ -123,15 +123,22 @@ for (int xx=0;xx<inst->inter->w;xx++)  //copy arr tool funct
 return inst;}
 
 Instance* check_inst(v2i pos, Map* map){
-if (map->it[pos.y][pos.x]){
-Instance* it; for (it=map->inst;
-it &&it->id!=map->it[pos.y][pos.x];
-it=it->next);	return it;}	return NULL;}
-
+int id =map->it[pos.y][pos.x];
+if (id)	for (Instance* it=map->inst; it; it=it->next)
+	if (it->id==id) return it;
+return NULL;}
+Instance* get_inter_inst(Map* map, int y, int x){
+int id =map->it[y][x];
+if (id)	for (Instance* it=map->inst; it; it=it->next)
+	if (it->id==id) return it;
+return NULL;}
+Instance* find_inst_id(Map* map, int id){
+for (Instance* it=map->inst; it; it=it->next)
+	if (it->id==id) return it;
+return NULL;}
 Instance* find_inst(Ref* ref, Map* map, Interactive* inter){
 for (Instance* inst=map->inst; inst; inst=inst->next)
-	if (inst->inter == inter)
-		return inst;
+	if (inst->inter==inter) return inst;
 return NULL;}
 
 void destroy_inst(Instance* it, Map* map){

@@ -18,6 +18,9 @@ case '2':
 case '3':
 		add_action(&(pl->actionlist), ref->action[light_fire], SUPERABLE);
 		break;
+case '4':
+		add_action(&(pl->actionlist), ref->action[light_fire], ABLE);
+		break;
 case K_UP:
 case K_DOWN:
 case K_LEFT:
@@ -31,29 +34,8 @@ case K_RIGHT:	newmap=movement(c,pl,map,oldmap);
 				pl->x =pl->x-map->house->x;}
 			map=newmap;
 		} break;
-
-default:
-	inst =check_inst((v2i){pl->y,pl->x},map);
-	if (inst &&inst->inter->inter[pl->y-inst->y][pl->x-inst->x]=='i'){
-		Actionlist* al;
-		for (al=inst->inter->actionlist;
-				al &&al->action->key!=c;
-				al=al->next);
-		if (!al){
-			for (al=inst->actionlist;
-				al &&al->action->key!=c;
-				al=al->next);
-		}
-		if (!al){
-			for (al=pl->actionlist;
-				al &&al->action->key!=c;
-				al=al->next);
-		}
-		if (al){
-			Actionlist* plal =find_action(al->action->label,pl->actionlist);
-			if ((plal &&plal->condition) ||al->condition==SUPERABLE)
-				al->action->action(inst,map,ref);}
-		} break;}
+default:	act(ref, map, pl, c);	break;
+}
 
 display_map(gwin, map, (v2i){pl->y,pl->x});
 display_pl(gwin, pl, map);
