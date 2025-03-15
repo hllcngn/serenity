@@ -1,24 +1,20 @@
 #include "serenity.h"
 
-int game(v3f hue, Map* map, Player* pl, Ref *ref, int interface_style){
-//enable_light_fire(pl,ref);
-v2i gwin_pos ={(LINES-GWIN_H)/2,(COLS-GWIN_W)/2};
-WINDOW* gwin =newwin(GWIN_H,GWIN_W,gwin_pos.y,gwin_pos.x);
-WINDOW* guiwin =newwin(1,GWIN_W,gwin_pos.y-2,gwin_pos.x);
+int game(v3f hue, Map* map, Player* pl, Ref* ref, Ui* ui){
 Map *newmap,*oldmap; newmap=oldmap=map;
 char c=0; Instance* inst; do { switch (c){
-case '1':
+case '1': //adding super action to interactive reference
 		add_action(&(ref->interactive[umbrella]->actionlist),
 				ref->action[light_fire], SUPERABLE);
 		break;
-case '2':
+case '2': //adding super action to specific instance
 		inst =find_inst(ref, map, ref->interactive[umbrella]);
 		add_action(&(inst->actionlist), ref->action[light_fire], SUPERABLE);
 		break;
-case '3':
+case '3': //adding super action to the player
 		add_action(&(pl->actionlist), ref->action[light_fire], SUPERABLE);
 		break;
-case '4':
+case '4': //adding normal action to the player
 		add_action(&(pl->actionlist), ref->action[light_fire], ABLE);
 		break;
 case K_UP:
@@ -37,16 +33,15 @@ case K_RIGHT:	newmap=movement(c,pl,map,oldmap);
 default:	act(ref, map, pl, c);	break;
 }
 
-display_map(gwin, map, (v2i){pl->y,pl->x});
-display_pl(gwin, pl, map);
+display_map(ui->gamw, map, (v2i){pl->y,pl->x});
+display_pl(ui->gamw, pl, map);
 Instance* in =check_inst((v2i){pl->y,pl->x},map);
 if (in &&in->inter->inter[pl->y-in->y][pl->x-in->x]=='i')
-	display_notice(gwin,pl,in,(v2i){pl->y,pl->x},map,interface_style);
-wrefresh(gwin);
-display_gui(guiwin,pl,map);
-wrefresh(guiwin);
-} while((c=getch())!=K_QUIT);
-delwin(gwin); return 0;}
+	display_notice(ui->gamw,pl,in,(v2i){pl->y,pl->x},map,ui->style);
+wrefresh(ui->gamw);
+display_gui(ui->guiw,pl,map);
+wrefresh(ui->guiw);
+} while((c=getch())!=K_QUIT);	return 0;}
 
 
 

@@ -26,16 +26,23 @@ Player*	pl;
 //else	new_game(&hue, &map, &difficulty, &pl, NORANDOM);
 create_map(map,ref);
 
+// creating ui
+Ui* ui =malloc(sizeof(Ui));
+v2i gamw_pos ={(LINES-GWIN_H)/2,(COLS-GWIN_W)/2};
+ui->gamw =newwin(GWIN_H,GWIN_W,gamw_pos.y,gamw_pos.x);
+ui->guiw =newwin(1,GWIN_W,gamw_pos.y-2,gamw_pos.x);
+//ui->style =OLDSCHOOL;
+ui->style =MODERN;
+
 // launch game
-//game(hue, map, pl, ref, OLDSCHOOL);
-game(hue, map, pl, ref, MODERN);
+game(hue, map, pl, ref, ui);
 
 // end
 free_actiontable(ref->action); free_intertable(ref->interactive); free(ref);
 free_player(pl); free_map(map);
+delwin(ui->gamw); delwin(ui->guiw); free(ui);
 endwin(); return 0;}
 
-//mvprintw(0,0,"segv\n");getch();
 
 
 void title_screen(){

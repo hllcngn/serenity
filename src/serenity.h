@@ -26,6 +26,7 @@ typedef struct{ int	y,x;	} v2i;
 typedef struct{	float	i,j,k;	} v3f;
 
 typedef struct ref Ref;
+typedef struct ui Ui;
 typedef struct asset Asset;
 typedef struct house House;
 typedef struct player Player;
@@ -57,6 +58,10 @@ typedef struct game World;
 	Instance*	inst;	//TODO add a max n of instances
 	House*		house;
 };			//TODO multiple houses per map
+   struct ui
+{	WINDOW		*gamw,*guiw;
+	int		style;
+};
 
 // = all assets =
    struct asset
@@ -106,7 +111,7 @@ typedef enum act_id{	fall_tree,
 			nb_action	}AID;
 
 // = game.c =
-int game(v3f hue, Map* map, Player* pl, Ref* ref, int interface_style);
+int game(v3f hue, Map* map, Player* pl, Ref* ref, Ui* ui);
 Map* movement(char c, Player* pl, Map* map, Map* oldmap);
 int check_collision(v2i pos, Map* map);
 int check_tp(v2i pos, Map* map);
