@@ -3,7 +3,7 @@
 void display(Ui* ui, Player* pl, Map* map){
 display_map(ui->gamw, map, (v2i){pl->y,pl->x});
 display_pl(ui->gamw, pl, map);
-Instance* in =check_inst((v2i){pl->y,pl->x},map);
+Instance* in =get_inst(map, pl->y, pl->x);
 if (in &&in->inter->inter[pl->y-in->y][pl->x-in->x]=='i')
 	display_notice(ui->gamw,pl,in,map,ui->style);
 wrefresh(ui->gamw);
@@ -38,22 +38,23 @@ for (; y<GWIN_H; y++){
 	wmove(gwin,y,0);
 	for (int x=0;x<GWIN_W;x++) waddch(gwin,' ');}
 
+//TODO more efficient way to draw instances
 for (Instance* in=map->inst; in; in=in->next)
 if     (in->y+in->inter->h>cam.y &&in->y<cam.y+GWIN_H
       &&in->x+in->inter->w>cam.x &&in->x<cam.x+GWIN_W){
 int yy =in->y<cam.y? cam.y-in->y :0;
 for (yy; yy<in->inter->h &&in->y+yy<cam.y+GWIN_H; yy++){
 	int xx =in->x<cam.x? cam.x-in->x :0;
-	for (xx; xx<in->inter->w &&in->x+xx<cam.x+GWIN_W; xx++){
-		wmove(gwin, GWIN_H-(cam.y+GWIN_H-in->y)+yy,
-			    GWIN_W-(cam.x+GWIN_W-in->x)+xx);
+	for (xx; xx<in->inter->w &&in->x+xx<cam.x+GWIN_W; xx++)
 		if (in->inter->map[yy][xx]!=' ')
-			waddch(gwin,in->inter->map[yy][xx]);}}}}
+			mvwaddch(gwin,
+				in->y+yy-cam.y, in->x+xx-cam.x,
+				in->inter->map[yy][xx]);}}}
 
 
 void display_pl(WINDOW* gwin, Player* pl, Map* map){
 if (map->fg[pl->y][pl->x]) return;
-Instance* in =check_inst((v2i){pl->y,pl->x},map);
+Instance* in =get_inst(map, pl->y, pl->x);
 if (in &&in->inter->info[pl->y-in->y][pl->x-in->x]=='f') return;
 wmove(gwin,GWIN_H/2,GWIN_W/2); //TODO exact coordinates
 wattron(gwin,COLOR_PAIR(CP_NORMAL));

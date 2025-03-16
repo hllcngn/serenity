@@ -15,6 +15,7 @@ new:
 - create functional settings presets
 - make map int** tp into sth not such a large array
   or merge it with int** inter
+- add name field to all structures for ease of debug
 x day/night cycle
 x deactivate day/night cycle
 - adapt gameplay to hue

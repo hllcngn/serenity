@@ -27,6 +27,7 @@ typedef struct{ int	y,x;	} v2i;
 typedef struct{	float	i,j,k;	} v3f;
 
 typedef struct ui Ui;
+typedef struct game Game;
 typedef struct settings Settings;
 typedef struct ref Ref;
 typedef struct player Player;
@@ -45,9 +46,11 @@ struct ui{
 	WINDOW		*gamw,*guiw;
 	int		style;
 };
-struct settings{
+struct game{
 	v3f	hue;
 	int	difficulty;
+};
+struct settings{
 };
 
 // = game objects =
@@ -142,11 +145,21 @@ enum action_id{
 // = start.c =
 void title_screen(void);
 
+// = menus.c =
+Ui* create_ui(void);
+void free_ui(Ui* ui);
+Game* new_game(Ref* ref, Player** pl, Map** map, int random);
+void free_game(Game* game);
+v3f hue_selection(int);
+Map* mapsize_selection(int);
+int choose_difficulty(int);
+void set_names(Map*, Player*, int);
+
 // = game.c =
-int game(Settings* sett, Ui* ui, Ref* ref, Player* pl, Map* map);
-Map* movement(char c, Player* pl, Map* map, Map* oldmap);
-int check_collision(v2i pos, Map* map);
-int check_tp(v2i pos, Map* map);
+int run_game(Game* game, Ui* ui, Ref* ref, Player* pl, Map* map);
+Map* movement(Player* pl, Map* map, Map* oldmap, char c);
+int check_collision(Map* map, int y, int x);
+int check_tp(Map* map, int y, int x);
 
 // = player.c =
 Player* create_player(Ref* ref, char* name, int y, int x, int hp);
@@ -172,10 +185,9 @@ Interactive* load_inter(char* path, Action** actiontable);
 void free_inter(Interactive* inter);
 void free_intertable(Interactive** intertable);
 Instance* add_inst(Map* map, int y, int x, Interactive* inter);
-Instance* check_inst(v2i pos, Map* map);
-Instance* get_inter_inst(Map* map, int x, int y);
+Instance* get_inst(Map* map, int x, int y);
 Instance* find_inst_id(Map* map, int id);
-Instance* find_inst(Ref* ref, Map* map, Interactive* inter);
+Instance* find_inst_inter(Ref* ref, Map* map, Interactive* inter);
 void destroy_inst(Instance* it, Map* map);
 void free_instlist(Instance* it);
 
@@ -204,15 +216,6 @@ void display_gui(WINDOW* guiwin, Player* pl, Map* map);
 // = anim.c =
 Anim** create_animtable(void);
 void free_animtable(Anim** at);
-
-// = menus.c =
-Ui* create_ui(void);
-void free_ui(Ui* ui);
-Settings* new_game(Ref* ref, Player** pl, Map** map, int random);
-v3f hue_selection(int);
-Map* mapsize_selection(int);
-int choose_difficulty(int);
-void set_names(Map*, Player*, int);
 
 // = tool functions =
 int** malloc_arrayint2(int h,int w);

@@ -1,12 +1,12 @@
 #include "serenity.h"
 
-int game(Settings* sett, Ui* ui, Ref* ref, Player* pl, Map* map){
+int run_game(Game* game, Ui* ui, Ref* ref, Player* pl, Map* map){
 Map *newmap,*oldmap; newmap=oldmap=map;
 char c=0; Instance* inst; do { switch (c){
 case K_UP:
 case K_DOWN:
 case K_LEFT:
-case K_RIGHT:	newmap=movement(c,pl,map,oldmap);
+case K_RIGHT:	newmap=movement(pl,map,oldmap,c);
 		if (newmap!=map){
 			if (newmap->type ==OUTDOORS){
 				pl->y =newmap->house->y+pl->y;
@@ -25,43 +25,41 @@ display(ui, pl, map);
 
 
 
-Map* movement(char c, Player* pl, Map* map, Map* oldmap){
+Map* movement(Player* pl, Map* map, Map* oldmap, char c){
 Map* newmap=map;
 int tp; switch (c){
-case K_UP:    if(!check_collision((v2i){pl->y-1,pl->x}, map)){
+case K_UP:    if(!check_collision(map, pl->y-1, pl->x)){
 			pl->y--;
-			if(check_tp((v2i){pl->y,pl->x},map)){
+			if(check_tp(map, pl->y, pl->x)){
 				save_map(map);
 				if (map->type==OUTDOORS)
 					newmap =load_map(map->house,map);
 				else	newmap =oldmap;}
 	      } break;
-case K_DOWN:    if(!check_collision((v2i){pl->y+1,pl->x}, map)){
+case K_DOWN:    if(!check_collision(map, pl->y+1, pl->x)){
 			pl->y++;
-			if(check_tp((v2i){pl->y,pl->x},map)){
+			if(check_tp(map, pl->y, pl->x)){
 				save_map(map);
 				if (map->type==OUTDOORS)
 					newmap =load_map(map->house,map);
 				else	newmap =oldmap;}
 	      } break;
-case K_LEFT:  if(!check_collision((v2i){pl->y,pl->x-1}, map))
+case K_LEFT:  if(!check_collision(map, pl->y, pl->x-1))
 			pl->x--;	break;
-case K_RIGHT: if(!check_collision((v2i){pl->y,pl->x+1}, map))
+case K_RIGHT: if(!check_collision(map, pl->y, pl->x+1))
 			pl->x++;	break;
 default:				break;}
 return newmap;}
 
-int check_collision(v2i pos, Map* map){
-if (pos.y>=0	  &&pos.x>=0
-  &&pos.y<map->h  &&pos.x<map->w
-  &&!map->clsn[pos.y][pos.x]){
-	Instance* it =check_inst(pos,map);
-	if (it &&it->inter->info[pos.y-it->y][pos.x-it->x]=='X')
-		return 1;
-	return 0;}
-return 1;}
 
-int check_tp(v2i pos, Map* map){
-if (map->tp[pos.y][pos.x])
-	return map->tp[pos.y][pos.x];
+int check_collision(Map* map, int y, int x){
+if (y<0 ||x<0 ||y>=map->h ||x>=map->w)	return 1;
+if (map->clsn[y][x])			return 1;
+Instance* it =get_inst(map, y, x);
+if (it &&it->inter->info[y-it->y][x-it->x]=='X') return 1;
+return 0;}
+
+int check_tp(Map* map, int y, int x){
+if (y>=0 &&x>=0 &&y<map->h &&x<map->w)
+	return map->tp[y][x];
 return 0;}

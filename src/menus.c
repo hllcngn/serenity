@@ -13,16 +13,19 @@ delwin(ui->guiw);
 free(ui);}
 
 
-Settings* new_game(Ref* ref, Player** pl, Map** map, int random){
-Settings* sett =malloc(sizeof(Settings));
-sett->hue	=hue_selection(random);
+Game* new_game(Ref* ref, Player** pl, Map** map, int random){
+Game* game =malloc(sizeof(Game));
+game->hue	=hue_selection(random);
 *map	=mapsize_selection(random);
 if (!random){ clear_screen(CP_BASE); refresh();}
-sett->difficulty	=choose_difficulty(random);
+game->difficulty	=choose_difficulty(random);
 *pl     =create_player(ref,NULL,(*map)->h/2+5,(*map)->w/2,50);
 if (!random){ clear_screen(CP_BASE); refresh();}
 set_names(*map,*pl, random);
 clear_screen(CP_BASE); refresh();}
+
+void free_game(Game* game){
+free(game);}
 
 
 v3f hue_selection(int random){

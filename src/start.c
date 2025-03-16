@@ -16,16 +16,16 @@ Ref* ref =load_ref(); //loading assets reference
 
 Map*	map; //creating new game
 Player*	pl;
-Settings* sett;
+Game*	game;
 //if (ac>1 && !strcmp(av[1],"random"))
-	sett =new_game(ref, &pl, &map, RANDOM);
-//else	sett =new_game(ref, &pl, &map, NORANDOM);
+	game =new_game(ref, &pl, &map, RANDOM);
+//else	game =new_game(ref, &pl, &map, NORANDOM);
 create_map(ref, map);
 
-game(sett, ui, ref, pl, map); //launching game
+run_game(game, ui, ref, pl, map); //launching game
 
 free_ref(ref); free_player(pl); free_map(map); //end
-free_ui(ui); endwin(); return 0;}
+free_game(game); free_ui(ui); endwin(); return 0;}
 
 
 void title_screen(){
