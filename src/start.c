@@ -1,34 +1,31 @@
 #include "serenity.h"
 
-
 int main(int ac, char** av){
 srand(time(NULL)); //init
 initscr(); cbreak(); noecho(); curs_set(0); start_color(); refresh();
 init_color(COLOR_BLACK,rand()%100,rand()%100,rand()%100);
-init_color(COLOR_WHITE,rand()%600+400,rand()%600+400,rand()%600+400);
+init_color(COLOR_WHITE,rand()%600+400,rand()%600+400,rand()%550+450);
 
 //title_screen();
-
-Ref* ref =load_ref(); //loading assets reference
-
-v3f	hue; //creating new game
-Map*	map;
-int	difficulty;
-Player*	pl;
-//if (ac>1 && !strcmp(av[1],"random"))
-	new_game(ref, &hue, &map, &difficulty, &pl, RANDOM);
-//else	new_game(&hue, &map, &difficulty, &pl, NORANDOM);
-create_map(map, ref);
 
 Ui* ui =create_ui(); //creating ui
 //ui->style =OLDSCHOOL;
 ui->style =MODERN;
 
-game(hue, map, pl, ref, ui); //launching game
+Ref* ref =load_ref(); //loading assets reference
+
+Map*	map; //creating new game
+Player*	pl;
+Settings* sett;
+//if (ac>1 && !strcmp(av[1],"random"))
+	sett =new_game(ref, &pl, &map, RANDOM);
+//else	sett =new_game(ref, &pl, &map, NORANDOM);
+create_map(ref, map);
+
+game(sett, ui, ref, pl, map); //launching game
 
 free_ref(ref); free_player(pl); free_map(map); //end
 free_ui(ui); endwin(); return 0;}
-
 
 
 void title_screen(){

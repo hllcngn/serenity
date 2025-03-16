@@ -1,6 +1,6 @@
 #include "serenity.h"
 
-void create_map(Map* map, Ref* ref){
+void create_map(Ref* ref, Map* map){
 map->type =OUTDOORS;
 map->bg   =malloc_arraychar2(map->h,map->w);
 map->clsn =calloc_arraychar2(map->h,map->w);

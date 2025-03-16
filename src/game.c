@@ -1,6 +1,6 @@
 #include "serenity.h"
 
-int game(v3f hue, Map* map, Player* pl, Ref* ref, Ui* ui){
+int game(Settings* sett, Ui* ui, Ref* ref, Player* pl, Map* map){
 Map *newmap,*oldmap; newmap=oldmap=map;
 char c=0; Instance* inst; do { switch (c){
 case K_UP:
