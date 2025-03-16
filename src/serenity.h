@@ -32,6 +32,7 @@ typedef struct house House;
 typedef struct player Player;
 typedef struct interactive Interactive;
 typedef struct instance	Instance;
+typedef struct anim Anim;
 typedef struct action Action;
 typedef struct actionlist Actionlist;
 typedef struct map Map;
@@ -39,8 +40,9 @@ typedef struct game World;
 
 // = game objects =
    struct ref
-{	Action**	action;
-	Interactive**	interactive;
+{	Interactive**	interactive;
+	Action**	action;
+	Anim**		anim;
 }; struct player
 {	int		y,x;
 	int		hp;
@@ -78,6 +80,11 @@ typedef struct game World;
 	int		**map,**info,**inter;
 	char*		name;
 	Actionlist*	actionlist;
+}; enum inter_id{	tree2,
+			fruittree,
+			stump,
+			umbrella,
+			nb_inter
 }; struct instance
 {	int		id;
 	int		y,x;
@@ -86,11 +93,11 @@ typedef struct game World;
 	Instance	*previous,*next; //TODO maybe i don't need
 };					//it to be double linked
 					//no that's useful to erase items easily
-typedef enum int_id{	tree2,
-			fruittree,
-			stump,
-			umbrella,
-			nb_inter	}IID;
+struct anim
+{	int		n;
+	char*		chars;
+}; enum anim_id{	fire,
+			nb_anim	};
 
 // = actions system =
    struct action
@@ -104,11 +111,12 @@ typedef enum int_id{	tree2,
 	Action		*action;
 	Actionlist	*previous,*next; //TODO maybe i don't need
 };					//it to be double linked
-typedef enum act_id{	fall_tree,
+enum action_id{	fall_tree,
 			pull_stump,
 			harvest_fruits,
 			light_fire,
-			nb_action	}AID;
+			nb_action
+};
 
 // = game.c =
 int game(v3f hue, Map* map, Player* pl, Ref* ref, Ui* ui);
@@ -165,6 +173,11 @@ void display_map(WINDOW* gwin, Map* map, v2i pos);
 void display_pl(WINDOW* gwin, Player* pl, Map* map);
 void display_notice(WINDOW* gwin, Player* pl, Instance* in, v2i pos, Map* map, int interface_style);
 void display_gui(WINDOW* guiwin, Player* pl, Map* map);
+
+// = anim.c =
+Anim** create_animtable(void);
+void free_animtable(Anim** at);
+
 
 // = start.c =
 void title_screen(void);

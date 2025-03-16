@@ -15,6 +15,7 @@ init_color(COLOR_WHITE,rand()%600+400,rand()%600+400,rand()%600+400);
 Ref	*ref =malloc(sizeof(Ref));
 ref->action =create_actiontable();
 ref->interactive =create_intertable(ref->action);
+ref->anim =create_animtable();
 
 // creating new game
 v3f	hue;
@@ -38,7 +39,8 @@ ui->style =MODERN;
 game(hue, map, pl, ref, ui);
 
 // end
-free_actiontable(ref->action); free_intertable(ref->interactive); free(ref);
+free_actiontable(ref->action); free_intertable(ref->interactive);
+free_animtable(ref->anim); free(ref);
 free_player(pl); free_map(map);
 delwin(ui->gamw); delwin(ui->guiw); free(ui);
 endwin(); return 0;}

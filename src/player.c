@@ -9,6 +9,7 @@ pl->hp =hp;
 pl->actionlist =NULL;
 add_action(&(pl->actionlist), ref->action[fall_tree], ABLE);
 add_action(&(pl->actionlist), ref->action[harvest_fruits], ABLE);
+add_action(&(pl->actionlist), ref->action[light_fire], SUPERABLE);
 return pl;}
 
 void free_player(Player* pl){

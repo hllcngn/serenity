@@ -3,20 +3,6 @@
 int game(v3f hue, Map* map, Player* pl, Ref* ref, Ui* ui){
 Map *newmap,*oldmap; newmap=oldmap=map;
 char c=0; Instance* inst; do { switch (c){
-case '1': //adding super action to interactive reference
-		add_action(&(ref->interactive[umbrella]->actionlist),
-				ref->action[light_fire], SUPERABLE);
-		break;
-case '2': //adding super action to specific instance
-		inst =find_inst(ref, map, ref->interactive[umbrella]);
-		add_action(&(inst->actionlist), ref->action[light_fire], SUPERABLE);
-		break;
-case '3': //adding super action to the player
-		add_action(&(pl->actionlist), ref->action[light_fire], SUPERABLE);
-		break;
-case '4': //adding normal action to the player
-		add_action(&(pl->actionlist), ref->action[light_fire], ABLE);
-		break;
 case K_UP:
 case K_DOWN:
 case K_LEFT:

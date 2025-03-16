@@ -3,11 +3,11 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-#define FPS 10
+#define FPS 8
 #define H 4
 #define W 6
-#define FIRE_CHARS_N 4
-char fire_chars[FIRE_CHARS_N] ={'(',')','`',';'};
+#define FIRE_CHARS_N 5
+char fire_chars[FIRE_CHARS_N] ={'(',')','`',',',':'};
 
 int main(int ac,char** av){
 srand(time(NULL));
