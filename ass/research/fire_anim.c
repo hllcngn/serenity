@@ -4,8 +4,8 @@
 #include <stdlib.h>
 
 #define FPS 8
-#define H 4
-#define W 6
+#define H 16
+#define W 24
 #define FIRE_CHARS_N 5
 char fire_chars[FIRE_CHARS_N] ={'(',')','`',',',':'};
 

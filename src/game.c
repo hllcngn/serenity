@@ -19,14 +19,8 @@ case K_RIGHT:	newmap=movement(c,pl,map,oldmap);
 default:	act(ref, map, pl, c);	break;
 }
 
-display_map(ui->gamw, map, (v2i){pl->y,pl->x});
-display_pl(ui->gamw, pl, map);
-Instance* in =check_inst((v2i){pl->y,pl->x},map);
-if (in &&in->inter->inter[pl->y-in->y][pl->x-in->x]=='i')
-	display_notice(ui->gamw,pl,in,(v2i){pl->y,pl->x},map,ui->style);
-wrefresh(ui->gamw);
-display_gui(ui->guiw,pl,map);
-wrefresh(ui->guiw);
+display(ui, pl, map);
+
 } while((c=getch())!=K_QUIT);	return 0;}
 
 

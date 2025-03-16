@@ -1,5 +1,16 @@
 #include "serenity.h"
 
+void display(Ui* ui, Player* pl, Map* map){
+display_map(ui->gamw, map, (v2i){pl->y,pl->x});
+display_pl(ui->gamw, pl, map);
+Instance* in =check_inst((v2i){pl->y,pl->x},map);
+if (in &&in->inter->inter[pl->y-in->y][pl->x-in->x]=='i')
+	display_notice(ui->gamw,pl,in,map,ui->style);
+wrefresh(ui->gamw);
+display_gui(ui->guiw,pl,map);
+wrefresh(ui->guiw);}
+
+
 void display_gui(WINDOW* guiwin, Player* pl, Map* map){
 wattron(guiwin,COLOR_PAIR(CP_BASE));
 for (int i=0; i<GWIN_W; i++) waddch(guiwin,' ');
@@ -40,7 +51,7 @@ for (yy; yy<in->inter->h &&in->y+yy<cam.y+GWIN_H; yy++){
 			waddch(gwin,in->inter->map[yy][xx]);}}}}
 
 
-void display_pl(WINDOW* gwin,Player* pl, Map* map){
+void display_pl(WINDOW* gwin, Player* pl, Map* map){
 if (map->fg[pl->y][pl->x]) return;
 Instance* in =check_inst((v2i){pl->y,pl->x},map);
 if (in &&in->inter->info[pl->y-in->y][pl->x-in->x]=='f') return;
@@ -49,7 +60,7 @@ wattron(gwin,COLOR_PAIR(CP_NORMAL));
 waddch(gwin,' ');}
 
 
-void display_notice(WINDOW* gwin, Player* pl, Instance* in, v2i pos, Map* map, int interface_style){
+void display_notice(WINDOW* gwin, Player* pl, Instance* in, Map* map, int interface_style){
 if (interface_style == OLDSCHOOL){ //TODO action conditions in OLDSCHOOL mode
 	wattron(gwin,COLOR_PAIR(CP_BASE));
 	wmove(gwin,GWIN_H/2+1,GWIN_W/2+1);

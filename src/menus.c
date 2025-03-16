@@ -1,5 +1,18 @@
 #include "serenity.h"
 
+Ui* create_ui(void){
+Ui* ui =malloc(sizeof(Ui));
+v2i gamw_pos ={(LINES-GWIN_H)/2,(COLS-GWIN_W)/2};
+ui->gamw =newwin(GWIN_H,GWIN_W,gamw_pos.y,gamw_pos.x);
+ui->guiw =newwin(1,GWIN_W,gamw_pos.y-2,gamw_pos.x);
+return ui;}
+
+void free_ui(Ui* ui){
+delwin(ui->gamw);
+delwin(ui->guiw);
+free(ui);}
+
+
 void new_game(Ref* ref, v3f* hue, Map** map, int* diff, Player** pl, int random){
 *hue	=hue_selection(random);
 *map	=mapsize_selection(random);

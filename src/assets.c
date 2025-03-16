@@ -1,5 +1,19 @@
 #include "serenity.h"
 
+Ref* load_ref(void){
+Ref *ref =malloc(sizeof(Ref));
+ref->action =create_actiontable();
+ref->interactive =create_intertable(ref->action);
+ref->anim =create_animtable();
+return ref;}
+
+void free_ref(Ref* ref){
+free_actiontable(ref->action);
+free_intertable(ref->interactive);
+free_animtable(ref->anim);
+free(ref);}
+
+
 Asset* load_asset(char* path){
 Asset* ass =malloc(sizeof(Asset));
 FILE* f =fopen(path,"r");

@@ -107,10 +107,10 @@ for (int y=0;y<LINES;y++)
 	for (int x=0;x<COLS;x++)
 		addch(' ');}
 
-void debug_msg(const char* str){
+void debug_msg(char* str){
 mvprintw(0,0,str); addch('\n'); getch();}
 
-char* path_cat(const char* path, const char* file){
+char* path_cat(char* path, char* file){
 int l1=strlen(path), l2=strlen(file);
 char* cat=malloc(l1+l2+1);
 strncpy(cat,path,l1+1);
