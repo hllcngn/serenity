@@ -14,12 +14,12 @@ free(ui);}
 
 
 Game* new_game(Ref* ref, Player** pl, Map** map, int random){
-Game* game =malloc(sizeof(Game));
+Game* game	=malloc(sizeof(Game));
 game->hue	=hue_selection(random);
-*map	=mapsize_selection(random);
+*map		=mapsize_selection(random);
 if (!random){ clear_screen(CP_BASE); refresh();}
-game->difficulty	=choose_difficulty(random);
-*pl     =create_player(ref,NULL,(*map)->h/2+5,(*map)->w/2,50);
+game->difficulty =choose_difficulty(random);
+*pl     	=create_player(ref,NULL,(*map)->h/2+5,(*map)->w/2,50);
 if (!random){ clear_screen(CP_BASE); refresh();}
 set_names(*map,*pl, random);
 clear_screen(CP_BASE); refresh();}

@@ -14,17 +14,21 @@ ui->style =MODERN;
 
 Ref* ref =load_ref(); //loading assets reference
 
-Map*	map; //creating new game
-Player*	pl;
+Player*	pl; //creating new game
+Map*	map;
 Game*	game;
 //if (ac>1 && !strcmp(av[1],"random"))
 	game =new_game(ref, &pl, &map, RANDOM);
 //else	game =new_game(ref, &pl, &map, NORANDOM);
 create_map(ref, map);
+map->previous =map->next =NULL;
+World*	world =malloc(sizeof(World));
+world->maps =map;
 
-run_game(game, ui, ref, pl, map); //launching game
+run_game(game, ui, ref, pl, world); //launching game
 
-free_ref(ref); free_player(pl); free_map(map); //end
+free_ref(ref); free_player(pl); //end
+free_map(map); free(world);
 free_game(game); free_ui(ui); endwin(); return 0;}
 
 

@@ -1,12 +1,13 @@
 #include "serenity.h"
 
-int run_game(Game* game, Ui* ui, Ref* ref, Player* pl, Map* map){
+int run_game(Game* game, Ui* ui, Ref* ref, Player* pl, World* world){
+Map* map =world->maps;
 Map *newmap,*oldmap; newmap=oldmap=map;
 char c=0; Instance* inst; do { switch (c){
 case K_UP:
 case K_DOWN:
 case K_LEFT:
-case K_RIGHT:	newmap=movement(pl,map,oldmap,c);
+case K_RIGHT:	newmap=movement(pl,world,map,c);
 		if (newmap!=map){
 			if (newmap->type ==OUTDOORS){
 				pl->y =newmap->house->y+pl->y;
@@ -25,31 +26,35 @@ display(ui, pl, map);
 
 
 
-Map* movement(Player* pl, Map* map, Map* oldmap, char c){
-Map* newmap=map;
+Map* movement(Player* pl, World* world, Map* map, char c){
+//Map* newmap =map;
 int tp; switch (c){
 case K_UP:    if(!check_collision(map, pl->y-1, pl->x)){
 			pl->y--;
 			if(check_tp(map, pl->y, pl->x)){
-				save_map(map);
-				if (map->type==OUTDOORS)
-					newmap =load_map(map->house,map);
-				else	newmap =oldmap;}
-	      } break;
-case K_DOWN:    if(!check_collision(map, pl->y+1, pl->x)){
+				//save_map(map);
+				Map* m =world->maps;
+				for (; m &&strcmp(m->name,"House"); m=m->next);
+				if (m) map =m;
+				else {
+					map =load_map(map->house,map);
+					map->previous =NULL;
+					map->next =world->maps;
+					world->maps->previous =map;
+					world->maps =map;}}
+		} break;
+case K_DOWN:	if(!check_collision(map, pl->y+1, pl->x)){
 			pl->y++;
-			if(check_tp(map, pl->y, pl->x)){
-				save_map(map);
-				if (map->type==OUTDOORS)
-					newmap =load_map(map->house,map);
-				else	newmap =oldmap;}
-	      } break;
-case K_LEFT:  if(!check_collision(map, pl->y, pl->x-1))
+			if(check_tp(map, pl->y, pl->x))
+				//save_map(map);
+					map =world->maps->next;
+		} break;
+case K_LEFT:	if(!check_collision(map, pl->y, pl->x-1))
 			pl->x--;	break;
-case K_RIGHT: if(!check_collision(map, pl->y, pl->x+1))
+case K_RIGHT:	if(!check_collision(map, pl->y, pl->x+1))
 			pl->x++;	break;
 default:				break;}
-return newmap;}
+return map;}
 
 
 int check_collision(Map* map, int y, int x){

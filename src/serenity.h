@@ -62,7 +62,7 @@ struct player{
 };
 struct world	//TODO implement this
 {
-	Map**	maps;
+	Map*	maps;
 };
 struct map{
 	int		type;
@@ -73,6 +73,7 @@ struct map{
 	Map*		oldmap;
 	Instance*	inst;	//TODO add a max n of instances
 	House*		house;
+	Map		*previous,*next;
 };			//TODO multiple houses per map
 
 // = all assets =
@@ -156,8 +157,8 @@ int choose_difficulty(int);
 void set_names(Map*, Player*, int);
 
 // = game.c =
-int run_game(Game* game, Ui* ui, Ref* ref, Player* pl, Map* map);
-Map* movement(Player* pl, Map* map, Map* oldmap, char c);
+int run_game(Game* game, Ui* ui, Ref* ref, Player* pl, World* world);
+Map* movement(Player* pl, World* world, Map* map, char c);
 int check_collision(Map* map, int y, int x);
 int check_tp(Map* map, int y, int x);
 
