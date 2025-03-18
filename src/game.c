@@ -7,7 +7,7 @@ case K_UP:
 case K_DOWN:
 case K_LEFT:
 case K_RIGHT:	newmap=movement(pl,world,map,c);
-/*		if (newmap!=map){
+		if (newmap!=map){
 			if (newmap->type ==OUTDOORS){
 				Houselist* hl;
 				for (hl =map->houselist;
@@ -22,7 +22,7 @@ case K_RIGHT:	newmap=movement(pl,world,map,c);
 				//pl->x =pl->x-map->house->x;
 			}
 			map=newmap;
-		}*/
+		}
 		break;
 default:	act(ref, map, pl, c);	break;
 }
@@ -61,9 +61,20 @@ case K_UP:    if(!check_collision(map, pl->y-1, pl->x)){
 		} break;
 case K_DOWN:	if(!check_collision(map, pl->y+1, pl->x)){
 			pl->y++;
-			if(check_tp(map, pl->y, pl->x))
+			//if(check_tp(map, pl->y, pl->x))
 				//save_map(map);
-					map =world->maplist->next->map;
+			//		map =world->maplist->next->map;
+			int id =check_tp(map, pl->y, pl->x);
+			if(id &&map->type ==INDOORS){
+				//save_map(map);
+				Maplist* ml;
+				for (ml =world->maplist;
+					ml &&!strcmp(ml->map->name, "House"); ml =ml->next);
+				if (!ml) break;
+				pl->y =pl->y+ml->map->houselist->house->y;
+				pl->x =pl->x+ml->map->houselist->house->x;
+				if (ml) map =ml->map;
+			}
 		} break;
 case K_LEFT:	if(!check_collision(map, pl->y, pl->x-1))
 			pl->x--;	break;

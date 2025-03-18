@@ -75,6 +75,7 @@ struct map{
 	//Map*		oldmap;
 	Instance*	inst;	//TODO add a max n of instances
 	Houselist*	houselist;
+	Maplist*	maplist;
 };			//TODO multiple houses per map
 struct maplist{
 	Map*	map;
@@ -97,8 +98,7 @@ struct house{
 	int		h,w;
 	int		**ascii,**info;
 	//char*	path;
-	Maplist*	maplist;
-	Map*		map;
+	//Map*		map;
 };
 struct houselist{
 	House		*house;
