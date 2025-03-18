@@ -70,7 +70,7 @@ struct map{
 	char		**bg,**clsn,**fg,**tp;
 	int		**it;
 	char*		name;
-	Map*		oldmap;
+	//Map*		oldmap;
 	Instance*	inst;	//TODO add a max n of instances
 	House*		house;
 	Map		*previous,*next;
@@ -84,19 +84,23 @@ struct ref{
 };
 struct asset{
 	int	h,w;
-	int	**map,**info;
+	int	**ascii,**info;
 };
 struct house{
 	int	y,x;
 	int	h,w;
-	int	**map,**info;
-	char*	path;
-	Map*	oldmap;
+	int	**ascii,**info;
+	//char*	path;
+	Map*	map;
+};
+struct houselist{
+	House		*house;
+	Houselist	*previous,*next;
 };
 struct interactive{
 	int		h,w;
-	int		**map,**info,**inter;
-	char*		name;
+	int		**ascii,**info,**inter;
+	//char*		name;
 	Actionlist*	actionlist;
 };
 enum inter_id{
@@ -111,8 +115,8 @@ struct instance{
 	int		y,x;
 	Interactive*	inter;
 	Actionlist*	actionlist;
-	Instance	*previous,*next; //TODO maybe i don't need
-};					//it to be double linked
+	Instance	*previous,*next;
+};
 struct anim{
 	int		n;
 	char*		chars;

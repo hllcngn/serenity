@@ -46,10 +46,10 @@ int yy =in->y<cam.y? cam.y-in->y :0;
 for (yy; yy<in->inter->h &&in->y+yy<cam.y+GWIN_H; yy++){
 	int xx =in->x<cam.x? cam.x-in->x :0;
 	for (xx; xx<in->inter->w &&in->x+xx<cam.x+GWIN_W; xx++)
-		if (in->inter->map[yy][xx]!=' ')
+		if (in->inter->info[yy][xx]!=' ')
 			mvwaddch(gwin,
 				in->y+yy-cam.y, in->x+xx-cam.x,
-				in->inter->map[yy][xx]);}}}
+				in->inter->ascii[yy][xx]);}}}
 
 
 void display_pl(WINDOW* gwin, Player* pl, Map* map){

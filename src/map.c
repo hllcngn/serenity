@@ -38,19 +38,19 @@ paste_house(map,ahouse,yhouse,xhouse);
 for (int y=0; y<ahouse->h; y++)
 	for (int x=0; x<ahouse->w; x++)
 		blckd[yhouse+y][xhouse+x] ='X';
+free_house(ahouse);
 House* hahouse =load_house("ass/houses/house1.txt");
 hahouse->y =yhouse; hahouse->x =xhouse;
 map->house =hahouse;
-free_house(ahouse);
 
-Asset* atree1 =load_asset("ass/assets/tree1.txt");
+/*Asset* atree1 =load_asset("ass/assets/tree1.txt");
 paste_asset(map,atree1,10,10);
 free_asset(atree1);
 
 Asset* aumbrella =load_asset("ass/assets/umbrella.txt");
 paste_asset(map,aumbrella,yhouse+20,xhouse+5);
-free_asset(aumbrella);
-Instance* uminst =add_inst(map,yhouse+20,xhouse+30,ref->interactive[umbrella]);
+free_asset(aumbrella);*/
+Instance* uminst =add_inst(map,yhouse+24,xhouse+30,ref->interactive[umbrella]);
 
 //add_inst(map,20,20,ref->interactive[0]);
 //add_inst(map,20,30,ref->interactive[0]);
@@ -79,7 +79,7 @@ Map* map =malloc(sizeof(Map)); //TODO go back to outdoors map
 map->type =INDOORS;		//TODO exit to a different outdoors map
 map->h =house->h; map->w =house->w;
 map->name =strdup("House");
-map->oldmap =house->oldmap;
+//map->oldmap =house->oldmap;
 map->bg   =malloc_arraychar2(map->h,map->w);
 for (int y=0; y<map->h; y++)
 for (int x=0; x<map->w; x++)

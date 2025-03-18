@@ -1,8 +1,7 @@
 #include "serenity.h"
 
 int run_game(Game* game, Ui* ui, Ref* ref, Player* pl, World* world){
-Map* map =world->maps;
-Map *newmap,*oldmap; newmap=oldmap=map;
+Map *map =world->maps, *newmap=map;
 char c=0; Instance* inst; do { switch (c){
 case K_UP:
 case K_DOWN:
@@ -11,10 +10,12 @@ case K_RIGHT:	newmap=movement(pl,world,map,c);
 		if (newmap!=map){
 			if (newmap->type ==OUTDOORS){
 				pl->y =newmap->house->y+pl->y;
-				pl->x =newmap->house->x+pl->x;}
+				pl->x =newmap->house->x+pl->x;
+			}
 			else if (newmap->type ==INDOORS){
-				pl->y =pl->y-map->house->y;
-				pl->x =pl->x-map->house->x;}
+				//pl->y =pl->y-map->house->y;
+				//pl->x =pl->x-map->house->x;
+			}
 			map=newmap;
 		} break;
 default:	act(ref, map, pl, c);	break;
@@ -33,6 +34,8 @@ case K_UP:    if(!check_collision(map, pl->y-1, pl->x)){
 			pl->y--;
 			if(check_tp(map, pl->y, pl->x)){
 				//save_map(map);
+				pl->y =pl->y-map->house->y;
+				pl->x =pl->x-map->house->x;
 				Map* m =world->maps;
 				for (; m &&strcmp(m->name,"House"); m=m->next);
 				if (m) map =m;
@@ -41,7 +44,9 @@ case K_UP:    if(!check_collision(map, pl->y-1, pl->x)){
 					map->previous =NULL;
 					map->next =world->maps;
 					world->maps->previous =map;
-					world->maps =map;}}
+					world->maps =map;
+				}
+			}
 		} break;
 case K_DOWN:	if(!check_collision(map, pl->y+1, pl->x)){
 			pl->y++;
