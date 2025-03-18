@@ -1,23 +1,29 @@
 #include "serenity.h"
 
 int run_game(Game* game, Ui* ui, Ref* ref, Player* pl, World* world){
-Map *map =world->maps, *newmap=map;
+Map *map =world->maplist->next->map, *newmap=map;
 char c=0; Instance* inst; do { switch (c){
 case K_UP:
 case K_DOWN:
 case K_LEFT:
 case K_RIGHT:	newmap=movement(pl,world,map,c);
-		if (newmap!=map){
+/*		if (newmap!=map){
 			if (newmap->type ==OUTDOORS){
-				pl->y =newmap->house->y+pl->y;
-				pl->x =newmap->house->x+pl->x;
+				Houselist* hl;
+				for (hl =map->houselist;
+					hl &&hl->house->id !='a'; hl =hl->next);
+				if (hl){
+					pl->y =map->houselist->house->y+pl->y;
+					pl->x =map->houselist->house->x+pl->x;
+				}
 			}
 			else if (newmap->type ==INDOORS){
 				//pl->y =pl->y-map->house->y;
 				//pl->x =pl->x-map->house->x;
 			}
 			map=newmap;
-		} break;
+		}*/
+		break;
 default:	act(ref, map, pl, c);	break;
 }
 
@@ -32,27 +38,32 @@ Map* movement(Player* pl, World* world, Map* map, char c){
 int tp; switch (c){
 case K_UP:    if(!check_collision(map, pl->y-1, pl->x)){
 			pl->y--;
-			if(check_tp(map, pl->y, pl->x)){
+			int id =check_tp(map, pl->y, pl->x);
+			if(id){
 				//save_map(map);
-				pl->y =pl->y-map->house->y;
-				pl->x =pl->x-map->house->x;
-				Map* m =world->maps;
-				for (; m &&strcmp(m->name,"House"); m=m->next);
-				if (m) map =m;
-				else {
+				Houselist* hl;
+				for (hl =map->houselist;
+					hl &&hl->house->id !=id; hl =hl->next);
+				if (!hl) break;
+				pl->y =pl->y-hl->house->y;
+				pl->x =pl->x-hl->house->x;
+				Maplist* m =world->maplist;
+				for (; m &&strcmp(m->map->name,"House"); m=m->next);
+				if (m) map =m->map;
+				/*else {
 					map =load_map(map->house,map);
 					map->previous =NULL;
 					map->next =world->maps;
 					world->maps->previous =map;
 					world->maps =map;
-				}
+				}*/
 			}
 		} break;
 case K_DOWN:	if(!check_collision(map, pl->y+1, pl->x)){
 			pl->y++;
 			if(check_tp(map, pl->y, pl->x))
 				//save_map(map);
-					map =world->maps->next;
+					map =world->maplist->next->map;
 		} break;
 case K_LEFT:	if(!check_collision(map, pl->y, pl->x-1))
 			pl->x--;	break;

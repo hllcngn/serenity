@@ -1,6 +1,12 @@
 #include "serenity.h"
+World* create_world(void){
+World*	world =malloc(sizeof(World));
+return world;}
 
-void create_map(Ref* ref, Map* map){
+void create_map(Ref* ref, World* world, Map* map){
+world->maplist =malloc(sizeof(Maplist));
+world->maplist->map =map;
+world->maplist->previous =world->maplist->next =NULL;
 map->type =OUTDOORS;
 map->bg   =malloc_arraychar2(map->h,map->w);
 map->clsn =calloc_arraychar2(map->h,map->w);
@@ -33,15 +39,25 @@ for (int y=map->w%2+1; y<map->h-2; y+=2)
 	if (!(rand()%2)) map->bg[y][map->w-1]=' ';
 
 House* ahouse =load_house("ass/houseassets/house.txt");
+ahouse->id ='a';
 int yhouse =map->h/2-15, xhouse =map->w/2-30;
+ahouse->y =yhouse; ahouse->x =xhouse;
 paste_house(map,ahouse,yhouse,xhouse);
 for (int y=0; y<ahouse->h; y++)
 	for (int x=0; x<ahouse->w; x++)
 		blckd[yhouse+y][xhouse+x] ='X';
-free_house(ahouse);
+map->houselist =malloc(sizeof(Houselist));
+map->houselist->house =ahouse;
+map->houselist->previous =map->houselist->next =NULL;
+//free_house(ahouse);
 House* hahouse =load_house("ass/houses/house1.txt");
-hahouse->y =yhouse; hahouse->x =xhouse;
-map->house =hahouse;
+Map* maphouse =load_map(hahouse, map);
+maphouse->name =strdup("House");
+Maplist* ml =malloc(sizeof(Maplist));
+ml->map =maphouse;
+ml->previous =NULL; ml->next =world->maplist;
+world->maplist->previous =ml;
+world->maplist =ml;
 
 /*Asset* atree1 =load_asset("ass/assets/tree1.txt");
 paste_asset(map,atree1,10,10);
@@ -120,6 +136,6 @@ free_arraychar2(map->fg,map->h,map->w);
 free_arrayint2(map->it,map->h,map->w);
 free_arraychar2(map->tp,map->h,map->w);
 free_instlist(map->inst);
-free_house(map->house);
+//free_house(map->house);
 free(map->name);
 free(map);}

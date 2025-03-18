@@ -20,15 +20,13 @@ Game*	game;
 //if (ac>1 && !strcmp(av[1],"random"))
 	game =new_game(ref, &pl, &map, RANDOM);
 //else	game =new_game(ref, &pl, &map, NORANDOM);
-create_map(ref, map);
-map->previous =map->next =NULL;
-World*	world =malloc(sizeof(World));
-world->maps =map;
+World* world =create_world();
+create_map(ref, world, map);
 
 run_game(game, ui, ref, pl, world); //launching game
 
 free_ref(ref); free_player(pl); //end
-free_map(map); free(world);
+//free_map(map); free(world);
 free_game(game); free_ui(ui); endwin(); return 0;}
 
 

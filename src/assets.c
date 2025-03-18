@@ -79,10 +79,12 @@ inter[fruittree] =load_inter("ass/inter/fruittree.txt", actiontable);
 inter[stump] =load_inter("ass/inter/stump.txt", actiontable);
 inter[umbrella] =load_inter("ass/inter/umbrella.txt", actiontable);
 
+/*
 inter[tree2]->name =strdup("tree2");
 inter[fruittree]->name =strdup("fruittree");
 inter[stump]->name =strdup("stump");
 inter[umbrella]->name =strdup("umbrella");
+*/
 return inter;}
 
 Interactive* load_inter(char* path, Action** actiontable){

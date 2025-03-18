@@ -33,8 +33,10 @@ typedef struct ref Ref;
 typedef struct player Player;
 typedef struct world World;
 typedef struct map Map;
+typedef struct maplist Maplist;
 typedef struct asset Asset;
 typedef struct house House;
+typedef struct houselist Houselist;
 typedef struct interactive Interactive;
 typedef struct instance	Instance;
 typedef struct action Action;
@@ -62,7 +64,7 @@ struct player{
 };
 struct world	//TODO implement this
 {
-	Map*	maps;
+	Maplist*	maplist;
 };
 struct map{
 	int		type;
@@ -72,9 +74,12 @@ struct map{
 	char*		name;
 	//Map*		oldmap;
 	Instance*	inst;	//TODO add a max n of instances
-	House*		house;
-	Map		*previous,*next;
+	Houselist*	houselist;
 };			//TODO multiple houses per map
+struct maplist{
+	Map*	map;
+	Maplist	*previous,*next;
+};
 
 // = all assets =
 struct ref{
@@ -87,11 +92,13 @@ struct asset{
 	int	**ascii,**info;
 };
 struct house{
-	int	y,x;
-	int	h,w;
-	int	**ascii,**info;
+	int		id;
+	int		y,x;
+	int		h,w;
+	int		**ascii,**info;
 	//char*	path;
-	Map*	map;
+	Maplist*	maplist;
+	Map*		map;
 };
 struct houselist{
 	House		*house;
@@ -171,7 +178,8 @@ Player* create_player(Ref* ref, char* name, int y, int x, int hp);
 void free_player(Player* pl);
 
 // = map.c =
-void create_map(Ref* ref, Map* map);
+World* create_world(void);
+void create_map(Ref* ref, World* world, Map* map);
 Map* load_map(House* house,Map* oldmap);
 void save_map(Map* map);
 void free_map(Map* map);
