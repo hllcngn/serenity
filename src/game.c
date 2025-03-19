@@ -2,33 +2,16 @@
 
 int run_game(Game* game, Ui* ui, Ref* ref, Player* pl, World* world){
 Map *map =world->maplist->next->map, *newmap=map;
-char c=0; Instance* inst; do { switch (c){
+//Instance* inst;
+char c=0; do { switch (c){
 case K_UP:
 case K_DOWN:
 case K_LEFT:
-case K_RIGHT:	newmap=movement(pl,world,map,c);
-		if (newmap!=map){
-			if (newmap->type ==OUTDOORS){
-				Houselist* hl;
-				for (hl =map->houselist;
-					hl &&hl->house->id !='a'; hl =hl->next);
-				if (hl){
-					pl->y =map->houselist->house->y+pl->y;
-					pl->x =map->houselist->house->x+pl->x;
-				}
-			}
-			else if (newmap->type ==INDOORS){
-				//pl->y =pl->y-map->house->y;
-				//pl->x =pl->x-map->house->x;
-			}
-			map=newmap;
-		}
-		break;
-default:	act(ref, map, pl, c);	break;
-}
+case K_RIGHT:	newmap =movement(pl,world,map,c);
+		map =newmap;		break;
+default:	act(ref, map, pl, c);	break;}
 
 display(ui, pl, map);
-
 } while((c=getch())!=K_QUIT);	return 0;}
 
 
@@ -39,7 +22,7 @@ int tp; switch (c){
 case K_UP:    if(!check_collision(map, pl->y-1, pl->x)){
 			pl->y--;
 			int id =check_tp(map, pl->y, pl->x);
-			if(id){
+			if (id){
 				//save_map(map);
 				Houselist* hl;
 				for (hl =map->houselist;
@@ -61,12 +44,8 @@ case K_UP:    if(!check_collision(map, pl->y-1, pl->x)){
 		} break;
 case K_DOWN:	if(!check_collision(map, pl->y+1, pl->x)){
 			pl->y++;
-			//if(check_tp(map, pl->y, pl->x))
-				//save_map(map);
-			//		map =world->maplist->next->map;
 			int id =check_tp(map, pl->y, pl->x);
-			if(id &&map->type ==INDOORS){
-				//save_map(map);
+			if (id &&map->type ==INDOORS){
 				Maplist* ml;
 				for (ml =world->maplist;
 					ml &&!strcmp(ml->map->name, "House"); ml =ml->next);

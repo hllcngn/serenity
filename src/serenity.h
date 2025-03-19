@@ -23,6 +23,14 @@
 #define ABLE		2
 #define SUPERABLE	3
 
+#define LOADED		0
+#define GENERATED	1
+
+#define TREEH 4
+#define TREEW 6
+#define TREEBASE_N 15
+static char treebase[TREEBASE_N] ={'n','C','G',')','u','Y','T','O','k','v','i','}','{','_','('};
+
 typedef struct{ int	y,x;	} v2i;
 typedef struct{	float	i,j,k;	} v3f;
 
@@ -90,13 +98,13 @@ struct ref{
 };
 struct asset{
 	int	h,w;
-	int	**ascii,**info;
+	char	**ascii,**info;
 };
 struct house{
 	int		id;
 	int		y,x;
 	int		h,w;
-	int		**ascii,**info;
+	char		**ascii,**info;
 	//char*	path;
 	//Map*		map;
 };
@@ -106,7 +114,7 @@ struct houselist{
 };
 struct interactive{
 	int		h,w;
-	int		**ascii,**info,**inter;
+	char		**ascii,**info,**inter;
 	//char*		name;
 	Actionlist*	actionlist;
 };
@@ -118,11 +126,13 @@ enum inter_id{
 	nb_inter
 };
 struct instance{
+	int		type;
 	int		id;
 	int		y,x;
 	Interactive*	inter;
 	Actionlist*	actionlist;
 	Instance	*previous,*next;
+	Interactive*	map;
 };
 struct anim{
 	int		n;
@@ -197,12 +207,15 @@ Interactive** create_intertable(Action** actiontable);
 Interactive* load_inter(char* path, Action** actiontable);
 void free_inter(Interactive* inter);
 void free_intertable(Interactive** intertable);
-Instance* add_inst(Map* map, int y, int x, Interactive* inter);
+Instance* add_inst_loaded(Map* map, int y, int x, Interactive* inter);
+Instance* add_inst_generated(Map* map, int y, int x, Instance* inst);
 Instance* get_inst(Map* map, int x, int y);
 Instance* find_inst_id(Map* map, int id);
 Instance* find_inst_inter(Ref* ref, Map* map, Interactive* inter);
 void destroy_inst(Instance* it, Map* map);
 void free_instlist(Instance* it);
+
+Instance* create_tree(Ref* ref);
 
 // = actions.c =
 Action** create_actiontable(void);
@@ -239,6 +252,7 @@ void fput_arrayint2(FILE* f,int** arr,int h,int w);
 void free_arrayint2(int** arr,int h,int w);
 char** malloc_arraychar2(int h,int w);
 char** calloc_arraychar2(int h,int w);
+char** duplicate_arraychar2(char** arr,int h,int w);
 char** spacoc_arraychar2(int h,int w);
 void fput_arraychar2(FILE* f,char** arr,int h,int w);
 void free_arraychar2(char** arr,int h,int w);
@@ -246,7 +260,7 @@ void free_arraychar2(char** arr,int h,int w);
 int flen_line(FILE* f);
 char* fread_line(FILE* f);
 void fsize_map(FILE* f, int* h, int* w);
-int** fread_map(FILE* f, int h, int w);
+char** fread_map(FILE* f, int h, int w);
 //
 void clear_screen(int cp);
 void debug_msg(char* str);

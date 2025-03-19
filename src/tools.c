@@ -41,6 +41,12 @@ char** arr =malloc(sizeof(char*)*h);
 for (int y=0;y<h;y++) arr[y] =calloc(w, sizeof(char));
 return arr;}
 
+char** duplicate_arraychar2(char** arr,int h,int w){
+char** new =malloc_arraychar2(h,w);
+for (int y=0; y<h; y++) for (int x=0; x<w; x++)
+	new[y][x] =arr[y][x];
+return new;}
+
 char** spacoc_arraychar2(int h,int w){
 char** arr =malloc(sizeof(char*)*h);
 for (int y=0;y<h;y++){
@@ -87,8 +93,8 @@ while((c=getc(f))!='-' &&c!=EOF){ fseek(f,-1,SEEK_CUR);
 	if(x>ww) ww=x; hh++;}
 *h=hh; *w=ww;}
 
-int** fread_map(FILE* f, int h, int w){
-int** map =malloc(sizeof(int*)*h), c;
+char** fread_map(FILE* f, int h, int w){
+char** map =malloc(sizeof(int*)*h), c;
 for (int y=0;y<h;y++){
 	map[y] =malloc(sizeof(int)*w);
 	for (int x=0;x<w;x++){

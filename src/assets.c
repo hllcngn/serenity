@@ -126,9 +126,10 @@ free(inter);}
 
 
 
-Instance* add_inst(Map* map, int y, int x, Interactive* inter){
+Instance* add_inst_loaded(Map* map, int y, int x, Interactive* inter){
 Instance* inst =malloc(sizeof(Instance));
 inst->y =y; inst->x =x; inst->inter =inter; inst->actionlist =NULL;
+inst->type =LOADED; inst->map =NULL;
 if (!map->inst)	inst->id =1;
 else {		inst->id =map->inst->id+1;
 		map->inst->previous =inst;}
@@ -137,6 +138,19 @@ for (int yy=0;yy<inst->inter->h;yy++)	//TODO edge cases
 for (int xx=0;xx<inst->inter->w;xx++)  //copy arr tool funct
 	map->it[y+yy][x+xx]=inst->id;
 return inst;}
+
+Instance* add_inst_generated(Map* map, int y, int x, Instance* inst){
+inst->y =y; inst->x =x; inst->actionlist =NULL;
+inst->type =GENERATED;
+if (!map->inst)	inst->id =1;
+else {		inst->id =map->inst->id+1;
+		map->inst->previous =inst;}
+inst->previous =NULL; inst->next =map->inst; map->inst =inst;
+for (int yy=0;yy<inst->inter->h;yy++)	//TODO edge cases
+for (int xx=0;xx<inst->inter->w;xx++)  //copy arr tool funct
+	map->it[y+yy][x+xx]=inst->id;
+return inst;}
+
 
 Instance* get_inst(Map* map, int y, int x){
 int id =map->it[y][x];

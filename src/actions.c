@@ -89,7 +89,7 @@ void act_fall_tree(Instance* inst, Map* map, Ref* ref){
 int y =inst->y, x =inst->x;
 destroy_inst(inst,map);
 //Interactive* stump =find_inter(ref, "stump");
-if (stump) add_inst(map,y+2,x+rand()%2+1,ref->interactive[stump]);}
+if (stump) add_inst_loaded(map,y+2,x+rand()%2+1,ref->interactive[stump]);}
 
 void act_pull_stump(Instance* inst, Map* map, Ref* ref){
 destroy_inst(inst,map);}

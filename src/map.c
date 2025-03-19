@@ -3,6 +3,8 @@ World* create_world(void){
 World*	world =malloc(sizeof(World));
 return world;}
 
+
+
 void create_map(Ref* ref, World* world, Map* map){
 world->maplist =malloc(sizeof(Maplist));
 world->maplist->map =map;
@@ -61,33 +63,44 @@ world->maplist =ml;
 
 /*Asset* atree1 =load_asset("ass/assets/tree1.txt");
 paste_asset(map,atree1,10,10);
-free_asset(atree1);
+free_asset(atree1);*/
 
 Asset* aumbrella =load_asset("ass/assets/umbrella.txt");
 paste_asset(map,aumbrella,yhouse+20,xhouse+5);
-free_asset(aumbrella);*/
-Instance* uminst =add_inst(map,yhouse+24,xhouse+30,ref->interactive[umbrella]);
+free_asset(aumbrella);
+Instance* uminst =add_inst_loaded(map,yhouse+24,xhouse+30,ref->interactive[umbrella]);
 
 //add_inst(map,20,20,ref->interactive[0]);
 //add_inst(map,20,30,ref->interactive[0]);
 
-//very naive solution
+//very naive solution with blckd
 //-> it doesn't consider foreground items
 //-> I can make the house fully collisionable bg now
 //-> check collisions on background items only
 //-> blckd might be useful in the future
 //=>check collision on instance spawning instead
-for (int i=0;i<map->w/3;i++){
+for (int i=0;i<map->h*(map->w)/100;i++){
 	int yinst =rand()%(map->h-20)+10, xinst =rand()%(map->w-20)+10;
-	if (!(blckd[yinst][xinst]) &&!(blckd[yinst+ref->interactive[1]->h][xinst])
-			&&!(blckd[yinst+ref->interactive[1]->h][xinst+ref->interactive[1]->w])
-			&&!(blckd[yinst][xinst+ref->interactive[1]->w]))
-		add_inst(map,yinst,xinst,ref->interactive[1]);}
+	if (!(blckd[yinst][xinst]) &&!(blckd[yinst+ref->interactive[fruittree]->h][xinst])
+			&&!(blckd[yinst+ref->interactive[fruittree]->h]
+				[xinst+ref->interactive[fruittree]->w])
+			&&!(blckd[yinst][xinst+ref->interactive[fruittree]->w]))
+		add_inst_loaded(map,yinst,xinst,ref->interactive[fruittree]);}
 for (int i=0;i<map->w/6;i++){
 	int yinst =rand()%(map->h-20)+10, xinst =rand()%(map->w-20)+10;
 	if (!(blckd[yinst][xinst]))
-		add_inst(map,yinst,xinst,ref->interactive[2]);}
+		add_inst_loaded(map,yinst,xinst,ref->interactive[stump]);}
+
+for (int i=0;i<map->h*(map->w)/100;i++){
+	int yinst =rand()%(map->h-20)+10, xinst =rand()%(map->w-20)+10;
+	if (!(blckd[yinst][xinst]) &&!(blckd[yinst+ref->interactive[fruittree]->h][xinst])
+			&&!(blckd[yinst+ref->interactive[fruittree]->h]
+				[xinst+ref->interactive[fruittree]->w])
+			&&!(blckd[yinst][xinst+ref->interactive[fruittree]->w]))
+		add_inst_generated(map, yinst,xinst, create_tree(ref));}
+
 }
+
 
 
 Map* load_map(House* house,Map* oldmap){ //TODO move between indoors maps

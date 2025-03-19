@@ -45,11 +45,18 @@ if     (in->y+in->inter->h>cam.y &&in->y<cam.y+GWIN_H
 int yy =in->y<cam.y? cam.y-in->y :0;
 for (yy; yy<in->inter->h &&in->y+yy<cam.y+GWIN_H; yy++){
 	int xx =in->x<cam.x? cam.x-in->x :0;
-	for (xx; xx<in->inter->w &&in->x+xx<cam.x+GWIN_W; xx++)
-		if (in->inter->info[yy][xx]!=' ')
+	for (xx; xx<in->inter->w &&in->x+xx<cam.x+GWIN_W; xx++){
+		if (in->type==LOADED &&in->inter->info[yy][xx]!=' ')
 			mvwaddch(gwin,
 				in->y+yy-cam.y, in->x+xx-cam.x,
-				in->inter->ascii[yy][xx]);}}}
+				in->inter->ascii[yy][xx]);
+		else if (in->type==GENERATED &&in->map->info[yy][xx]!=' ')
+			mvwaddch(gwin,
+				//4, 6,
+				in->y+yy-cam.y, in->x+xx-cam.x,
+				//'a');
+				in->map->ascii[yy][xx]);
+	}}}}
 
 
 void display_pl(WINDOW* gwin, Player* pl, Map* map){
