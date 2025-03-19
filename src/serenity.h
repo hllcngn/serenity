@@ -26,10 +26,10 @@
 #define LOADED		0
 #define GENERATED	1
 
-#define TREEH 4
-#define TREEW 6
-#define TREEBASE_N 15
-static char treebase[TREEBASE_N] ={'n','C','G',')','u','Y','T','O','k','v','i','}','{','_','('};
+#define TREEBASE_N 8
+#define FRUITBASE_N 5
+static char treebase[TREEBASE_N] ={'n','C','u','Y','k','v','i','t'};
+static char fruitbase[FRUITBASE_N] ={'9','o','6','j','8'};
 
 typedef struct{ int	y,x;	} v2i;
 typedef struct{	float	i,j,k;	} v3f;
@@ -214,8 +214,9 @@ Instance* find_inst_id(Map* map, int id);
 Instance* find_inst_inter(Ref* ref, Map* map, Interactive* inter);
 void destroy_inst(Instance* it, Map* map);
 void free_instlist(Instance* it);
-
+// = inter.c =
 Instance* create_tree(Ref* ref);
+Instance* create_fruittree(Ref* ref);
 
 // = actions.c =
 Action** create_actiontable(void);

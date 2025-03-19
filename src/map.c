@@ -79,7 +79,7 @@ Instance* uminst =add_inst_loaded(map,yhouse+24,xhouse+30,ref->interactive[umbre
 //-> check collisions on background items only
 //-> blckd might be useful in the future
 //=>check collision on instance spawning instead
-for (int i=0;i<map->h*(map->w)/100;i++){
+for (int i=0;i<map->h*(map->w)/500;i++){
 	int yinst =rand()%(map->h-20)+10, xinst =rand()%(map->w-20)+10;
 	if (!(blckd[yinst][xinst]) &&!(blckd[yinst+ref->interactive[fruittree]->h][xinst])
 			&&!(blckd[yinst+ref->interactive[fruittree]->h]
@@ -91,7 +91,7 @@ for (int i=0;i<map->w/6;i++){
 	if (!(blckd[yinst][xinst]))
 		add_inst_loaded(map,yinst,xinst,ref->interactive[stump]);}
 
-for (int i=0;i<map->h*(map->w)/100;i++){
+for (int i=0;i<map->h*(map->w)/200;i++){
 	int yinst =rand()%(map->h-20)+10, xinst =rand()%(map->w-20)+10;
 	if (!(blckd[yinst][xinst]) &&!(blckd[yinst+ref->interactive[fruittree]->h][xinst])
 			&&!(blckd[yinst+ref->interactive[fruittree]->h]
@@ -99,6 +99,13 @@ for (int i=0;i<map->h*(map->w)/100;i++){
 			&&!(blckd[yinst][xinst+ref->interactive[fruittree]->w]))
 		add_inst_generated(map, yinst,xinst, create_tree(ref));}
 
+for (int i=0;i<map->h*(map->w)/300;i++){
+	int yinst =rand()%(map->h-20)+10, xinst =rand()%(map->w-20)+10;
+	if (!(blckd[yinst][xinst]) &&!(blckd[yinst+ref->interactive[fruittree]->h][xinst])
+			&&!(blckd[yinst+ref->interactive[fruittree]->h]
+				[xinst+ref->interactive[fruittree]->w])
+			&&!(blckd[yinst][xinst+ref->interactive[fruittree]->w]))
+		add_inst_generated(map, yinst,xinst, create_fruittree(ref));}
 }
 
 
