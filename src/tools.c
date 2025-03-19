@@ -33,12 +33,12 @@ for (int y=0;y<h;y++){
 
 char** malloc_arraychar2(int h,int w){
 char** arr =malloc(sizeof(char*)*h);
-for (int y=0;y<h;y++) arr[y] =malloc(w*sizeof(char));
+for (int y=0;y<h;y++) arr[y] =malloc(w);
 return arr;}
 
 char** calloc_arraychar2(int h,int w){
 char** arr =malloc(sizeof(char*)*h);
-for (int y=0;y<h;y++) arr[y] =calloc(w, sizeof(char));
+for (int y=0;y<h;y++) arr[y] =calloc(w,1);
 return arr;}
 
 char** duplicate_arraychar2(char** arr,int h,int w){

@@ -5,6 +5,7 @@ Player* pl =malloc(sizeof(Player));
 pl->name =name;
 pl->y =y; pl->x =x;
 pl->hp =hp;
+pl->inventory =NULL;
 
 pl->actionlist =NULL;
 add_action(&(pl->actionlist), ref->action[fall_tree], ABLE);

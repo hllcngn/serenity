@@ -26,9 +26,9 @@
 #define LOADED		0
 #define GENERATED	1
 
-#define TREEBASE_N 8
+#define TREEBASE_N 7
 #define FRUITBASE_N 5
-static char treebase[TREEBASE_N] ={'n','C','u','Y','k','v','i','t'};
+static char treebase[TREEBASE_N] ={'n','C','u','Y','k','v','i'};
 static char fruitbase[FRUITBASE_N] ={'9','o','6','j','8'};
 
 typedef struct{ int	y,x;	} v2i;
@@ -47,9 +47,11 @@ typedef struct house House;
 typedef struct houselist Houselist;
 typedef struct interactive Interactive;
 typedef struct instance	Instance;
+typedef struct anim Anim;
 typedef struct action Action;
 typedef struct actionlist Actionlist;
-typedef struct anim Anim;
+typedef struct item Item;
+typedef struct itemlist Itemlist;
 
 // = internals =
 struct ui{
@@ -69,6 +71,7 @@ struct player{
 	int		hp;
 	char*		name;
 	Actionlist*	actionlist;
+	Itemlist*	inventory;
 };
 struct world	//TODO implement this
 {
@@ -162,6 +165,15 @@ enum action_id{
 	harvest_fruits,
 	light_fire,
 	nb_action
+};
+
+struct item{
+	char*	name;
+};
+struct itemlist{
+	int		n;
+	Item*		item;
+	Itemlist	*previous, *next;
 };
 
 // = start.c =
