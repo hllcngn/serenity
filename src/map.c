@@ -1,4 +1,8 @@
 #include "serenity.h"
+
+void	add_inst_to_map_from_inter(Map* map, char** blckd, Interactive* inter);
+void	add_gen_tree_to_map_from_inter(Ref* ref, Map* map, char** blckd, Interactive* inter, Instance* (f)(Ref*));
+
 World* create_world(void){
 World*	world =malloc(sizeof(World));
 return world;}
@@ -16,7 +20,7 @@ map->fg   =calloc_arraychar2(map->h,map->w);
 map->it   =calloc_arrayint2(map->h,map->w);
 map->tp   =calloc_arraychar2(map->h,map->w);
 map->inst =NULL;
-int** blckd =calloc_arrayint2(map->h,map->w);
+char** blckd =calloc_arraychar2(map->h,map->w);
 
 for (int y=0; y<map->h; y++)
 	if (!(y%2))
@@ -45,9 +49,11 @@ ahouse->id ='a';
 int yhouse =map->h/2-15, xhouse =map->w/2-30;
 ahouse->y =yhouse; ahouse->x =xhouse;
 paste_house(map,ahouse,yhouse,xhouse);
-for (int y=0; y<ahouse->h; y++)
+
+for (int y=0; y<ahouse->h+10; y++)
 	for (int x=0; x<ahouse->w; x++)
 		blckd[yhouse+y][xhouse+x] ='X';
+
 map->houselist =malloc(sizeof(Houselist));
 map->houselist->house =ahouse;
 map->houselist->previous =map->houselist->next =NULL;
@@ -79,35 +85,40 @@ Instance* uminst =add_inst_loaded(map,yhouse+24,xhouse+30,ref->interactive[umbre
 //-> check collisions on background items only
 //-> blckd might be useful in the future
 //=>check collision on instance spawning instead
-for (int i=0;i<map->h*(map->w)/500;i++){
-	int yinst =rand()%(map->h-20)+10, xinst =rand()%(map->w-20)+10;
-	if (!(blckd[yinst][xinst]) &&!(blckd[yinst+ref->interactive[fruittree]->h][xinst])
-			&&!(blckd[yinst+ref->interactive[fruittree]->h]
-				[xinst+ref->interactive[fruittree]->w])
-			&&!(blckd[yinst][xinst+ref->interactive[fruittree]->w]))
-		add_inst_loaded(map,yinst,xinst,ref->interactive[fruittree]);}
-for (int i=0;i<map->w/6;i++){
-	int yinst =rand()%(map->h-20)+10, xinst =rand()%(map->w-20)+10;
-	if (!(blckd[yinst][xinst]))
-		add_inst_loaded(map,yinst,xinst,ref->interactive[stump]);}
+for (int i=0;i<map->h*(map->w)/500;i++)
+	add_inst_to_map_from_inter(map, blckd, ref->interactive[fruittree]);
 
-for (int i=0;i<map->h*(map->w)/200;i++){
-	int yinst =rand()%(map->h-20)+10, xinst =rand()%(map->w-20)+10;
-	if (!(blckd[yinst][xinst]) &&!(blckd[yinst+ref->interactive[fruittree]->h][xinst])
-			&&!(blckd[yinst+ref->interactive[fruittree]->h]
-				[xinst+ref->interactive[fruittree]->w])
-			&&!(blckd[yinst][xinst+ref->interactive[fruittree]->w]))
-		add_inst_generated(map, yinst,xinst, create_tree(ref));}
+for (int i=0;i<map->w/6;i++)
+	add_inst_to_map_from_inter(map, blckd, ref->interactive[stump]);
 
-for (int i=0;i<map->h*(map->w)/300;i++){
-	int yinst =rand()%(map->h-20)+10, xinst =rand()%(map->w-20)+10;
-	if (!(blckd[yinst][xinst]) &&!(blckd[yinst+ref->interactive[fruittree]->h][xinst])
-			&&!(blckd[yinst+ref->interactive[fruittree]->h]
-				[xinst+ref->interactive[fruittree]->w])
-			&&!(blckd[yinst][xinst+ref->interactive[fruittree]->w]))
-		add_inst_generated(map, yinst,xinst, create_fruittree(ref));}
+for (int i=0;i<map->h*(map->w)/100;i++)
+	add_gen_tree_to_map_from_inter(ref, map, blckd, ref->interactive[fruittree], create_tree);
+
+for (int i=0;i<map->h*(map->w)/300;i++)
+	add_gen_tree_to_map_from_inter(ref, map, blckd, ref->interactive[fruittree], create_fruittree);
 }
 
+void	add_inst_to_map_from_inter(Map* map, char** blckd, Interactive* inter){
+	int yinst, xinst;
+	int blocked =1; while (blocked){ blocked =0;
+	yinst =rand()%(map->h-20)+10; xinst =rand()%(map->w-20)+10;
+	for (int y=0; y<inter->h &&!blocked; y++) for (int x=0; x<inter->w; x++)
+		if(inter->info[y][x]=='X' &&blckd[yinst+y][xinst+x])	blocked =1;}
+	Instance* inst =add_inst_loaded(map,yinst,xinst,inter);
+	for (int y=0; y<inst->inter->h; y++) for (int x=0; x<inst->inter->w; x++)
+		if (inst->inter->info[y][x]=='X')
+			blckd[inst->y+y][inst->x+x] ='X';}
+
+void	add_gen_tree_to_map_from_inter(Ref* ref, Map* map, char** blckd, Interactive* inter, Instance* (f)(Ref*)){
+	int yinst, xinst;
+	int blocked =1; while (blocked){ blocked =0;
+	yinst =rand()%(map->h-20)+10; xinst =rand()%(map->w-20)+10;
+	for (int y=0; y<inter->h &&!blocked; y++) for (int x=0; x<inter->w; x++)
+		if(inter->info[y][x]=='X' &&blckd[yinst+y][xinst+x])	blocked =1;}
+	Instance* inst =add_inst_generated(map, yinst,xinst, f(ref));
+	for (int y=0; y<inst->inter->h; y++) for (int x=0; x<inst->inter->w; x++)
+		if (inst->inter->info[y][x]=='X')
+			blckd[inst->y+y][inst->x+x] ='X';}
 
 
 Map* load_map(House* house,Map* oldmap){ //TODO move between indoors maps

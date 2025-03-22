@@ -151,14 +151,25 @@ struct item{
 
 //
 // - lists -
+/*struct list{
+	void*	item;
+	void*	hints;
+	List	*previous,*next;
+};
+struct instlist{ //an array might be simplier and more efficient
+	Instance*	item;
+	Insthints*	hints;
+	Instlist	*top,*bottom,*left,*right;
+};*/
+
 struct instance{
 	int		type;
 	int		id;
 	int		y,x;
 	Interactive*	inter;
+	Interactive*	map; //for generated ones
 	Actionlist*	actionlist;
 	Instance	*previous,*next;
-	Interactive*	map;
 };
 struct maplist{
 	Map*	map;

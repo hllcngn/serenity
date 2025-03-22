@@ -87,7 +87,7 @@ init_pair(CP_BASE,COLOR_BLACK,21);	return hue;}
 Map* mapsize_selection(int random){
 char c;
 if (random) {
-c = rand()%3+1 +'0';
+c = rand()%2+2 +'0';
 } else {
 WINDOW* wmap =newwin(9,30,(LINES-9)/2,(COLS-30)/2);
 wattron(wmap, COLOR_PAIR(CP_NORMAL)); box(wmap,0,0);

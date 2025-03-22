@@ -1,5 +1,6 @@
 #include "serenity.h"
 
+// REFERENCE tables
 Ref* load_ref(void){
 Ref *ref =malloc(sizeof(Ref));
 ref->action =create_actiontable();
@@ -14,6 +15,7 @@ free_animtable(ref->anim);
 free(ref);}
 
 
+// simple ASSETS
 Asset* load_asset(char* path){
 Asset* ass =malloc(sizeof(Asset));
 FILE* f =fopen(path,"r");
@@ -40,13 +42,14 @@ for (int y=0;y<ass->h;y++) free(ass->info[y]);
 free(ass->info);
 free(ass);}
 
+
+// HOUSES (assets w/ tp)
 House* load_house(char* path){
 House* house =malloc(sizeof(House));
 FILE* f =fopen(path,"r");
 fsize_map(f,&(house->h),&(house->w));
 rewind(f);	     house->ascii =fread_map(f,house->h,house->w);
 fseek(f,2,SEEK_CUR); house->info =fread_map(f,house->h,house->w);
-//fseek(f,2,SEEK_CUR); house->path = fread_line(f);
 fclose(f);	return house;}
 
 void paste_house(Map* map, House* house, int y, int x){
@@ -67,24 +70,16 @@ for (int y=0;y<house->h;y++) free(house->ascii[y]);
 free(house->ascii);
 for (int y=0;y<house->h;y++) free(house->info[y]);
 free(house->info);
-//free(house->path);
 free(house);}
 
 
-
+// INTERACTIVES (instance models)
 Interactive** create_intertable(Action** actiontable){
 Interactive** inter =malloc(sizeof(Interactive*)*nb_inter);
 inter[tree2] =load_inter("ass/inter/tree2.txt", actiontable);
 inter[fruittree] =load_inter("ass/inter/fruittree.txt", actiontable);
 inter[stump] =load_inter("ass/inter/stump.txt", actiontable);
 inter[umbrella] =load_inter("ass/inter/umbrella.txt", actiontable);
-
-/*
-inter[tree2]->name =strdup("tree2");
-inter[fruittree]->name =strdup("fruittree");
-inter[stump]->name =strdup("stump");
-inter[umbrella]->name =strdup("umbrella");
-*/
 return inter;}
 
 Interactive* load_inter(char* path, Action** actiontable){
@@ -103,21 +98,12 @@ char c; while ((c=getc(f))!='\n'&&c!=EOF){ fseek(f,-1,SEEK_CUR);
 	free(act);}
 fclose(f);	return inter;}
 
-/*
-Interactive* find_inter(Ref* ref, char* name){
-for (int i=0; i<nb_inter; i++)
-	if (!strcmp(name, ref->interactive[i]->name))
-		return ref->interactive[i];
-return NULL;}
-*/
-
 void free_inter(Interactive* inter){
 for (int y=0;y<inter->h;y++){	free(inter->ascii[y]);
 				free(inter->info[y]);
 				free(inter->inter[y]);}
 free(inter->ascii);free(inter->info);free(inter->inter);
 free_actionlist(inter->actionlist);
-//free(inter->name);
 free(inter);}
 
 void free_intertable(Interactive** inter){
@@ -125,7 +111,7 @@ for (int i=0;i<nb_inter;i++) free_inter(inter[i]);
 free(inter);}
 
 
-
+// INSTANCES
 Instance* add_inst_loaded(Map* map, int y, int x, Interactive* inter){
 Instance* inst =malloc(sizeof(Instance));
 inst->y =y; inst->x =x; inst->inter =inter; inst->actionlist =NULL;
@@ -157,10 +143,12 @@ int id =map->it[y][x];
 if (id)	for (Instance* it=map->inst; it; it=it->next)
 	if (it->id==id) return it;
 return NULL;}
+
 Instance* find_inst_id(Map* map, int id){
 for (Instance* it=map->inst; it; it=it->next)
 	if (it->id==id) return it;
 return NULL;}
+
 Instance* find_inst_inter(Ref* ref, Map* map, Interactive* inter){
 for (Instance* inst=map->inst; inst; inst=inst->next)
 	if (inst->inter==inter) return inst;
