@@ -1,71 +1,94 @@
 #pragma once
-#include "settings.h"
 #include <ncurses.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <time.h>
 #include <string.h>
 #include <sys/stat.h>
+//
+#include "settings.h"
+
 
 #define NORANDOM	0
 #define RANDOM		1
-
+//
 #define OLDSCHOOL	0
 #define MODERN		1
-
+//
 #define CP_NORMAL	1
 #define CP_BASE		2
-
+//
 #define OUTDOORS	0
 #define INDOORS		1
-
+//
 #define UNABLE		0
 #define ABLE		2
 #define SUPERABLE	3
-
+//
 #define LOADED		0
 #define GENERATED	1
+//
+#define TREEBASE_N 8
+#define FRUITBASE_N 8
+static char treebase[TREEBASE_N] ={'j','n','C','u','Y','k','v','i'};
+static char fruitbase[FRUITBASE_N] ={'b','B','d','q','9','o','6','8'};
 
-#define TREEBASE_N 7
-#define FRUITBASE_N 5
-static char treebase[TREEBASE_N] ={'n','C','u','Y','k','v','i'};
-static char fruitbase[FRUITBASE_N] ={'9','o','6','j','8'};
+enum inter_id{
+	tree2,
+	fruittree,
+	stump,
+	umbrella,
+	nb_inter
+};
+enum action_id{
+	fall_tree,
+	pull_stump,
+	harvest_fruits,
+	light_fire,
+	nb_action
+};
+enum anim_id{
+	fire,
+	nb_anim
+};
+
 
 typedef struct{ int	y,x;	} v2i;
 typedef struct{	float	i,j,k;	} v3f;
 
+typedef struct settings Settings; //general settings
+typedef struct game Game; //game settings
 typedef struct ui Ui;
-typedef struct game Game;
-typedef struct settings Settings;
-typedef struct ref Ref;
+typedef struct ref Ref; //assets reference
 typedef struct player Player;
 typedef struct world World;
 typedef struct map Map;
-typedef struct maplist Maplist;
+typedef struct interactive Interactive;
 typedef struct asset Asset;
 typedef struct house House;
-typedef struct houselist Houselist;
-typedef struct interactive Interactive;
-typedef struct instance	Instance;
-typedef struct anim Anim;
 typedef struct action Action;
-typedef struct actionlist Actionlist;
 typedef struct item Item;
+typedef struct anim Anim;
+//lists:
+typedef struct instance	Instance;
+typedef struct maplist Maplist;
+typedef struct houselist Houselist;
+typedef struct actionlist Actionlist;
 typedef struct itemlist Itemlist;
 
-// = internals =
-struct ui{
-	WINDOW		*gamw,*guiw;
-	int		style;
+// - game internals -
+struct settings{
 };
 struct game{
 	v3f	hue;
 	int	difficulty;
 };
-struct settings{
+struct ui{
+	WINDOW		*gamw,*guiw;
+	int		style;
 };
 
-// = game objects =
+// - game objects -
 struct player{
 	int		y,x;
 	int		hp;
@@ -83,17 +106,12 @@ struct map{
 	char		**bg,**clsn,**fg,**tp;
 	int		**it;
 	char*		name;
-	//Map*		oldmap;
 	Instance*	inst;	//TODO add a max n of instances
 	Houselist*	houselist;
 	Maplist*	maplist;
-};			//TODO multiple houses per map
-struct maplist{
-	Map*	map;
-	Maplist	*previous,*next;
 };
 
-// = all assets =
+// - assets -
 struct ref{
 	Interactive**	interactive;
 	Action**	action;
@@ -108,26 +126,31 @@ struct house{
 	int		y,x;
 	int		h,w;
 	char		**ascii,**info;
-	//char*	path;
-	//Map*		map;
-};
-struct houselist{
-	House		*house;
-	Houselist	*previous,*next;
 };
 struct interactive{
 	int		h,w;
 	char		**ascii,**info,**inter;
-	//char*		name;
 	Actionlist*	actionlist;
 };
-enum inter_id{
-	tree2,
-	fruittree,
-	stump,
-	umbrella,
-	nb_inter
+struct anim{
+	int		n;
+	char*		chars;
 };
+
+// - others -
+struct action{
+	int		id;
+	int		key;
+	int		labellen, c;
+	char*		label;
+	void	(*action)(Instance* inst,Map* map,Ref* ref);
+};
+struct item{
+	char*	name;
+};
+
+//
+// - lists -
 struct instance{
 	int		type;
 	int		id;
@@ -137,38 +160,18 @@ struct instance{
 	Instance	*previous,*next;
 	Interactive*	map;
 };
-struct anim{
-	int		n;
-	char*		chars;
+struct maplist{
+	Map*	map;
+	Maplist	*previous,*next;
 };
-enum anim_id{
-	fire,
-	nb_anim
-};
-
-// = actions system =
-struct action{
-	int		id;
-	int		key;
-	int		labellen, c;
-	char*		label;
-	void	(*action)(Instance* inst,Map* map,Ref* ref);
+struct houselist{
+	House		*house;
+	Houselist	*previous,*next;
 };
 struct actionlist{
 	int		condition;
 	Action		*action;
-	Actionlist	*previous,*next; //TODO maybe i don't need
-};					//it to be double linked
-enum action_id{
-	fall_tree,
-	pull_stump,
-	harvest_fruits,
-	light_fire,
-	nb_action
-};
-
-struct item{
-	char*	name;
+	Actionlist	*previous,*next;
 };
 struct itemlist{
 	int		n;
@@ -176,9 +179,9 @@ struct itemlist{
 	Itemlist	*previous, *next;
 };
 
+
 // = start.c =
 void title_screen(void);
-
 // = menus.c =
 Ui* create_ui(void);
 void free_ui(Ui* ui);
@@ -194,6 +197,15 @@ int run_game(Game* game, Ui* ui, Ref* ref, Player* pl, World* world);
 Map* movement(Player* pl, World* world, Map* map, char c);
 int check_collision(Map* map, int y, int x);
 int check_tp(Map* map, int y, int x);
+// = display.c =
+void display(Ui* ui, Player* pl, Map* map);
+void display_map(WINDOW* gwin, Map* map, v2i pos);
+void display_pl(WINDOW* gwin, Player* pl, Map* map);
+void display_notice(WINDOW* gwin, Player* pl, Instance* in, Map* map, int interface_style);
+void display_gui(WINDOW* guiwin, Player* pl, Map* map);
+// = anim.c =
+Anim** create_animtable(void);
+void free_animtable(Anim** at);
 
 // = player.c =
 Player* create_player(Ref* ref, char* name, int y, int x, int hp);
@@ -244,17 +256,6 @@ void act_fall_tree(Instance* inst, Map* map, Ref* ref);
 void act_pull_stump(Instance* inst, Map* map, Ref* ref);
 void act_harvest_fruits(Instance* inst, Map* map, Ref* ref);
 void act_light_fire(Instance* inst, Map* map, Ref* ref);
-
-// = display.c =
-void display(Ui* ui, Player* pl, Map* map);
-void display_map(WINDOW* gwin, Map* map, v2i pos);
-void display_pl(WINDOW* gwin, Player* pl, Map* map);
-void display_notice(WINDOW* gwin, Player* pl, Instance* in, Map* map, int interface_style);
-void display_gui(WINDOW* guiwin, Player* pl, Map* map);
-
-// = anim.c =
-Anim** create_animtable(void);
-void free_animtable(Anim** at);
 
 // = tool functions =
 int** malloc_arrayint2(int h,int w);
