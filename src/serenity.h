@@ -28,9 +28,9 @@
 #define LOADED		0
 #define GENERATED	1
 //
-#define TREEBASE_N 8
+#define TREEBASE_N 7
 #define FRUITBASE_N 8
-static char treebase[TREEBASE_N] ={'j','n','C','u','Y','k','v','i'};
+static char treebase[TREEBASE_N] ={'n','C','u','Y','k','v','i'};
 static char fruitbase[FRUITBASE_N] ={'b','B','d','q','9','o','6','8'};
 
 enum inter_id{

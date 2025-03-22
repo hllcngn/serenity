@@ -1,7 +1,7 @@
 #include "serenity.h"
 
 void	add_inst_to_map_from_inter(Map* map, char** blckd, Interactive* inter);
-void	add_gen_tree_to_map_from_inter(Ref* ref, Map* map, char** blckd, Interactive* inter, Instance* (f)(Ref*));
+void	add_gen_tree_to_map_from_inter(Ref* ref, Map* map, char** blckd, Interactive* inter, Instance* (*f)(Ref*));
 
 World* create_world(void){
 World*	world =malloc(sizeof(World));
@@ -91,11 +91,11 @@ for (int i=0;i<map->h*(map->w)/500;i++)
 for (int i=0;i<map->w/6;i++)
 	add_inst_to_map_from_inter(map, blckd, ref->interactive[stump]);
 
-for (int i=0;i<map->h*(map->w)/100;i++)
-	add_gen_tree_to_map_from_inter(ref, map, blckd, ref->interactive[fruittree], create_tree);
+for (int i=0;i<map->h*(map->w)/200;i++)
+	add_gen_tree_to_map_from_inter(ref, map, blckd, ref->interactive[tree2], &create_tree);
 
-for (int i=0;i<map->h*(map->w)/300;i++)
-	add_gen_tree_to_map_from_inter(ref, map, blckd, ref->interactive[fruittree], create_fruittree);
+for (int i=0;i<map->h*(map->w)/200;i++)
+	add_gen_tree_to_map_from_inter(ref, map, blckd, ref->interactive[tree2], &create_fruittree);
 }
 
 void	add_inst_to_map_from_inter(Map* map, char** blckd, Interactive* inter){
@@ -109,13 +109,13 @@ void	add_inst_to_map_from_inter(Map* map, char** blckd, Interactive* inter){
 		if (inst->inter->info[y][x]=='X')
 			blckd[inst->y+y][inst->x+x] ='X';}
 
-void	add_gen_tree_to_map_from_inter(Ref* ref, Map* map, char** blckd, Interactive* inter, Instance* (f)(Ref*)){
+void	add_gen_tree_to_map_from_inter(Ref* ref, Map* map, char** blckd, Interactive* inter, Instance* (*f)(Ref*)){
 	int yinst, xinst;
 	int blocked =1; while (blocked){ blocked =0;
 	yinst =rand()%(map->h-20)+10; xinst =rand()%(map->w-20)+10;
 	for (int y=0; y<inter->h &&!blocked; y++) for (int x=0; x<inter->w; x++)
 		if(inter->info[y][x]=='X' &&blckd[yinst+y][xinst+x])	blocked =1;}
-	Instance* inst =add_inst_generated(map, yinst,xinst, f(ref));
+	Instance* inst =add_inst_generated(map, yinst,xinst, (*f)(ref));
 	for (int y=0; y<inst->inter->h; y++) for (int x=0; x<inst->inter->w; x++)
 		if (inst->inter->info[y][x]=='X')
 			blckd[inst->y+y][inst->x+x] ='X';}

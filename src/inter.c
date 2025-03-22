@@ -28,7 +28,7 @@ inst->map->ascii =duplicate_arraychar2(treemodel->ascii, treeh, treew);
 for (int y=0; y<treeh; y++) for (int x=0; x<treew; x++)
 	if (treemodel->ascii[y][x]!=' ' &&treemodel->ascii[y][x]!='|'){
 		int r =rand()%(TREEBASE_N+FRUITBASE_N);
-		if (r >TREEBASE_N)
+		if (r <TREEBASE_N)
 			inst->map->ascii[y][x] =treebase[r];
 		else	inst->map->ascii[y][x] =fruitbase[r-TREEBASE_N];}
 inst->map->info =duplicate_arraychar2(treemodel->info, treeh, treew);
