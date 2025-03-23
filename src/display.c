@@ -38,6 +38,7 @@ for (; y<GWIN_H; y++){
 	wmove(gwin,y,0);
 	for (int x=0;x<GWIN_W;x++) waddch(gwin,' ');}
 
+//TODO draw instances in order
 //TODO more efficient way to draw instances
 for (Instance* in=map->inst; in; in=in->next)
 if     (in->y+in->inter->h>cam.y &&in->y<cam.y+GWIN_H
@@ -52,9 +53,7 @@ for (yy; yy<in->inter->h &&in->y+yy<cam.y+GWIN_H; yy++){
 				in->inter->ascii[yy][xx]);
 		else if (in->type==GENERATED &&in->map->info[yy][xx]!=' ')
 			mvwaddch(gwin,
-				//4, 6,
 				in->y+yy-cam.y, in->x+xx-cam.x,
-				//'a');
 				in->map->ascii[yy][xx]);
 	}}}}
 

@@ -106,6 +106,7 @@ struct map{
 	char		**bg,**clsn,**fg,**tp;
 	int		**it;
 	char*		name;
+	int		inst_n;
 	Instance*	inst;	//TODO add a max n of instances
 	Houselist*	houselist;
 	Maplist*	maplist;

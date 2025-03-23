@@ -20,6 +20,7 @@ map->fg   =calloc_arraychar2(map->h,map->w);
 map->it   =calloc_arrayint2(map->h,map->w);
 map->tp   =calloc_arraychar2(map->h,map->w);
 map->inst =NULL;
+map->inst_n =0;
 char** blckd =calloc_arraychar2(map->h,map->w);
 
 for (int y=0; y<map->h; y++)
