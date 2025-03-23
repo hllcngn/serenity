@@ -24,6 +24,11 @@ for (int y=0;y<h;y++){
 	       arr[y][x]=' ';}
 return arr;}
 
+void** fill_rectangle_arrayint2(int** arr, int y, int x, int h,int w, int c){
+for (int yy=0;yy<h;yy++)
+       for (int xx=0;xx<w;xx++)
+	       arr[y+yy][x+xx]=c;}
+
 void fput_arrayint2(FILE* f,int** arr,int h,int w){
 for (int y=0;y<h;y++){
 	for (int x=0;x<w;x++)
@@ -54,6 +59,11 @@ for (int y=0;y<h;y++){
        for (int x=0;x<w;x++)
 	       arr[y][x]=' ';}
 return arr;}
+
+void** fill_rectangle_arraychar2(char** arr, int y, int x, int h,int w, char c){
+for (int yy=0;yy<h;yy++)
+       for (int xx=0;xx<w;xx++)
+	       arr[y+yy][x+xx]=c;}
 
 void fput_arraychar2(FILE* f,char** arr,int h,int w){
 for (int y=0;y<h;y++){

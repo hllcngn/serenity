@@ -103,7 +103,7 @@ void	add_inst_to_map_from_inter(Map* map, char** blckd, Interactive* inter){
 	int yinst, xinst;
 	int blocked =1; while (blocked){ blocked =0;
 	yinst =rand()%(map->h-20)+10; xinst =rand()%(map->w-20)+10;
-	for (int y=0; y<inter->h &&!blocked; y++) for (int x=0; x<inter->w; x++)
+	for (int y=0; y<inter->h &&!blocked; y++) for (int x=0; x<inter->w &&!blocked; x++)
 		if(inter->info[y][x]=='X' &&blckd[yinst+y][xinst+x])	blocked =1;}
 	Instance* inst =add_inst_loaded(map,yinst,xinst,inter);
 	for (int y=0; y<inst->inter->h; y++) for (int x=0; x<inst->inter->w; x++)
@@ -114,7 +114,7 @@ void	add_gen_tree_to_map_from_inter(Ref* ref, Map* map, char** blckd, Interactiv
 	int yinst, xinst;
 	int blocked =1; while (blocked){ blocked =0;
 	yinst =rand()%(map->h-20)+10; xinst =rand()%(map->w-20)+10;
-	for (int y=0; y<inter->h &&!blocked; y++) for (int x=0; x<inter->w; x++)
+	for (int y=0; y<inter->h &&!blocked; y++) for (int x=0; x<inter->w &&!blocked; x++)
 		if(inter->info[y][x]=='X' &&blckd[yinst+y][xinst+x])	blocked =1;}
 	Instance* inst =add_inst_generated(map, yinst,xinst, (*f)(ref));
 	for (int y=0; y<inst->inter->h; y++) for (int x=0; x<inst->inter->w; x++)

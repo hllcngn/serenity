@@ -116,41 +116,26 @@ Instance* add_inst_loaded(Map* map, int y, int x, Interactive* inter){
 Instance* inst =malloc(sizeof(Instance));
 inst->y =y; inst->x =x; inst->inter =inter; inst->actionlist =NULL;
 inst->type =LOADED; inst->map =NULL;
-if (map->inst) map->inst->previous =inst;
 map->inst_n++;
 inst->id =map->inst_n;
-//if (!map->inst)	inst->id =1;
-/*else {	inst->id =map->inst->id+1;*/
-inst->previous =NULL; inst->next =map->inst; map->inst =inst;
-for (int yy=0;yy<inst->inter->h;yy++)	//TODO edge cases
-for (int xx=0;xx<inst->inter->w;xx++)  //copy arr tool funct
-	map->it[y+yy][x+xx]=inst->id;
-return inst;}
-
-/*
-Instance* add_inst_generated(Map* map, int y, int x, Instance* inst){
-inst->y =y; inst->x =x; inst->actionlist =NULL;
-inst->type =GENERATED;
-if (!map->inst)	inst->id =1;
-else {		inst->id =map->inst->id+1;
-		map->inst->previous =inst;}
-inst->previous =NULL; inst->next =map->inst; map->inst =inst;
-for (int yy=0;yy<inst->inter->h;yy++)	//TODO edge cases
-for (int xx=0;xx<inst->inter->w;xx++)  //copy arr tool funct
-	map->it[y+yy][x+xx]=inst->id;
-return inst;}
-*/
+insert_inst(&(map->inst), inst);
+fill_rectangle_arrayint2(map->it,y,x,inst->inter->h,inst->inter->w,inst->id); //TODO edge cases
+return inst;}								//TODO insert only inter
 
 Instance* add_inst_generated(Map* map, int y, int x, Instance* inst){
 inst->y =y; inst->x =x; inst->actionlist =NULL;
 inst->type =GENERATED;
 map->inst_n++;
 inst->id =map->inst_n;
-Instance* in=map->inst;
-if (!in){
-	map->inst =inst;
+insert_inst(&(map->inst), inst);
+fill_rectangle_arrayint2(map->it,y,x,inst->inter->h,inst->inter->w,inst->id); //TODO edge cases
+return inst;}								//TODO insert only inter
+
+Instance* insert_inst(Instance** list, Instance* inst){
+Instance* in=*list; if (!in){
+	*list =inst;
 	inst->previous =inst->next =NULL;}
-else {	Instance* i2; for (; in &&in->y<y; in=in->next) i2=in;
+else {	Instance* i2; for (; in &&in->y<inst->y; in=in->next) i2=in;
 	if(!in) { inst->previous =i2;
 		inst->next =NULL;
 		i2->next =inst;}
@@ -158,12 +143,8 @@ else {	Instance* i2; for (; in &&in->y<y; in=in->next) i2=in;
 		inst->next =in;
 		if (in->previous)
 			in->previous->next =inst;
-		else map->inst =inst;
+		else *list =inst;
 		in->previous =inst;}}
-for (int yy=0;yy<inst->inter->h;yy++)	//TODO edge cases
-for (int xx=0;xx<inst->inter->w;xx++)  //copy arr tool funct
-	//if (				//copy inter only
-		map->it[y+yy][x+xx]=inst->id;
 return inst;}
 
 
