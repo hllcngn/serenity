@@ -21,6 +21,7 @@ Game*	game;
 	game =new_game(ref, &pl, &map, RANDOM);
 //else	game =new_game(ref, &pl, &map, NORANDOM);
 World* world =create_world();
+world->curr =map;
 create_map(ref, world, map);
 
 run_game(game, ui, ref, pl, world); //launching game

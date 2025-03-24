@@ -62,7 +62,7 @@ if (inst.y+inst.h>cam.y &&inst.y<cam.y+GWIN_H
 
 
 void display_notice(WINDOW* gwin, Player* pl, Map* map, Instance* in, int interface_style){
-Actionlist* aldisp =generate_notice_al(pl, in);
+Actionlist* aldisp =generate_complete_al(pl, in);
 wattron(gwin,COLOR_PAIR(CP_NORMAL));
 int i=0; for (Actionlist* al=aldisp; al; al=al->next){
 	i++;
@@ -72,23 +72,3 @@ int i=0; for (Actionlist* al=aldisp; al; al=al->next){
 	waddch(gwin,al->action->label[al->action->c]);
 	wattroff(gwin,A_UNDERLINE);}
 free_actionlist(aldisp);}
-
-Actionlist* generate_notice_al(Player* pl, Instance* in){
-Actionlist* aldisp =NULL;
-for (Actionlist *al=pl->actionlist; al; al=al->next)
-	if (al &&al->condition==SUPERABLE)
-		add_action(&aldisp, al->action, 0);
-for (Actionlist *al=in->actionlist; al; al=al->next){
-	if (al->condition==SUPERABLE)
-		add_action(&aldisp, al->action, 0);
-	else {	Actionlist* plal =find_action(al->action->label,pl->actionlist);
-		if (plal &&plal->condition)
-			add_action(&aldisp, plal->action, 0);}}
-for (Actionlist *al=in->inter->actionlist; al; al=al->next){
-	if (al->condition==SUPERABLE)
-		add_action(&aldisp, al->action, 0);
-	else {	Actionlist* plal =find_action(al->action->label,pl->actionlist);
-		if (plal &&plal->condition)
-			add_action(&aldisp, plal->action, 0);}}
-al_remove_duplicates(aldisp);
-return aldisp;}

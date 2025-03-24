@@ -3,10 +3,10 @@
 void	add_inst_to_map_from_inter(Map* map, char** blckd, Interactive* inter);
 void	add_gen_tree_to_map_from_inter(Ref* ref, Map* map, char** blckd, Interactive* inter, Instance* (*f)(Ref*));
 
+
 World* create_world(void){
 World*	world =malloc(sizeof(World));
 return world;}
-
 
 
 void create_map(Ref* ref, World* world, Map* map){

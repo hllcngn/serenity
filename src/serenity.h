@@ -99,6 +99,7 @@ struct player{
 };
 struct world	//TODO implement this
 {
+	Map*		curr;
 	Maplist*	maplist;
 };
 struct map{
@@ -215,7 +216,6 @@ void display(Ui* ui, Player* pl, Map* map);
 void display_map(WINDOW* gwin, Map* map, int ply, int plx);
 void display_pl(WINDOW* gwin, Player* pl, Map* map, Instance* inst);
 void display_notice(WINDOW* gwin, Player* pl, Map* map, Instance* in, int interface_style);
-Actionlist* generate_notice_al(Player* pl, Instance* in);
 void display_gui(WINDOW* guiwin, Player* pl, Map* map);
 // = anim.c =
 Anim** create_animtable(void);
@@ -266,6 +266,7 @@ void al_remove_duplicates(Actionlist* al);
 Actionlist* find_action(char* label, Actionlist* al);
 Actionlist* find_action_key(char key, Actionlist* al);
 void free_actionlist(Actionlist* al);
+Actionlist* generate_complete_al(Player* pl, Instance* in);
 //
 void act(Ref* ref, Map* map, Player* pl, char c);
 void act_fall_tree(Instance* inst, Map* map, Ref* ref);
