@@ -54,6 +54,7 @@ enum anim_id{
 
 
 typedef struct{ int	y,x;	} v2i;
+typedef struct{ int	y,x,h,w;	} v4i;
 typedef struct{	float	i,j,k;	} v3f;
 
 typedef struct settings Settings; //general settings
@@ -211,9 +212,10 @@ int check_collision(Map* map, int y, int x);
 int check_tp(Map* map, int y, int x);
 // = display.c =
 void display(Ui* ui, Player* pl, Map* map);
-void display_map(WINDOW* gwin, Map* map, v2i pos);
-void display_pl(WINDOW* gwin, Player* pl, Map* map);
-void display_notice(WINDOW* gwin, Player* pl, Instance* in, Map* map, int interface_style);
+void display_map(WINDOW* gwin, Map* map, int ply, int plx);
+void display_pl(WINDOW* gwin, Player* pl, Map* map, Instance* inst);
+void display_notice(WINDOW* gwin, Player* pl, Map* map, Instance* in, int interface_style);
+Actionlist* generate_notice_al(Player* pl, Instance* in);
 void display_gui(WINDOW* guiwin, Player* pl, Map* map);
 // = anim.c =
 Anim** create_animtable(void);
@@ -260,6 +262,7 @@ Action** create_actiontable(void);
 void free_actiontable(Action** actions);
 void add_action(Actionlist** actionlist, Action* action, int condition);
 void destroy_action(Actionlist* al);
+void al_remove_duplicates(Actionlist* al);
 Actionlist* find_action(char* label, Actionlist* al);
 Actionlist* find_action_key(char key, Actionlist* al);
 void free_actionlist(Actionlist* al);

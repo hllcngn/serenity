@@ -10,7 +10,7 @@ init_color(COLOR_WHITE,rand()%600+400,rand()%600+400,rand()%550+450);
 
 Ui* ui =create_ui(); //creating ui
 //ui->style =OLDSCHOOL;
-ui->style =MODERN;
+//ui->style =MODERN;
 
 Ref* ref =load_ref(); //loading assets reference
 

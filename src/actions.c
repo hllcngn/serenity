@@ -47,6 +47,13 @@ if (al->previous) al->previous->next =al->next;
 if (al->next) al->next->previous =al->previous;
 free(al);}
 
+void al_remove_duplicates(Actionlist* list){
+for (Actionlist* al=list; al; al=al->next)
+	for (Actionlist *al2=al->next, *al3=al->next; al2;){
+		al3=al2->next;
+		if (al2->action==al->action) destroy_action(al2);
+		al2=al3;}}
+
 Actionlist* find_action(char* label, Actionlist* al){
 for (Actionlist* all=al; all; all=all->next)
 	if (!strcmp(label,all->action->label))
@@ -62,7 +69,6 @@ void free_actionlist(Actionlist* al){
 if (al==NULL)	return;
 free_actionlist(al->next);
 free(al);}
-
 /*
 void free_actionlist(Actionlist* al){
 for (Actionlist *alfree=al; alfree;){
