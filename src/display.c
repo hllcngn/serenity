@@ -38,7 +38,6 @@ for (; y<GWIN_H; y++){
 	wmove(gwin,y,0);
 	for (int x=0;x<GWIN_W;x++) waddch(gwin,' ');}
 
-//TODO draw instances in order
 //TODO more efficient way to draw instances
 for (Instance* in=map->inst; in; in=in->next)
 if     (in->y+in->inter->h>cam.y &&in->y<cam.y+GWIN_H
@@ -54,8 +53,7 @@ for (yy; yy<in->inter->h &&in->y+yy<cam.y+GWIN_H; yy++){
 		else if (in->type==GENERATED &&in->map->info[yy][xx]!=' ')
 			mvwaddch(gwin,
 				in->y+yy-cam.y, in->x+xx-cam.x,
-				in->map->ascii[yy][xx]);
-	}}}}
+				in->map->ascii[yy][xx]);}}}}
 
 
 void display_pl(WINDOW* gwin, Player* pl, Map* map){
@@ -68,7 +66,7 @@ waddch(gwin,' ');}
 
 
 void display_notice(WINDOW* gwin, Player* pl, Instance* in, Map* map, int interface_style){
-if (interface_style == OLDSCHOOL){ //TODO action conditions in OLDSCHOOL mode
+if (interface_style == OLDSCHOOL){ //TODO redo OLDSCHOOL mode
 	wattron(gwin,COLOR_PAIR(CP_BASE));
 	wmove(gwin,GWIN_H/2+1,GWIN_W/2+1);
 	for (int i=0;i<in->inter->actionlist->action->labellen+2;i++)
@@ -96,37 +94,37 @@ if (interface_style == OLDSCHOOL){ //TODO action conditions in OLDSCHOOL mode
 		i++; al2=al;}
 	wmove(gwin,GWIN_H/2+2+i,GWIN_W/2+1);
 	for (int i=0;i<al2->action->labellen+2;i++) waddch(gwin,'-');}
-else if (interface_style == MODERN){ //TODO craft a list of possible actions
-	wattron(gwin,COLOR_PAIR(CP_NORMAL)); //to avoid repeated labels
-	int i=0; for (Actionlist *al=in->inter->actionlist; al; al=al->next){
+else if (interface_style == MODERN){
+	wattron(gwin,COLOR_PAIR(CP_NORMAL));
+	// generating complete list of possible actions
+	Actionlist* aldisp =NULL;
+	for (Actionlist *al=in->inter->actionlist; al; al=al->next){
 		Actionlist* plal =find_action(al->action->label,pl->actionlist);
-		if ((plal &&plal->condition) ||al->condition==SUPERABLE){
-			i++;
-			mvwprintw(gwin,GWIN_H/2+i,GWIN_W/2+1,"%s",al->action->label);
-			wattron(gwin,A_UNDERLINE);
-			wmove(gwin,GWIN_H/2+i,GWIN_W/2+1+al->action->c);
-			waddch(gwin,al->action->label[al->action->c]);
-			wattroff(gwin,A_UNDERLINE);}}
-		/* action arrays tryout
-		for (int i=0; i<in->nb_action; i++){
-			Actiontoken* at =in->actiontokens[i];
-			Actiontoken* atpl =find_action(at->action,pl->actiontokens);
-			if (atpl &&atpl->condition ||at->condition==SUPERABLE)
-				print(at->action->label);}	*/
+		if (plal &&plal->condition)
+			add_action(&aldisp, plal->action, 0);
+		else if (al->condition==SUPERABLE)
+			add_action(&aldisp, al->action, 0);}
 		for (Actionlist *al=in->actionlist; al; al=al->next){
 		Actionlist* plal =find_action(al->action->label,pl->actionlist);
-		if ((plal &&plal->condition) ||al->condition==SUPERABLE){
-			i++;
-			mvwprintw(gwin,GWIN_H/2+i,GWIN_W/2+1,"%s",al->action->label);
-			wattron(gwin,A_UNDERLINE);
-			wmove(gwin,GWIN_H/2+i,GWIN_W/2+1+al->action->c);
-			waddch(gwin,al->action->label[al->action->c]);
-			wattroff(gwin,A_UNDERLINE);}}
+		if (plal &&plal->condition)
+			add_action(&aldisp, plal->action, 0);
+		else if (al->condition==SUPERABLE)
+			add_action(&aldisp, al->action, 0);}
 		for (Actionlist *al=pl->actionlist; al; al=al->next){
-		if (al &&al->condition==SUPERABLE){
-			i++;
-			mvwprintw(gwin,GWIN_H/2+i,GWIN_W/2+1,"%s",al->action->label);
-			wattron(gwin,A_UNDERLINE);
-			wmove(gwin,GWIN_H/2+i,GWIN_W/2+1+al->action->c);
-			waddch(gwin,al->action->label[al->action->c]);
-			wattroff(gwin,A_UNDERLINE);}}}}
+		if (al &&al->condition==SUPERABLE)
+			add_action(&aldisp, al->action, 0);}
+	// removing duplicates
+	for (Actionlist* al=aldisp; al; al=al->next){
+		for (Actionlist *al2=al->next, *al3=al->next; al2;){
+			al3=al2->next;
+			if (al2->action==al->action) destroy_action(al2);
+			al2=al3;}}
+	// displaying
+	int i=0; for (Actionlist* al=aldisp; al; al=al->next){
+		i++;
+		mvwprintw(gwin,GWIN_H/2+i,GWIN_W/2+1,"%s",al->action->label);
+		wattron(gwin,A_UNDERLINE);
+		wmove(gwin,GWIN_H/2+i,GWIN_W/2+1+al->action->c);
+		waddch(gwin,al->action->label[al->action->c]);
+		wattroff(gwin,A_UNDERLINE);}
+	free_actionlist(aldisp);}}

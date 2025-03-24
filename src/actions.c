@@ -47,28 +47,29 @@ if (al->previous) al->previous->next =al->next;
 if (al->next) al->next->previous =al->previous;
 free(al);}
 
-
 Actionlist* find_action(char* label, Actionlist* al){
 for (Actionlist* all=al; all; all=all->next)
 	if (!strcmp(label,all->action->label))
 		return all;
 return NULL;}
+
 Actionlist* find_action_key(char key, Actionlist* al){
 Actionlist* all;
 for (all=al; all &&all->action->key!=key; all=all->next);
 return all;}
-/*
-Action* find_action_table(char* label, Action** at){
-for (int i=0; i<nb_action; i++)
-	if (!strcmp(label,at[i]->label))
-		return at[i];
-return NULL;}
-*/
 
 void free_actionlist(Actionlist* al){
 if (al==NULL)	return;
 free_actionlist(al->next);
 free(al);}
+
+/*
+void free_actionlist(Actionlist* al){
+for (Actionlist *alfree=al; alfree;){
+	alfree =al->next;
+	free(al);
+	al=alfree;}}
+*/
 
 
 void act(Ref* ref, Map* map, Player* pl, char c){
