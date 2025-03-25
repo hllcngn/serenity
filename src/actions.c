@@ -102,17 +102,12 @@ for (Actionlist *alfree=al; alfree;){
 
 void act(Ref* ref, Map* map, Player* pl, char c){
 int inst_id =map->it[pl->y][pl->x]; //TODO this is still representing the internals of Map
-if (inst_id){ Instance* inst =find_inst_id(map, inst_id);
-if (inst){ Actionlist* plal =find_action_key(c,pl->actionlist);
-	Actionlist* al =find_action_key(c,inst->inter->actionlist);
-	Actionlist* al2 =find_action_key(c,inst->actionlist);
-	if (((al ||al2)  &&(plal &&plal->condition==ABLE))
-		||(plal &&plal->condition==SUPERABLE)
-		||(al &&al->condition==SUPERABLE)
-		||(al2 &&al2->condition==SUPERABLE)){
-		if (al) al->action->action(inst,map,ref);
-		else if (al2) al2->action->action(inst,map,ref);
-		else if (plal) plal->action->action(inst,map,ref);}}}}
+Instance* inst =NULL;
+if (inst_id)	inst =find_inst_id(map, inst_id);
+if (!inst)	return;
+Actionlist* al =generate_complete_al(pl, inst);
+al =find_action_key(c, al);
+al->action->action(inst, map, ref);}
 
 void act_fall_tree(Instance* inst, Map* map, Ref* ref){
 int y =inst->y, x =inst->x;

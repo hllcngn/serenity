@@ -16,26 +16,25 @@ display(ui, pl, map);
 Map* movement(Player* pl, World* world, Map* map, char c){
 int id; switch (c){ //change this to generate a move vector and interpret it after switch loop
 case K_UP:	id =check_collision(map, pl->y-1, pl->x);
-		if(id>=0){	pl->y--;
-			if (id>0){
-				//save_map(map);
-				Houselist* hl;
-				for (hl =map->houselist; //why are we querying two lists
-					hl &&hl->house->id !=id; hl =hl->next);
-				if (!hl) break;
-				pl->y =pl->y-hl->house->y;
-				pl->x =pl->x-hl->house->x;
-				Maplist* m =world->maplist;
-				for (; m &&strcmp(m->map->name,"House"); m=m->next);
-				if (m) map =m->map;
-				/*else {
-					map =load_map(map->house,map);
-					map->previous =NULL;
-					map->next =world->maps;
-					world->maps->previous =map;
-					world->maps =map;
-				}*/
-			}}	break;
+		if(id>=0){ pl->y--; if (id>0){
+			//save_map(map);
+			Houselist* hl;
+			for (hl =map->houselist; //why are we querying two lists
+				hl &&hl->house->id !=id; hl =hl->next);
+			if (!hl) break; //TODO figure out a definitive solution to the house problem
+			pl->y =pl->y-hl->house->y;
+			pl->x =pl->x-hl->house->x;
+			Maplist* m =world->maplist;
+			for (; m &&strcmp(m->map->name,"House"); m=m->next);
+			if (m) map =m->map;
+			/*else {
+				map =load_map(map->house,map);
+				map->previous =NULL;
+				map->next =world->maps;
+				world->maps->previous =map;
+				world->maps =map;
+			}*/
+		}}	break;
 case K_DOWN:	if(!check_collision(map, pl->y+1, pl->x)){
 			pl->y++;
 			//id =check_tp(map, pl->y, pl->x);
