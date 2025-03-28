@@ -97,18 +97,25 @@ struct player{
 	Actionlist*	actionlist;
 	Itemlist*	inventory;
 };
-struct world	//TODO implement this
-{
+struct world{
 	Map*		curr;
 	Maplist*	maplist;
+//	Tp*		tplist;
 };
+/*
+struct tp{
+	int	srcmapid,dstmapid;
+	int	srcy,srcx,dsty,dstx;
+};
+*/
 struct map{
+	int		id; //TODO use ids
 	int		type;
 	int		h,w;
+	int		inst_n;
+	char*		name;
 	char		**bg,**clsn,**fg,**tp;
 	int		**it;
-	char*		name;
-	int		inst_n;
 	Instance*	inst;	//TODO add a max n of instances
 	Houselist*	houselist;
 	Maplist*	maplist;
@@ -124,13 +131,20 @@ struct asset{
 	int	h,w;
 	char	**ascii,**info;
 };
-struct house{
-	int		id;
-	int		y,x;
-	int		h,w;
-	char		**ascii,**info;
-};
-struct interactive{
+struct house{			//TODO in order to make things work
+	int		id;	// make houses into regular inter/inst
+	int		y,x;	// but then i won't be able to delete
+	int		h,w;	// all the inner rooms at once easily
+	char		**ascii,**info; //so i still need some sort of house struct
+};				// with inst and maplist
+/*				//and actually a list of instances across all outdoors maps
+struct house{			//which is where it becomes useful to have
+	int		id;	//the list struct distinct from the instances
+	Instance*	inst;	// then we can always have a list of house instances
+	Maplist		*maplist;	//on the map if needed
+};				//but we also need to connect the instance to the house struct
+*/				//else just look for house in new house struct list by id
+struct interactive{		//which kinda works if we just have many different lists of stuff
 	int		h,w;
 	char		**ascii,**info,**inter;
 	Actionlist*	actionlist;
@@ -159,12 +173,7 @@ struct item{
 	void*	hints;
 	List	*previous,*next;
 };
-struct instlist{ //an array might be simplier and more efficient
-	Instance*	item;
-	Insthints*	hints;
-	Instlist	*top,*bottom,*left,*right;
-};*/
-
+*/
 struct instance{
 	int		type;
 	int		id;
@@ -172,6 +181,7 @@ struct instance{
 	Interactive*	inter;
 	Interactive*	map; //for generated ones
 	Actionlist*	actionlist;
+	// tp (or external tp list)
 	Instance	*previous,*next;
 };
 struct maplist{
