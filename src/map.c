@@ -75,7 +75,8 @@ free_asset(atree1);*/
 Asset* aumbrella =load_asset("ass/assets/umbrella.txt");
 paste_asset(map,aumbrella,yhouse+20,xhouse+5);
 free_asset(aumbrella);
-Instance* uminst =add_inst_loaded(map,yhouse+24,xhouse+30,ref->interactive[umbrella]);
+Instance* uminst =create_inst_from_inter(ref->interactive[umbrella]);
+add_inst(map, yhouse+24, xhouse+30, uminst);
 
 //add_inst(map,20,20,ref->interactive[0]);
 //add_inst(map,20,30,ref->interactive[0]);
@@ -105,7 +106,8 @@ void	add_inst_to_map_from_inter(Map* map, char** blckd, Interactive* inter){
 	yinst =rand()%(map->h-20)+10; xinst =rand()%(map->w-20)+10;
 	for (int y=0; y<inter->h &&!blocked; y++) for (int x=0; x<inter->w &&!blocked; x++)
 		if(inter->info[y][x]=='X' &&blckd[yinst+y][xinst+x])	blocked =1;}
-	Instance* inst =add_inst_loaded(map,yinst,xinst,inter);
+	Instance* inst =create_inst_from_inter(inter);
+	add_inst(map, yinst, xinst, inst);
 	for (int y=0; y<inst->inter->h; y++) for (int x=0; x<inst->inter->w; x++)
 		if (inst->inter->info[y][x]=='X')
 			blckd[inst->y+y][inst->x+x] ='X';}
@@ -116,7 +118,8 @@ void	add_gen_tree_to_map_from_inter(Ref* ref, Map* map, char** blckd, Interactiv
 	yinst =rand()%(map->h-20)+10; xinst =rand()%(map->w-20)+10;
 	for (int y=0; y<inter->h &&!blocked; y++) for (int x=0; x<inter->w &&!blocked; x++)
 		if(inter->info[y][x]=='X' &&blckd[yinst+y][xinst+x])	blocked =1;}
-	Instance* inst =add_inst_generated(map, yinst,xinst, (*f)(ref));
+	Instance* inst =(*f)(ref);
+	add_inst(map, yinst, xinst, inst);
 	for (int y=0; y<inst->inter->h; y++) for (int x=0; x<inst->inter->w; x++)
 		if (inst->inter->info[y][x]=='X')
 			blckd[inst->y+y][inst->x+x] ='X';}

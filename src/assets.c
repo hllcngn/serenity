@@ -112,24 +112,25 @@ free(inter);}
 
 
 // INSTANCES
-Instance* add_inst_loaded(Map* map, int y, int x, Interactive* inter){
+Instance* create_inst_from_inter(Interactive* inter){
 Instance* inst =malloc(sizeof(Instance));
-inst->y =y; inst->x =x; inst->inter =inter; inst->actionlist =NULL;
-inst->type =LOADED; inst->map =NULL;
-map->inst_n++;
-inst->id =map->inst_n;
-insert_inst(&(map->inst), inst);
-fill_rectangle_arrayint2(map->it,y,x,inst->inter->h,inst->inter->w,inst->id); //TODO edge cases
-return inst;}								//TODO insert only inter
+inst->inter =inter; inst->actionlist =NULL;
+inst->type =LOADED; inst->ascii =NULL;
+return inst;}
 
-Instance* add_inst_generated(Map* map, int y, int x, Instance* inst){
-inst->y =y; inst->x =x; inst->actionlist =NULL;
-inst->type =GENERATED;
+Instance* add_inst(Map* map, int y, int x, Instance* inst){
+inst->y =y; inst->x =x;
 map->inst_n++;
 inst->id =map->inst_n;
 insert_inst(&(map->inst), inst);
+/*
+for (int yy=0; yy<inst->inter->h; yy++)
+for (int xx=0; xx<inst->inter->w; xx++)
+	if (inst->inter->inter[yy][xx]=='i')
+		map->it[inst->y+yy][inst->x+xx] =inst->id;
+*/
 fill_rectangle_arrayint2(map->it,y,x,inst->inter->h,inst->inter->w,inst->id); //TODO edge cases
-return inst;}								//TODO insert only inter
+return inst;}	// the whole instance needs to be pasted for bg/fg/etc info   //TODO insert only inter
 
 Instance* insert_inst(Instance** list, Instance* inst){
 Instance* in=*list; if (!in){

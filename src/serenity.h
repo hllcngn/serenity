@@ -56,6 +56,7 @@ enum anim_id{
 typedef struct{ int	y,x;	} v2i;
 typedef struct{ int	y,x,h,w;	} v4i;
 typedef struct{	float	i,j,k;	} v3f;
+typedef struct list List;
 
 typedef struct settings Settings; //general settings
 typedef struct game Game; //game settings
@@ -148,6 +149,7 @@ struct interactive{		//which kinda works if we just have many different lists of
 	int		h,w;
 	char		**ascii,**info,**inter;
 	Actionlist*	actionlist;
+//	int	type = LOADED/GENERATED
 };
 struct anim{
 	int		n;
@@ -166,20 +168,18 @@ struct item{
 	char*	name;
 };
 
-//
 // - lists -
-/*struct list{
+struct list{ // perhaps interestingly, you can have lists with different kinds of items
 	void*	item;
 	void*	hints;
 	List	*previous,*next;
 };
-*/
-struct instance{
+struct instance{ //=> list: item = inter, hints = the rest
 	int		type;
 	int		id;
 	int		y,x;
 	Interactive*	inter;
-	Interactive*	map; //for generated ones
+	Interactive*	ascii; //for generated ones
 	Actionlist*	actionlist;
 	// tp (or external tp list)
 	Instance	*previous,*next;
@@ -255,8 +255,8 @@ Interactive** create_intertable(Action** actiontable);
 Interactive* load_inter(char* path, Action** actiontable);
 void free_inter(Interactive* inter);
 void free_intertable(Interactive** intertable);
-Instance* add_inst_loaded(Map* map, int y, int x, Interactive* inter);
-Instance* add_inst_generated(Map* map, int y, int x, Instance* inst);
+Instance* create_inst_from_inter(Interactive* inter);
+Instance* add_inst(Map* map, int y, int x, Instance* inst);
 Instance* insert_inst(Instance** list, Instance* inst);
 Instance* get_inst(Map* map, int x, int y);
 Instance* find_inst_id(Map* map, int id);

@@ -27,13 +27,6 @@ case K_UP:	id =check_collision(map, pl->y-1, pl->x);
 			Maplist* m =world->maplist; //why are we querying two lists
 			for (; m &&strcmp(m->map->name,"House"); m=m->next);
 			if (m) map =m->map;
-			/*else {
-				map =load_map(map->house,map);
-				map->previous =NULL;
-				map->next =world->maps;
-				world->maps->previous =map;
-				world->maps =map;
-			}*/
 		}}	break;
 case K_DOWN:	if(!check_collision(map, pl->y+1, pl->x)){
 			pl->y++;
@@ -59,7 +52,7 @@ return map;}
 int check_collision(Map* map, int y, int x){
 if (y<0 ||x<0 ||y>=map->h ||x>=map->w)	return -1;
 if (map->clsn[y][x])			return -1;
-Instance* it =get_inst(map, y, x);
-if (it &&it->inter->info[y-it->y][x-it->x]=='X') return -1;
+Instance* inst =get_inst(map, y, x);
+if (inst &&inst->inter->info[y-inst->y][x-inst->x]=='X') return -1;
 if (map->tp[y][x])	return map->tp[y][x];
 return 0;}

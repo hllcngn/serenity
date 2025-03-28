@@ -56,9 +56,9 @@ if (inst.y+inst.h>cam.y &&inst.y<cam.y+GWIN_H
 			if (in->type==LOADED &&in->inter->info[y][x]!=' ')
 				mvwaddch(gwin, inst.y+y-cam.y, inst.x+x-cam.x,
 					in->inter->ascii[y][x]);
-			else if (in->type==GENERATED &&in->map->info[y][x]!=' ')
+			else if (in->type==GENERATED &&in->ascii->info[y][x]!=' ')
 				mvwaddch(gwin, inst.y+y-cam.y, inst.x+x-cam.x,
-					in->map->ascii[y][x]);}}}}}
+					in->ascii->ascii[y][x]);}}}}}
 
 
 void display_notice(WINDOW* gwin, Player* pl, Map* map, Instance* in, int interface_style){

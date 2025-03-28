@@ -15,11 +15,11 @@ xx   xx   xx   xx   xx+-+--+-+--+-+--+-+--+-+--+-+xx   xx   xx   xx   xx
 |-+-+--+-+--+-+--+-+-|                            |-+-+--+-+--+-+--+-+-|
 |/   \/   \/   \/   \|                            |/   \/   \/   \/   \|
 ||   ||   ||   ||   ||                            ||   ||   ||   ||   ||
-xx   xx   xx   xx   xx          nnnnnnn           xx   xx   xx   xx   xx
-                              nn ~ ~ ~ nn
-                              n ~ ~ ~ ~ n
-                              nn ~ ~ ~ nn
-                                nnnnnnn
+xx   xx   xx   xx   xx          xxxxxxx           xx   xx   xx   xx   xx
+                              xx ~ ~ ~ xx 
+                              x ~ ~ ~ ~ x 
+                              xx ~ ~ ~ xx 
+                                xxxxxxx  
 -
  XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -38,10 +38,10 @@ XXXXXXXXXXXXXXXXXXXXXXaaaXXaaaXXaaaXXaaaXXaaaXXaaaXXXXXXXXXXXXXXXXXXXXXX
 XXXXXXXXXXXXXXXXXXXXXX                            XXXXXXXXXXXXXXXXXXXXXX
 XXXXXXXXXXXXXXXXXXXXXX                            XXXXXXXXXXXXXXXXXXXXXX
 XXXXXXXXXXXXXXXXXXXXXX                            XXXXXXXXXXXXXXXXXXXXXX
-XXaaaXXaaaXXaaaXXaaaXX          XXXXXXX           XXaaaXXaaaXXaaaXXaaaXX
-                              XXXXXXXXXXX
-                              XXXXXXXXXXX
-                              XXXXXXXXXXX
-                                XXXXXXX
+XXaaaXXaaaXXaaaXXaaaXX         fXXXXXXXf          XXaaaXXaaaXXaaaXXaaaXX
+                             fXXXXXXXXXXXf
+                             fXXXXXXXXXXXf
+                             fXXXXXXXXXXXf
+                               fXXXXXXXf 
 -
 a ass/house1.txt
