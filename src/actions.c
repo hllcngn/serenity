@@ -101,9 +101,7 @@ for (Actionlist *alfree=al; alfree;){
 
 
 void act(Ref* ref, Map* map, Player* pl, char c){
-int inst_id =map->it[pl->y][pl->x]; //TODO this is still representing the internals of Map
-Instance* inst =NULL;
-if (inst_id)	inst =find_inst_id(map, inst_id);
+Instance* inst =get_inst(map, pl->y, pl->x);
 if (!inst)	return;
 Actionlist* al =generate_complete_al(pl, inst);
 al =find_action_key(c, al);
@@ -113,7 +111,7 @@ void act_fall_tree(Instance* inst, Map* map, Ref* ref){
 int y =inst->y, x =inst->x;
 destroy_inst(inst,map);
 Instance* stump_inst =create_inst_from_inter(ref->interactive[stump]);
-add_inst(map, y+2, rand()%2+1, stump_inst);}
+add_inst(map, y+2, x+rand()%2+1, stump_inst);}
 
 void act_pull_stump(Instance* inst, Map* map, Ref* ref){
 destroy_inst(inst,map);}

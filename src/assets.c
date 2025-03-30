@@ -120,17 +120,8 @@ return inst;}
 
 Instance* add_inst(Map* map, int y, int x, Instance* inst){
 inst->y =y; inst->x =x;
-map->inst_n++;
-inst->id =map->inst_n;
 insert_inst(&(map->inst), inst);
-/*
-for (int yy=0; yy<inst->inter->h; yy++)
-for (int xx=0; xx<inst->inter->w; xx++)
-	if (inst->inter->inter[yy][xx]=='i')
-		map->it[inst->y+yy][inst->x+xx] =inst->id;
-*/
-fill_rectangle_arrayint2(map->it,y,x,inst->inter->h,inst->inter->w,inst->id); //TODO edge cases
-return inst;}	// the whole instance needs to be pasted for bg/fg/etc info   //TODO insert only inter
+return inst;}
 
 Instance* insert_inst(Instance** list, Instance* inst){
 Instance* in=*list; if (!in){
@@ -150,11 +141,11 @@ return inst;}
 
 
 Instance* get_inst(Map* map, int y, int x){
-int id =map->it[y][x];
-if (id)	for (Instance* it=map->inst; it; it=it->next)
-	if (it->id==id) return it;
+for (Instance* i=map->inst; i; i=i->next)
+	if (y>=i->y &&y<i->y+i->inter->h &&x>=i->x &&x<i->x+i->inter->w)
+		return i;
 return NULL;}
-
+/*
 Instance* find_inst_id(Map* map, int id){
 for (Instance* it=map->inst; it; it=it->next)
 	if (it->id==id) return it;
@@ -164,12 +155,10 @@ Instance* find_inst_inter(Ref* ref, Map* map, Interactive* inter){
 for (Instance* inst=map->inst; inst; inst=inst->next)
 	if (inst->inter==inter) return inst;
 return NULL;}
+*/
 
 void destroy_inst(Instance* it, Map* map){
 if (!it)	return;
-for (int yy=0;yy<it->inter->h;yy++)	//TODO edge cases
-for (int xx=0;xx<it->inter->w;xx++)  //reset copy arr tool funct
-	map->it[it->y+yy][it->x+xx]=0;	//TODO superposition
 if (it->previous) it->previous->next =it->next;
 if (it->next) it->next->previous =it->previous;
 if (map->inst==it) map->inst =it->next;

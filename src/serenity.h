@@ -113,10 +113,8 @@ struct map{
 	int		id; //TODO use ids
 	int		type;
 	int		h,w;
-	int		inst_n;
 	char*		name;
 	char		**bg,**clsn,**fg,**tp;
-	int		**it;
 	Instance*	inst;	//TODO add a max n of instances
 	Houselist*	houselist;
 	Maplist*	maplist;
@@ -176,7 +174,6 @@ struct list{ // perhaps interestingly, you can have lists with different kinds o
 };
 struct instance{ //=> list: item = inter, hints = the rest
 	int		type;
-	int		id;
 	int		y,x;
 	Interactive*	inter;
 	Interactive*	ascii; //for generated ones
@@ -259,8 +256,8 @@ Instance* create_inst_from_inter(Interactive* inter);
 Instance* add_inst(Map* map, int y, int x, Instance* inst);
 Instance* insert_inst(Instance** list, Instance* inst);
 Instance* get_inst(Map* map, int x, int y);
-Instance* find_inst_id(Map* map, int id);
-Instance* find_inst_inter(Ref* ref, Map* map, Interactive* inter);
+//Instance* find_inst_id(Map* map, int id);
+//Instance* find_inst_inter(Ref* ref, Map* map, Interactive* inter);
 void destroy_inst(Instance* it, Map* map);
 void free_instlist(Instance* it);
 // = inter.c =

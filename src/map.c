@@ -17,10 +17,8 @@ map->type =OUTDOORS;
 map->bg   =malloc_arraychar2(map->h,map->w);
 map->clsn =calloc_arraychar2(map->h,map->w);
 map->fg   =calloc_arraychar2(map->h,map->w);
-map->it   =calloc_arrayint2(map->h,map->w);
 map->tp   =calloc_arraychar2(map->h,map->w);
 map->inst =NULL;
-map->inst_n =0;
 char** blckd =calloc_arraychar2(map->h,map->w);
 
 for (int y=0; y<map->h; y++)
@@ -75,18 +73,10 @@ free_asset(atree1);*/
 Asset* aumbrella =load_asset("ass/assets/umbrella.txt");
 paste_asset(map,aumbrella,yhouse+20,xhouse+5);
 free_asset(aumbrella);
+
 Instance* uminst =create_inst_from_inter(ref->interactive[umbrella]);
 add_inst(map, yhouse+24, xhouse+30, uminst);
 
-//add_inst(map,20,20,ref->interactive[0]);
-//add_inst(map,20,30,ref->interactive[0]);
-
-//very naive solution with blckd
-//-> it doesn't consider foreground items
-//-> I can make the house fully collisionable bg now
-//-> check collisions on background items only
-//-> blckd might be useful in the future
-//=>check collision on instance spawning instead
 for (int i=0;i<map->h*(map->w)/500;i++)
 	add_inst_to_map_from_inter(map, blckd, ref->interactive[fruittree]);
 
@@ -137,7 +127,7 @@ for (int x=0; x<map->w; x++)
 	map->bg[y][x]=' ';
 map->clsn =calloc_arraychar2(map->h,map->w);
 map->fg   =calloc_arraychar2(map->h,map->w);
-map->it   =calloc_arrayint2(map->h,map->w);
+//map->it   =calloc_arrayint2(map->h,map->w);
 map->tp   =calloc_arraychar2(map->h,map->w);
 map->inst =NULL;
 paste_house(map,house,0,0);
@@ -157,9 +147,6 @@ for (int y=0; y<map->h; y++){
 	putc('\n',f);} putc('\n',f);
 fput_arraychar2(f,map->clsn,map->h,map->w); putc('\n',f);
 fput_arraychar2(f,map->fg,map->h,map->w); putc('\n',f);
-for (int y=0; y<map->h; y++){
-	fwrite(map->it[y],sizeof(int),map->w,f);
-	putc('\n',f);} putc('\n',f);
 fput_arraychar2(f,map->tp,map->h,map->w); putc('\n',f);
 fclose(f);}
 
@@ -168,7 +155,6 @@ void free_map(Map* map){
 free_arraychar2(map->bg,map->h,map->w);
 free_arraychar2(map->clsn,map->h,map->w);
 free_arraychar2(map->fg,map->h,map->w);
-free_arrayint2(map->it,map->h,map->w);
 free_arraychar2(map->tp,map->h,map->w);
 free_instlist(map->inst);
 //free_house(map->house);

@@ -24,8 +24,11 @@ void display_pl(WINDOW* gwin, Player* pl, Map* map, Instance* in){
 if (map->fg[pl->y][pl->x]) return;
 if (in &&in->inter->info[pl->y-in->y][pl->x-in->x]=='f') return;
 wattron(gwin,COLOR_PAIR(CP_NORMAL));
-mvwaddch(gwin, GWIN_H/2, GWIN_W/2, ' ');}
-
+mvwaddch(gwin, GWIN_H/2, GWIN_W/2, ' ');}	//bug: when instances overlap
+						//-> recover a list of instances at y,x
+						//or draw the player first maybe
+						// meaning splitting map drawing
+						// between background and instances
 
 void display_map(WINDOW* gwin, Map* map, int ply, int plx){
 v2i cam   =(v2i){ply-GWIN_H/2,plx-GWIN_W/2};
