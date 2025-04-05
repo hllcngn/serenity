@@ -315,5 +315,6 @@ char* path_cat(char* path, char* file);
 
 // list
 List* list_new(int type, void* item, void* hints);
+void insert_before(List** list, List* new);
 void insert_after(List** list, List* new);
 void insert_inst_sorted_y(List** list, List* new);

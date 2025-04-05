@@ -123,8 +123,22 @@ inst->y =y; inst->x =x;
 insert_inst(&(map->inst), inst);
 return inst;}
 
+
+void insert_inst_before(Instance** list, Instance* new){
+if (!(*list)){	*list =new; new->previous =new->next =NULL;	return;}
+new->previous =(*list)->previous;	new->next =*list;
+if ((*list)->previous)	(*list)->previous->next =new;
+(*list)->previous =new;
+*list =new;}
+
+void insert_inst_after(Instance** list, Instance* new){
+if (!(*list)){	*list =new; new->previous =new->next =NULL;	return;}
+new->previous =*list;	new->next =(*list)->next;
+if ((*list)->next)	(*list)->next->previous =new;
+(*list)->next =new;}
+
 Instance* insert_inst(Instance** list, Instance* inst){
-Instance* in=*list; if (!in){
+/*Instance* in=*list; if (!in){
 	*list =inst;
 	inst->previous =inst->next =NULL;}
 else {	Instance* i2; for (; in &&in->y<inst->y; in=in->next) i2=in;
@@ -137,6 +151,13 @@ else {	Instance* i2; for (; in &&in->y<inst->y; in=in->next) i2=in;
 			in->previous->next =inst;
 		else *list =inst;
 		in->previous =inst;}}
+*/
+if (!(*list)){	*list =inst; inst->previous =inst->next =NULL; return inst;}
+if ((*list)->y < inst->y){
+	if ((*list)->next ==NULL){	insert_inst_after(list, inst); return inst;}
+	else{	return insert_inst(&((*list)->next), inst);}}
+else	insert_inst_before(list, inst); //< BUG
+
 return inst;}
 
 
@@ -150,6 +171,9 @@ Instance* find_inst_id(Map* map, int id){
 for (Instance* it=map->inst; it; it=it->next)
 	if (it->id==id) return it;
 return NULL;}
+if (!list) return NULL;
+if (list->id==id) return list;
+else return func(list, id);
 
 Instance* find_inst_inter(Ref* ref, Map* map, Interactive* inter){
 for (Instance* inst=map->inst; inst; inst=inst->next)
