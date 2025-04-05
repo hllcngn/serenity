@@ -12,9 +12,6 @@
 #define NORANDOM	0
 #define RANDOM		1
 //
-#define OLDSCHOOL	0
-#define MODERN		1
-//
 #define CP_NORMAL	1
 #define CP_BASE		2
 //
@@ -28,10 +25,19 @@
 #define LOADED		0
 #define GENERATED	1
 //
-#define TREEBASE_N 7
+#define TREEBASE_N 9
 #define FRUITBASE_N 8
-static char treebase[TREEBASE_N] ={'n','C','u','Y','k','v','i'};
+
+static char treebase[TREEBASE_N] ={'G','D','n','C','u','Y','k','v','i'};
 static char fruitbase[FRUITBASE_N] ={'b','B','d','q','9','o','6','8'};
+
+enum list_type{
+	t_inter,
+	t_action,
+	t_item,
+	t_map,
+	t_house
+};
 
 enum inter_id{
 	tree2,
@@ -168,9 +174,10 @@ struct item{
 
 // - lists -
 struct list{ // perhaps interestingly, you can have lists with different kinds of items
+	int	type;	//inter, action, item, map
 	void*	item;
 	void*	hints;
-	List	*previous,*next;
+	List	*prev,*next;
 };
 struct instance{ //=> list: item = inter, hints = the rest
 	int		type;
@@ -305,3 +312,8 @@ char** fread_map(FILE* f, int h, int w);
 void clear_screen(int cp);
 void debug_msg(char* str);
 char* path_cat(char* path, char* file);
+
+// list
+List* list_new(int type, void* item, void* hints);
+void insert_after(List** list, List* new);
+void insert_inst_sorted_y(List** list, List* new);

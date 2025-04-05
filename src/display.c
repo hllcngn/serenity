@@ -29,6 +29,7 @@ mvwaddch(gwin, GWIN_H/2, GWIN_W/2, ' ');}	//bug: when instances overlap
 						//or draw the player first maybe
 						// meaning splitting map drawing
 						// between background and instances
+						//which won't work for instances bg
 
 void display_map(WINDOW* gwin, Map* map, int ply, int plx){
 v2i cam   =(v2i){ply-GWIN_H/2,plx-GWIN_W/2};
