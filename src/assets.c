@@ -127,9 +127,9 @@ return inst;}
 void insert_inst_before(Instance** list, Instance* new){
 if (!(*list)){	*list =new; new->previous =new->next =NULL;	return;}
 new->previous =(*list)->previous;	new->next =*list;
-if ((*list)->previous)	(*list)->previous->next =new;
-else	*list =new;
-(*list)->previous =new;}
+if (new->previous)	new->previous->next =new;
+(*list)->previous =new;
+if (!(new->previous))	*list =new;}
 
 void insert_inst_after(Instance** list, Instance* new){
 if (!(*list)){	*list =new; new->previous =new->next =NULL;	return;}
@@ -152,20 +152,19 @@ else {	Instance* i2; for (; in &&in->y<inst->y; in=in->next) i2=in;
 		else *list =inst;
 		in->previous =inst;}}
 */
-
-Instance* in=*list; if (!in){
-	*list =inst;
-	inst->previous =inst->next =NULL;}
+/*
+Instance* in=*list;
+if (!in){ *list =inst; inst->previous =inst->next =NULL;}
 else {	Instance* i2; for (; in &&in->y<inst->y; in=in->next) i2=in;
 	if(!in) insert_inst_after(&i2, inst);
 	else	insert_inst_before(&in, inst);}}
+*/
 
-/*
 if (!(*list)){	*list =inst; inst->previous =inst->next =NULL; return inst;}
 if ((*list)->y > inst->y){	insert_inst_before(list, inst); return inst;} //< BUG
 if (!((*list)->next)){	insert_inst_after(list, inst); return inst;}
 return insert_inst(&((*list)->next), inst);}
-*/
+
 
 
 Instance* get_inst(Map* map, int y, int x){
