@@ -9,9 +9,6 @@ init_color(COLOR_WHITE,rand()%600+400,rand()%600+400,rand()%550+450);
 //title_screen();
 
 Ui* ui =create_ui(); //creating ui
-//ui->style =OLDSCHOOL;
-//ui->style =MODERN;
-
 Ref* ref =load_ref(); //loading assets reference
 
 Player*	pl; //creating new game
@@ -27,8 +24,9 @@ create_map(ref, world, map);
 run_game(game, ui, ref, pl, world); //launching game
 
 free_ref(ref); free_player(pl); //end
-//free_map(map); free(world);
-free_game(game); free_ui(ui); endwin(); return 0;}
+free_map(map); free(world);
+free_game(game); free_ui(ui);
+endwin(); return 0;}
 
 
 void title_screen(){

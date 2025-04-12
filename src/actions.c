@@ -87,15 +87,15 @@ for (all=al; all &&all->action->key!=key; all=all->next);
 return all;}
 
 void free_actionlist(Actionlist* al){
-if (al==NULL)	return;
+if (!al)	return;
 free_actionlist(al->next);
 free(al);}
 /*
 void free_actionlist(Actionlist* al){
-for (Actionlist *alfree=al; alfree;){
-	alfree =al->next;
+for (Actionlist *al2=al; al2;){
+	al2 =al->next;
 	free(al);
-	al=alfree;}}
+	al =al2;}}
 */
 
 

@@ -93,7 +93,6 @@ struct game{
 };
 struct ui{
 	WINDOW		*gamw,*guiw;
-	int		style;
 };
 
 // - game objects -
@@ -189,16 +188,16 @@ struct instance{ //=> list: item = inter, hints = the rest
 	Instance	*previous,*next;
 };
 struct maplist{
-	Map*	map;
-	Maplist	*previous,*next;
+	Map*		map;
+	Maplist		*previous,*next;
 };
 struct houselist{
-	House		*house;
+	House*		house;
 	Houselist	*previous,*next;
 };
 struct actionlist{
 	int		condition;
-	Action		*action;
+	Action*		action;
 	Actionlist	*previous,*next;
 };
 struct itemlist{
@@ -229,7 +228,7 @@ int check_tp(Map* map, int y, int x);
 void display(Ui* ui, Player* pl, Map* map);
 void display_map(WINDOW* gwin, Map* map, int ply, int plx);
 void display_pl(WINDOW* gwin, Player* pl, Map* map, Instance* inst);
-void display_notice(WINDOW* gwin, Player* pl, Map* map, Instance* in, int interface_style);
+void display_notice(WINDOW* gwin, Player* pl, Map* map, Instance* in);
 void display_gui(WINDOW* guiwin, Player* pl, Map* map);
 // = anim.c =
 Anim** create_animtable(void);

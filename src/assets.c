@@ -134,7 +134,7 @@ if (!(new->previous))	*list =new;}
 void insert_inst_after(Instance** list, Instance* new){
 if (!(*list)){	*list =new; new->previous =new->next =NULL;	return;}
 new->previous =*list;	new->next =(*list)->next;
-if ((*list)->next)	(*list)->next->previous =new;
+if (new->next)	new->next->previous =new;
 (*list)->next =new;}
 
 Instance* insert_inst(Instance** list, Instance* inst){
@@ -152,18 +152,20 @@ else {	Instance* i2; for (; in &&in->y<inst->y; in=in->next) i2=in;
 		else *list =inst;
 		in->previous =inst;}}
 */
-/*
-Instance* in=*list;
+	/**/
+Instance* in =*list;
 if (!in){ *list =inst; inst->previous =inst->next =NULL;}
 else {	Instance* i2; for (; in &&in->y<inst->y; in=in->next) i2=in;
 	if(!in) insert_inst_after(&i2, inst);
 	else	insert_inst_before(&in, inst);}}
-*/
 
+	/**/
+/*
 if (!(*list)){	*list =inst; inst->previous =inst->next =NULL; return inst;}
 if ((*list)->y > inst->y){	insert_inst_before(list, inst); return inst;} //< BUG
 if (!((*list)->next)){	insert_inst_after(list, inst); return inst;}
 return insert_inst(&((*list)->next), inst);}
+*/
 
 
 

@@ -5,7 +5,7 @@ display_map(ui->gamw, map, pl->y, pl->x);
 Instance* in =get_inst(map, pl->y, pl->x);
 display_pl(ui->gamw, pl, map, in);
 if (in &&in->inter->inter[pl->y-in->y][pl->x-in->x]=='i')
-	display_notice(ui->gamw,pl,map,in,ui->style);
+	display_notice(ui->gamw,pl,map,in);
 wrefresh(ui->gamw);
 display_gui(ui->guiw,pl,map);
 wrefresh(ui->guiw);}
@@ -65,7 +65,7 @@ if (inst.y+inst.h>cam.y &&inst.y<cam.y+GWIN_H
 					in->ascii->ascii[y][x]);}}}}}
 
 
-void display_notice(WINDOW* gwin, Player* pl, Map* map, Instance* in, int interface_style){
+void display_notice(WINDOW* gwin, Player* pl, Map* map, Instance* in){
 Actionlist* aldisp =generate_complete_al(pl, in);
 wattron(gwin,COLOR_PAIR(CP_NORMAL));
 int i=0; for (Actionlist* al=aldisp; al; al=al->next){
