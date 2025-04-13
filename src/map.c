@@ -80,7 +80,6 @@ uminst->y =yhouse+24; uminst->x =xhouse+30;
 List* uminstl =list_new(t_inst, ref->interactive[umbrella], uminst);
 list_inst_insert(&(map->inst), uminstl);
 
-/*
 for (int i=0;i<map->h*(map->w)/500;i++)
 	add_inst_to_map_from_inter(map, blckd, ref->interactive[fruittree]);
 
@@ -92,7 +91,6 @@ for (int i=0;i<map->h*(map->w)/200;i++)
 
 for (int i=0;i<map->h*(map->w)/200;i++)
 	add_gen_tree_to_map_from_inter(ref, map, blckd, ref->interactive[tree2], &create_fruittree);
-*/
 }
 
 void	add_inst_to_map_from_inter(Map* map, char** blckd, Interactive* inter){
@@ -117,7 +115,7 @@ void	add_gen_tree_to_map_from_inter(Ref* ref, Map* map, char** blckd, Interactiv
 		if(inter->info[y][x]=='X' &&blckd[yinst+y][xinst+x])	blocked =1;}
 	Instance* inst =(*f)(ref);
 	inst->y =yinst; inst->x =xinst;
-	List* new =list_new(t_inst, NULL, inst); //TODO handle inter properly
+	List* new =list_new(t_inst, inter, inst); //TODO handle inter properly
 	list_inst_insert(&(map->inst), new);
 	for (int y=0; y<inst->inter->h; y++) for (int x=0; x<inst->inter->w; x++)
 		if (inst->inter->info[y][x]=='X')

@@ -51,8 +51,8 @@ else {	List* i2; for (;in &&((Instance*)(in->inst))->y<((Instance*)(inst->inst))
 	else	insert_before(&in, inst);}}
 
 //TODO change type names Instance > Inst and Interactive > Inter
-List* list_inst_get(List** list, int y, int x){
-for (List* in=*list; in; in=in->next)
+List* list_inst_get(List* list, int y, int x){
+for (List* in=list; in; in=in->next)
 	/*
 	insty =((Instance*)(in->inst))->y;
 	instx =((Instance*)(in->inst))->x;

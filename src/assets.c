@@ -139,13 +139,6 @@ else {	Instance* i2; for (; in &&in->y<inst->y; in=in->next) i2=in;
 	if(!in) insert_inst_after(&i2, inst);
 	else	insert_inst_before(&in, inst);}}
 
-
-
-Instance* get_inst(Map* map, int y, int x){
-//for (Instance* i=map->inst; i; i=i->next)
-//	if (y>=i->y &&y<i->y+i->inter->h &&x>=i->x &&x<i->x+i->inter->w)
-//		return i;
-return NULL;}
 /*
 Instance* find_inst_inter(Ref* ref, Map* map, Interactive* inter){
 for (Instance* inst=map->inst; inst; inst=inst->next)

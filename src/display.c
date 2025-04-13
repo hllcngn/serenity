@@ -2,9 +2,10 @@
 
 void display(Ui* ui, Player* pl, Map* map){
 display_map(ui->gamw, map, pl->y, pl->x);
-Instance* in =get_inst(map, pl->y, pl->x);
+List* in =list_inst_get(map->inst, pl->y, pl->x);
 display_pl(ui->gamw, pl, map, in);
-if (in &&in->inter->inter[pl->y-in->y][pl->x-in->x]=='i')
+if (in &&((Interactive*)(in->item))->inter[pl->y-((Instance*)(in->inst))->y]
+					[pl->x-((Instance*)(in->inst))->x]=='i')
 	display_notice(ui->gamw,pl,map,in);
 wrefresh(ui->gamw);
 display_gui(ui->guiw,pl,map);
@@ -20,9 +21,10 @@ wattron(guiwin,COLOR_PAIR(CP_NORMAL));
 mvwprintw(guiwin,0,0,"HP        50/50");} //TODO display actual player hp
 
 
-void display_pl(WINDOW* gwin, Player* pl, Map* map, Instance* in){
+void display_pl(WINDOW* gwin, Player* pl, Map* map, List* in){
 if (map->fg[pl->y][pl->x]) return;
-if (in &&in->inter->info[pl->y-in->y][pl->x-in->x]=='f') return;
+if (in &&((Interactive*)(in->item))->info[pl->y-((Instance*)(in->inst))->y]
+					[pl->x-((Instance*)(in->inst))->x]=='f') return;
 wattron(gwin,COLOR_PAIR(CP_NORMAL));
 mvwaddch(gwin, GWIN_H/2, GWIN_W/2, ' ');}	//bug: when instances overlap
 						//-> recover a list of instances at y,x
@@ -70,7 +72,7 @@ if (inst.y+inst.h>cam.y &&inst.y<cam.y+GWIN_H
 					((Instance*)(in->inst))->ascii->ascii[y][x]);}}}}}
 
 
-void display_notice(WINDOW* gwin, Player* pl, Map* map, Instance* in){
+void display_notice(WINDOW* gwin, Player* pl, Map* map, List* in){
 Actionlist* aldisp =generate_complete_al(pl, in);
 wattron(gwin,COLOR_PAIR(CP_NORMAL));
 int i=0; for (Actionlist* al=aldisp; al; al=al->next){

@@ -173,7 +173,7 @@ struct action{
 	int		key;
 	int		labellen, c;
 	char*		label;
-	void	(*action)(Instance* inst,Map* map,Ref* ref);
+	void	(*action)(List* inst,Map* map,Ref* ref);
 };
 struct item{
 	char*	name;
@@ -229,8 +229,8 @@ int check_tp(Map* map, int y, int x);
 // = display.c =
 void display(Ui* ui, Player* pl, Map* map);
 void display_map(WINDOW* gwin, Map* map, int ply, int plx);
-void display_pl(WINDOW* gwin, Player* pl, Map* map, Instance* inst);
-void display_notice(WINDOW* gwin, Player* pl, Map* map, Instance* in);
+void display_pl(WINDOW* gwin, Player* pl, Map* map, List* inst);
+void display_notice(WINDOW* gwin, Player* pl, Map* map, List* in);
 void display_gui(WINDOW* guiwin, Player* pl, Map* map);
 // = anim.c =
 Anim** create_animtable(void);
@@ -279,13 +279,13 @@ void al_remove_duplicates(Actionlist* al);
 Actionlist* find_action(char* label, Actionlist* al);
 Actionlist* find_action_key(char key, Actionlist* al);
 void free_actionlist(Actionlist* al);
-Actionlist* generate_complete_al(Player* pl, Instance* in);
+Actionlist* generate_complete_al(Player* pl, List* in);
 //
 void act(Ref* ref, Map* map, Player* pl, char c);
-void act_fall_tree(Instance* inst, Map* map, Ref* ref);
-void act_pull_stump(Instance* inst, Map* map, Ref* ref);
-void act_harvest_fruits(Instance* inst, Map* map, Ref* ref);
-void act_light_fire(Instance* inst, Map* map, Ref* ref);
+void act_fall_tree(List* inst, Map* map, Ref* ref);
+void act_pull_stump(List* inst, Map* map, Ref* ref);
+void act_harvest_fruits(List* inst, Map* map, Ref* ref);
+void act_light_fire(List* inst, Map* map, Ref* ref);
 
 // = tool functions =
 int** malloc_arrayint2(int h,int w);
@@ -321,4 +321,4 @@ void node_free(List* tf);
 void node_remove(List** list, List* trm);
 //
 void list_inst_insert(List** list, List* new);
-List* list_inst_get(List** list, int y, int x);
+List* list_inst_get(List* list, int y, int x);

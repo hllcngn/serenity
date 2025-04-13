@@ -52,7 +52,9 @@ return map;}
 int check_collision(Map* map, int y, int x){
 if (y<0 ||x<0 ||y>=map->h ||x>=map->w)	return -1;
 if (map->clsn[y][x])			return -1;
-Instance* inst =get_inst(map, y, x);
-if (inst &&inst->inter->info[y-inst->y][x-inst->x]=='X') return -1;
+//Instance* inst =get_inst(map, y, x);
+List* inst =list_inst_get(map->inst, y, x);
+if (inst &&((Interactive*)(inst->item))->info[y-((Instance*)(inst->inst))->y]
+					[x-((Instance*)(inst->inst))->x]=='X') return -1;
 if (map->tp[y][x])	return map->tp[y][x];
 return 0;}

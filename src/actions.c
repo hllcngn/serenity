@@ -48,18 +48,18 @@ if (al->previous) al->previous->next =al->next;
 if (al->next) al->next->previous =al->previous;
 free(al);}
 
-Actionlist* generate_complete_al(Player* pl, Instance* in){
+Actionlist* generate_complete_al(Player* pl, List* in){
 Actionlist* aldisp =NULL;
 for (Actionlist *al=pl->actionlist; al; al=al->next)
 	if (al &&al->condition==SUPERABLE)
 		add_action(&aldisp, al->action, 0);
-for (Actionlist *al=in->actionlist; al; al=al->next){
+for (Actionlist *al=((Instance*)(in->inst))->actionlist; al; al=al->next){
 	if (al->condition==SUPERABLE)
 		add_action(&aldisp, al->action, 0);
 	else {	Actionlist* plal =find_action(al->action->label,pl->actionlist);
 		if (plal &&plal->condition)
 			add_action(&aldisp, plal->action, 0);}}
-for (Actionlist *al=in->inter->actionlist; al; al=al->next){
+for (Actionlist *al=((Interactive*)(in->item))->actionlist; al; al=al->next){
 	if (al->condition==SUPERABLE)
 		add_action(&aldisp, al->action, 0);
 	else {	Actionlist* plal =find_action(al->action->label,pl->actionlist);
@@ -101,26 +101,26 @@ for (Actionlist *al2=al; al2;){
 
 
 void act(Ref* ref, Map* map, Player* pl, char c){
-Instance* inst =get_inst(map, pl->y, pl->x);
+List* inst =list_inst_get(map->inst, pl->y, pl->x);
 if (!inst)	return;
 Actionlist* al =generate_complete_al(pl, inst);
 al =find_action_key(c, al);
 al->action->action(inst, map, ref);}
 
 
-void act_fall_tree(Instance* inst, Map* map, Ref* ref){
-int y =inst->y, x =inst->x;
-destroy_inst(inst,map);
+void act_fall_tree(List* inst, Map* map, Ref* ref){
+int y =((Instance*)(inst->inst))->y, x =((Instance*)(inst->inst))->x;
+node_remove(&(map->inst),inst);
 Instance* stump_inst =create_inst_from_inter(ref->interactive[stump]);
 stump_inst->y =y+2; stump_inst->x =x+rand()%2+1;
 List* new =list_new(t_inst, ref->interactive[stump], stump_inst);
 list_inst_insert(&(map->inst), new);}
 
-void act_pull_stump(Instance* inst, Map* map, Ref* ref){
-destroy_inst(inst,map);}
+void act_pull_stump(List* inst, Map* map, Ref* ref){
+node_remove(&(map->inst),inst);}
 
-void act_harvest_fruits(Instance* inst, Map* map, Ref* ref){
+void act_harvest_fruits(List* inst, Map* map, Ref* ref){
 }
 
-void act_light_fire(Instance* inst, Map* map, Ref* ref){
-destroy_inst(inst,map);}
+void act_light_fire(List* inst, Map* map, Ref* ref){
+node_remove(&(map->inst),inst);}
