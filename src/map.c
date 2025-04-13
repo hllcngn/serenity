@@ -74,12 +74,11 @@ Asset* aumbrella =load_asset("ass/assets/umbrella.txt");
 paste_asset(map,aumbrella,yhouse+20,xhouse+5);
 free_asset(aumbrella);
 
+//TODO add_inst_from_inter  list_inst_add_inter
 Instance* uminst =create_inst_from_inter(ref->interactive[umbrella]);
+uminst->y =yhouse+24; uminst->x =xhouse+30;
 List* uminstl =list_new(t_inst, ref->interactive[umbrella], uminst);
-((Instance*)(uminstl->hints))->y =yhouse+24;
-((Instance*)(uminstl->hints))->x =xhouse+30;
 list_inst_insert(&(map->inst), uminstl);
-//add_inst(map, yhouse+24, xhouse+30, uminst);
 
 /*
 for (int i=0;i<map->h*(map->w)/500;i++)
@@ -103,7 +102,9 @@ void	add_inst_to_map_from_inter(Map* map, char** blckd, Interactive* inter){
 	for (int y=0; y<inter->h &&!blocked; y++) for (int x=0; x<inter->w &&!blocked; x++)
 		if(inter->info[y][x]=='X' &&blckd[yinst+y][xinst+x])	blocked =1;}
 	Instance* inst =create_inst_from_inter(inter);
-	add_inst(map, yinst, xinst, inst);
+	inst->y =yinst; inst->x =xinst;
+	List* new =list_new(t_inst, inter, inst);
+	list_inst_insert(&(map->inst), new);
 	for (int y=0; y<inst->inter->h; y++) for (int x=0; x<inst->inter->w; x++)
 		if (inst->inter->info[y][x]=='X')
 			blckd[inst->y+y][inst->x+x] ='X';}
@@ -115,7 +116,9 @@ void	add_gen_tree_to_map_from_inter(Ref* ref, Map* map, char** blckd, Interactiv
 	for (int y=0; y<inter->h &&!blocked; y++) for (int x=0; x<inter->w &&!blocked; x++)
 		if(inter->info[y][x]=='X' &&blckd[yinst+y][xinst+x])	blocked =1;}
 	Instance* inst =(*f)(ref);
-	add_inst(map, yinst, xinst, inst);
+	inst->y =yinst; inst->x =xinst;
+	List* new =list_new(t_inst, NULL, inst); //TODO handle inter properly
+	list_inst_insert(&(map->inst), new);
 	for (int y=0; y<inst->inter->h; y++) for (int x=0; x<inst->inter->w; x++)
 		if (inst->inter->info[y][x]=='X')
 			blckd[inst->y+y][inst->x+x] ='X';}

@@ -24,20 +24,13 @@
 //
 #define LOADED		0
 #define GENERATED	1
-//
-#define TREEBASE_N 9
-#define FRUITBASE_N 8
 
-static char treebase[TREEBASE_N] ={'G','D','n','C','u','Y','k','v','i'};
-static char fruitbase[FRUITBASE_N] ={'b','B','d','q','9','o','6','8'};
 
-enum list_type{
-	t_inst,
-	t_action,
-	t_item,
-	t_map,
-	t_house
-};
+#define TREEBASE_N 8
+#define FRUITBASE_N 9
+static char treebase[TREEBASE_N] ={'G','D','C','u','Y','k','v','i'};
+static char fruitbase[FRUITBASE_N] ={'p','b','B','d','q','9','o','6','8'};
+
 
 enum inter_id{
 	tree2,
@@ -59,10 +52,24 @@ enum anim_id{
 };
 
 
-typedef struct{ int	y,x;	} v2i;
+typedef struct{ int	y,x;		} v2i;
 typedef struct{ int	y,x,h,w;	} v4i;
-typedef struct{	float	i,j,k;	} v3f;
+typedef struct{	float	i,j,k;		} v3f;
 typedef struct list List;
+struct list{ //NB perhaps interestingly, you can have lists with different types of items
+	int	type;
+	void*	item;
+	void*	inst;
+	List	*prev,*next;
+};
+enum node_type{
+	t_inst,
+	t_action,
+	t_item,
+	t_map,
+	t_house
+};
+
 
 typedef struct settings Settings; //general settings
 typedef struct game Game; //game settings
@@ -115,7 +122,7 @@ struct tp{
 };
 */
 struct map{
-	int		id; //TODO use ids
+	int		id; //TODO use map ids
 	int		type;
 	int		h,w;
 	char*		name;
@@ -153,8 +160,8 @@ struct interactive{		//which kinda works if we just have many different lists of
 	int		h,w;
 	char		**ascii,**info,**inter;
 	Actionlist*	actionlist;
-//	int	type = LOADED/GENERATED
-};
+	int		type; // = LOADED/GENERATED
+};			//TODO migrate to using this type instead of the instance's
 struct anim{
 	int		n;
 	char*		chars;
@@ -173,19 +180,13 @@ struct item{
 };
 
 // - lists -
-struct list{ // perhaps interestingly, you can have lists with different kinds of items
-	int	type;	//inter, action, item, map
-	void*	item;
-	void*	hints;
-	List	*prev,*next;
-};
-struct instance{ //=> list: item = inter, hints = the rest
+struct instance{
 	int		type;
 	int		y,x;
 	Interactive*	inter;
-	Interactive*	ascii; //for generated ones
-	Actionlist*	actionlist;
-	// tp (or external tp list)
+	Interactive*	ascii; //for generated ones TODO change this so that
+	Actionlist*	actionlist; //the 'inter' is always where to look
+	// tp (or external tp list)    //just check at freeing to delete it if generated
 	Instance	*previous,*next;
 };
 struct maplist{
@@ -238,7 +239,6 @@ void free_animtable(Anim** at);
 // = player.c =
 Player* create_player(Ref* ref, char* name, int y, int x, int hp);
 void free_player(Player* pl);
-
 // = map.c =
 World* create_world(void);
 void create_map(Ref* ref, World* world, Map* map);
@@ -263,7 +263,6 @@ Instance* create_inst_from_inter(Interactive* inter);
 Instance* add_inst(Map* map, int y, int x, Instance* inst);
 Instance* insert_inst(Instance** list, Instance* inst);
 Instance* get_inst(Map* map, int x, int y);
-//Instance* find_inst_id(Map* map, int id);
 //Instance* find_inst_inter(Ref* ref, Map* map, Interactive* inter);
 void destroy_inst(Instance* it, Map* map);
 void free_instlist(Instance* it);
@@ -313,12 +312,13 @@ void clear_screen(int cp);
 void debug_msg(char* str);
 char* path_cat(char* path, char* file);
 
-// list
+// = list functions =
 List* list_new(int type, void* item, void* hints);
 void insert_before(List** list, List* new);
 void insert_after(List** list, List* new);
 void list_free(List* list);
 void node_free(List* tf);
 void node_remove(List** list, List* trm);
+//
 void list_inst_insert(List** list, List* new);
 List* list_inst_get(List** list, int y, int x);

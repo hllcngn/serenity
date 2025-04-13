@@ -119,11 +119,6 @@ inst->type =LOADED; inst->ascii =NULL;
 return inst;}
 
 
-Instance* add_inst(Map* map, int y, int x, Instance* inst){
-inst->y =y; inst->x =x;
-//insert_inst(&(map->inst), inst);
-return inst;}
-
 void insert_inst_before(Instance** list, Instance* new){
 if (!(*list)){	*list =new; new->previous =new->next =NULL;	return;}
 new->previous =(*list)->previous;	new->next =*list;

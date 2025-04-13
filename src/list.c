@@ -1,10 +1,10 @@
 #include "serenity.h"
 
-List* list_new(int type, void* item, void* hints){
+List* list_new(int type, void* item, void* inst){
 List* new =malloc(sizeof(List));
 new->type =type;
 new->item =item;
-new->hints =hints;
+new->inst =inst;
 new->prev =new->next =NULL;}
 
 void insert_before(List** list, List* new){
@@ -30,7 +30,7 @@ node_free(trm);}
 void node_free(List* tf){
 // for instances check if the item (inter) is loaded or generated
 // free generated items
-free(tf->hints);
+free(tf->inst);
 free(tf);}
 
 void list_free(List* list){
@@ -45,7 +45,7 @@ free(list);}
 void list_inst_insert(List** list, List* inst){
 List* in =*list;
 if (!in){ *list =inst; inst->prev =inst->next =NULL;}
-else {	List* i2; for (;in &&((Instance*)(in->hints))->y<((Instance*)(inst->hints))->y;
+else {	List* i2; for (;in &&((Instance*)(in->inst))->y<((Instance*)(inst->inst))->y;
 			in=in->next) i2=in;
 	if(!in) insert_after(&i2, inst);
 	else	insert_before(&in, inst);}}
@@ -54,15 +54,15 @@ else {	List* i2; for (;in &&((Instance*)(in->hints))->y<((Instance*)(inst->hints
 List* list_inst_get(List** list, int y, int x){
 for (List* in=*list; in; in=in->next)
 	/*
-	insty =((Instance*)(in->hints))->y;
-	instx =((Instance*)(in->hints))->x;
+	insty =((Instance*)(in->inst))->y;
+	instx =((Instance*)(in->inst))->x;
 	interh =((Interactive*)(in->item))->h;
 	interw =((Interactive*)(in->item))->w;
 	*/
-	if (	y>=((Instance*)(in->hints))->y
-		&&y<((Instance*)(in->hints))->y+((Interactive*)(in->item))->h
-		&&x>=((Instance*)(in->hints))->x
-		&&x<((Instance*)(in->hints))->x+((Interactive*)(in->item))->w)
+	if (	y>=((Instance*)(in->inst))->y
+		&&y<((Instance*)(in->inst))->y+((Interactive*)(in->item))->h
+		&&x>=((Instance*)(in->inst))->x
+		&&x<((Instance*)(in->inst))->x+((Interactive*)(in->item))->w)
 			return in;
 return NULL;}
 /*
