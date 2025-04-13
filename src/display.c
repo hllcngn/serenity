@@ -49,20 +49,25 @@ for (; y<GWIN_H; y++){
 	wmove(gwin,y,0);
 	for (int x=0;x<GWIN_W;x++) waddch(gwin,' ');}
 //TODO find a way to not have to go through the whole list of instances
-for (Instance* in=map->inst; in; in=in->next){
-v4i inst =(v4i){in->y, in->x, in->inter->h, in->inter->w};
+for (List* in=map->inst; in; in=in->next){
+v4i inst =(v4i){((Instance*)(in->hints))->y,
+		((Instance*)(in->hints))->x,
+		((Interactive*)(in->item))->h,
+		((Interactive*)(in->item))->w};
 if (inst.y+inst.h>cam.y &&inst.y<cam.y+GWIN_H
   &&inst.x+inst.w>cam.x &&inst.x<cam.x+GWIN_W){
 	int y =inst.y<cam.y? cam.y-inst.y :0;
 	for (y; y<inst.h &&inst.y+y<cam.y+GWIN_H; y++){
 		int x =inst.x<cam.x? cam.x-inst.x :0;
 		for (x; x<inst.w &&inst.x+x<cam.x+GWIN_W; x++){
-			if (in->type==LOADED &&in->inter->info[y][x]!=' ')
+			if (((Instance*)(in->hints))->type==LOADED
+					&&((Interactive*)(in->item))->info[y][x]!=' ')
 				mvwaddch(gwin, inst.y+y-cam.y, inst.x+x-cam.x,
-					in->inter->ascii[y][x]);
-			else if (in->type==GENERATED &&in->ascii->info[y][x]!=' ')
+					((Interactive*)(in->item))->ascii[y][x]);
+			else if (((Instance*)(in->hints))->type==GENERATED
+					&&((Instance*)(in->hints))->ascii->info[y][x]!=' ')
 				mvwaddch(gwin, inst.y+y-cam.y, inst.x+x-cam.x,
-					in->ascii->ascii[y][x]);}}}}}
+					((Instance*)(in->hints))->ascii->ascii[y][x]);}}}}}
 
 
 void display_notice(WINDOW* gwin, Player* pl, Map* map, Instance* in){

@@ -75,8 +75,13 @@ paste_asset(map,aumbrella,yhouse+20,xhouse+5);
 free_asset(aumbrella);
 
 Instance* uminst =create_inst_from_inter(ref->interactive[umbrella]);
-add_inst(map, yhouse+24, xhouse+30, uminst);
+List* uminstl =list_new(t_inst, ref->interactive[umbrella], uminst);
+((Instance*)(uminstl->hints))->y =yhouse+24;
+((Instance*)(uminstl->hints))->x =xhouse+30;
+list_inst_insert(&(map->inst), uminstl);
+//add_inst(map, yhouse+24, xhouse+30, uminst);
 
+/*
 for (int i=0;i<map->h*(map->w)/500;i++)
 	add_inst_to_map_from_inter(map, blckd, ref->interactive[fruittree]);
 
@@ -88,6 +93,7 @@ for (int i=0;i<map->h*(map->w)/200;i++)
 
 for (int i=0;i<map->h*(map->w)/200;i++)
 	add_gen_tree_to_map_from_inter(ref, map, blckd, ref->interactive[tree2], &create_fruittree);
+*/
 }
 
 void	add_inst_to_map_from_inter(Map* map, char** blckd, Interactive* inter){
@@ -156,7 +162,7 @@ free_arraychar2(map->bg,map->h,map->w);
 free_arraychar2(map->clsn,map->h,map->w);
 free_arraychar2(map->fg,map->h,map->w);
 free_arraychar2(map->tp,map->h,map->w);
-free_instlist(map->inst);
+//free_instlist(map->inst);
 //free_house(map->house);
 free(map->name);
 free(map);}

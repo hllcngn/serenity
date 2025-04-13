@@ -121,7 +121,7 @@ return inst;}
 
 Instance* add_inst(Map* map, int y, int x, Instance* inst){
 inst->y =y; inst->x =x;
-insert_inst(&(map->inst), inst);
+//insert_inst(&(map->inst), inst);
 return inst;}
 
 void insert_inst_before(Instance** list, Instance* new){
@@ -147,9 +147,9 @@ else {	Instance* i2; for (; in &&in->y<inst->y; in=in->next) i2=in;
 
 
 Instance* get_inst(Map* map, int y, int x){
-for (Instance* i=map->inst; i; i=i->next)
-	if (y>=i->y &&y<i->y+i->inter->h &&x>=i->x &&x<i->x+i->inter->w)
-		return i;
+//for (Instance* i=map->inst; i; i=i->next)
+//	if (y>=i->y &&y<i->y+i->inter->h &&x>=i->x &&x<i->x+i->inter->w)
+//		return i;
 return NULL;}
 /*
 Instance* find_inst_inter(Ref* ref, Map* map, Interactive* inter){
@@ -163,7 +163,7 @@ void destroy_inst(Instance* it, Map* map){
 if (!it)	return;
 if (it->previous) it->previous->next =it->next;
 if (it->next) it->next->previous =it->previous;
-if (map->inst==it) map->inst =it->next;
+//if (map->inst==it) map->inst =it->next;
 if (it->actionlist) free_actionlist(it->actionlist);
 free(it);}
 

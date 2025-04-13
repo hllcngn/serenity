@@ -32,7 +32,7 @@ static char treebase[TREEBASE_N] ={'G','D','n','C','u','Y','k','v','i'};
 static char fruitbase[FRUITBASE_N] ={'b','B','d','q','9','o','6','8'};
 
 enum list_type{
-	t_inter,
+	t_inst,
 	t_action,
 	t_item,
 	t_map,
@@ -120,7 +120,8 @@ struct map{
 	int		h,w;
 	char*		name;
 	char		**bg,**clsn,**fg,**tp;
-	Instance*	inst;	//TODO add a max n of instances
+	//Instance*	inst;	//TODO add a max n of instances
+	List*		inst;
 	Houselist*	houselist;
 	Maplist*	maplist;
 };
