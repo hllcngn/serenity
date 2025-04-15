@@ -80,10 +80,10 @@ uminst->y =yhouse+24; uminst->x =xhouse+30;
 List* uminstl =list_new(t_inst, ref->interactive[umbrella], uminst);
 list_inst_insert(&(map->inst), uminstl);
 
-for (int i=0;i<map->h*(map->w)/500;i++)
-	add_inst_to_map_from_inter(map, blckd, ref->interactive[fruittree]);
+//for (int i=0;i<map->h*(map->w)/500;i++)
+//	add_inst_to_map_from_inter(map, blckd, ref->interactive[fruittree]);
 
-for (int i=0;i<map->w/6;i++)
+for (int i=0;i<map->w*10;i++)
 	add_inst_to_map_from_inter(map, blckd, ref->interactive[stump]);
 
 for (int i=0;i<map->h*(map->w)/200;i++)

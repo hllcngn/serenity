@@ -3,15 +3,16 @@ urgent:
 
 new:
 ~ saving map
-- use of random trees assets
-- fix create_map with inst collisions
-- trees overlap
+v use of random trees assets
+v fix create_map with inst collisions
+v trees overlap
 - overlapping interactives bug
 - check adding duplicates actions to actionlist
+- get the code abstraction levels sorted out for ease of programming
 - mobs
 - figure out frame timer for entities actions
 - improve map name generation
-- update oldschool mode
+x update oldschool mode
 - create functional settings presets
 - make map int** tp into sth not such a large array
   or merge it with int** inter

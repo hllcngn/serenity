@@ -10,15 +10,15 @@ new->prev =new->next =NULL;}
 void insert_before(List** list, List* new){
 if (!(*list)){	*list =new; new->prev =new->next =NULL;	return;}
 new->prev =(*list)->prev;	new->next =*list;
-if (new->prev)	  new->prev->next =new;
 (*list)->prev =new;
-if (!(new->prev)) *list =new;}
+if (new->prev)	new->prev->next =new;
+else		*list =new;}
 
 void insert_after(List** list, List* new){
 if (!(*list)){	*list =new; new->prev =new->next =NULL;	return;}
 new->prev =*list;	new->next =(*list)->next;
-if (new->next)	new->next->prev =new;
-(*list)->next =new;}
+(*list)->next =new;
+if (new->next)	new->next->prev =new;}
 
 void node_remove(List** list, List* trm){
 if (!trm)	return;
@@ -45,9 +45,10 @@ free(list);}
 void list_inst_insert(List** list, List* inst){
 List* in =*list;
 if (!in){ *list =inst; inst->prev =inst->next =NULL;}
-else {	List* i2; for (;in &&((Instance*)(in->inst))->y<((Instance*)(inst->inst))->y;
+else {	List* i2=NULL; for (;in &&((Instance*)(in->inst))->y<((Instance*)(inst->inst))->y;
 			in=in->next) i2=in;
-	if(!in) insert_after(&i2, inst);
+	if(!i2)	insert_before(list, inst);
+	else if(!in)	insert_after(&i2, inst);
 	else	insert_before(&in, inst);}}
 
 //TODO change type names Instance > Inst and Interactive > Inter

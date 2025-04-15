@@ -26,10 +26,10 @@
 #define GENERATED	1
 
 
-#define TREEBASE_N 8
-#define FRUITBASE_N 9
-static char treebase[TREEBASE_N] ={'G','D','C','u','Y','k','v','i'};
-static char fruitbase[FRUITBASE_N] ={'p','b','B','d','q','9','o','6','8'};
+#define TREEBASE_N 6
+#define FRUITBASE_N 4
+static char treebase[TREEBASE_N] ={'C','O','G','c','Y','k'};
+static char fruitbase[FRUITBASE_N] ={'9','o','6','8'};
 
 
 enum inter_id{
@@ -189,6 +189,11 @@ struct instance{
 	// tp (or external tp list)    //just check at freeing to delete it if generated
 	Instance	*previous,*next;
 };
+struct actionlist{
+	int		condition;
+	Action*		action;
+	Actionlist	*previous,*next;
+};
 struct maplist{
 	Map*		map;
 	Maplist		*previous,*next;
@@ -196,11 +201,6 @@ struct maplist{
 struct houselist{
 	House*		house;
 	Houselist	*previous,*next;
-};
-struct actionlist{
-	int		condition;
-	Action*		action;
-	Actionlist	*previous,*next;
 };
 struct itemlist{
 	int		n;
