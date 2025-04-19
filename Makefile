@@ -1,8 +1,41 @@
+NAME		=serenity
+
+SRCDIR		=./src/
+SRCFILES	=\
+		 start.c\
+		 game.c\
+		 assets.c\
+		 inter.c\
+		 actions.c\
+		 player.c\
+		 map.c\
+		 menus.c\
+		 display.c\
+		 anim.c\
+		 list.c\
+		 tools.c\
+
+OBJDIR		=./obj/
+OBJ		=$(addprefix $(OBJDIR), $(SRCFILES:.c=.o))
+
+INCDIR		=./\
+		./src/
+INC		=$(addprefix -I, $(INCDIR))
+
+
 MACOSFLAGS = -Wno-empty-body -Wno-unused-value
 
-serenity:
-	gcc -oserenity src/*.c -I. -Isrc -lncurses
-re:	clean serenity
+
+all:		obj serenity
+obj:
+		mkdir -p obj
+serenity:	$(OBJ)
+		gcc $^ -o $(NAME) -lncurses
+$(OBJDIR)%.o:	$(SRCDIR)%.c
+		gcc -c $^	-o $@	$(INC)
+
 clean:
-	-rm a.out serenity serenity.exe serenity.exe.stackdump
-.PHONY: serenity
+		rm -rf obj
+fclean:		clean
+		rm -f serenity serenity.exe serenity.exe.stackdump
+re:		fclean all

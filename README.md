@@ -7,9 +7,16 @@ make
 ./serenity
 ./serenity random
 ```
-/!\ Some terminals are unsupported: terminals that have a problem with ncurses' routines or that have formatting incompatible with proper ncurses execution (ex Qterminal). If the window is solid blue or there are other display inconsistencies, try it in another terminal.\
+/!\ Some terminals are unsupported: terminals that have formatting incompatible with proper ncurses execution (ex Qterminal). If the window is solid blue or there are other display inconsistencies, try it in another terminal.\
 \
-/!\ wip: since this code is under development, some functionalities might be temporarily commented out.
+/!\ WIP: since this code is under development, some functionalities might be temporarily commented out.
+
+### controls
+```
+= : quit
+wasd : movement
+```
+Keys for actions you can take in game or in menus will be indicated in the interface.
 
 ### author
 hllcngn\

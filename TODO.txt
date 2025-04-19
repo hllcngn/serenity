@@ -1,60 +1,42 @@
-serenity - TODO.txt
+serenity WIP - TODO.txt
+
 urgent:
+v update todo list
+v fix Makefile
 
 new:
-~ saving map
-v use of random trees assets
-v fix create_map with inst collisions
-v trees overlap
+- fix usage of new generic list struct
+- fixing instances display when overlap
+- fix GENERATED instances so that all instances use an inter
 - overlapping interactives bug
-- check adding duplicates actions to actionlist
 - get the code abstraction levels sorted out for ease of programming
-- mobs
-- figure out frame timer for entities actions
-- improve map name generation
-x update oldschool mode
-- create functional settings presets
+- entirely clean code
+- figure out frame timer for entities actions & animation
+- add in fire animation
 - make map int** tp into sth not such a large array
-  or merge it with int** inter
-- add name field to all structures for ease of debug
-x day/night cycle
-x deactivate day/night cycle
-- adapt gameplay to hue
-
-important:
-v basic interface decoration (title screen, in-game....)
-- interface decoration: player name
-x scroll decoration
-- make the map a little bigger so that assets can overlap the edges for a more natural feel (maybe this will be sorted out with map sculpting)
-
-improvements:
-- move actionlist functions to assets.c ?
-~ simplify assets.c using tool functions
-- review drawing.c and game.c
-~ homogenize functions arg order
-- Game structure ?
-~ World structure
+  or merge it with int** inter > rework: entirely merge tp with it
 - moving through more than 2 maps
 
+important:
+~ saving map/world/game
+- complex maps
+- adapt gameplay to hue
+- entities
+- inventory
+
+improvements:
+- make the map a little bigger so that assets can overlap the edges for a more natural feel
+- create functional settings presets
+- improve map name generation
+~ simplify assets.c using tool functions > functions that will read a whole inter/actionlist from a file
+> modular asset files (homogenize all assets into a single struct?)
+
 tweaks:
-- assets name in their files(?)
-
-
-Instances:
-v have a table of all interactive assets to refer to
-v list pointers to unique interactive assets
-
-
-V Actions:
-v create table of all actions
-v when loading inter, associate actions
-v actions conditions on ref inter and player
-- actions conditions on individual instances
-- change lists to realloc arrays?
+~ homogenize functions arg order
+~ check adding duplicates actions to actionlist
 
 
 X Complex menus:
-- settings struct
 - big menu funct (display, hide)
 - menu submenus tables
 - and state variable (int)
@@ -74,3 +56,11 @@ x random hue can be modified through ig settings panel
 
 beyond:
 -> unicode
+
+
+path not taken:
+x scroll decoration
+x update oldschool mode
+x day/night cycle
+x deactivate day/night cycle
+
