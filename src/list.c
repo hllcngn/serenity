@@ -45,30 +45,30 @@ free(list);}
 void list_inst_insert(List** list, List* inst){
 List* in =*list;
 if (!in){ *list =inst; inst->prev =inst->next =NULL;}
-else {	List* i2=NULL; for (;in &&((Instance*)(in->inst))->y<((Instance*)(inst->inst))->y;
+else {	List* i2=NULL; for (;in &&((Inst*)(in->inst))->y<((Inst*)(inst->inst))->y;
 			in=in->next) i2=in;
 	if(!i2)	insert_before(list, inst);
 	else if(!in)	insert_after(&i2, inst);
 	else	insert_before(&in, inst);}}
 
-//TODO change type names Instance > Inst and Interactive > Inter
+//TODO change type names Inst > Inst and Inter > Inter
 List* list_inst_get(List* list, int y, int x){
 for (List* in=list; in; in=in->next)
 	/*
-	insty =((Instance*)(in->inst))->y;
-	instx =((Instance*)(in->inst))->x;
-	interh =((Interactive*)(in->item))->h;
-	interw =((Interactive*)(in->item))->w;
+	insty =((Inst*)(in->inst))->y;
+	instx =((Inst*)(in->inst))->x;
+	interh =((Inter*)(in->item))->h;
+	interw =((Inter*)(in->item))->w;
 	*/
-	if (	y>=((Instance*)(in->inst))->y
-		&&y<((Instance*)(in->inst))->y+((Interactive*)(in->item))->h
-		&&x>=((Instance*)(in->inst))->x
-		&&x<((Instance*)(in->inst))->x+((Interactive*)(in->item))->w)
+	if (	y>=((Inst*)(in->inst))->y
+		&&y<((Inst*)(in->inst))->y+((Inter*)(in->item))->h
+		&&x>=((Inst*)(in->inst))->x
+		&&x<((Inst*)(in->inst))->x+((Inter*)(in->item))->w)
 			return in;
 return NULL;}
 /*
-Instance* find_inst_inter(Ref* ref, Map* map, Interactive* inter){
-for (Instance* inst=map->inst; inst; inst=inst->next)
+Inst* find_inst_inter(Ref* ref, Map* map, Inter* inter){
+for (Inst* inst=map->inst; inst; inst=inst->next)
 	if (inst->inter==inter) return inst;
 return NULL;}
 */

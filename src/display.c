@@ -4,8 +4,8 @@ void display(Ui* ui, Player* pl, Map* map){
 display_map(ui->gamw, map, pl->y, pl->x);
 List* in =list_inst_get(map->inst, pl->y, pl->x);
 display_pl(ui->gamw, pl, map, in);
-if (in &&((Interactive*)(in->item))->inter[pl->y-((Instance*)(in->inst))->y]
-					[pl->x-((Instance*)(in->inst))->x]=='i')
+if (in &&((Inter*)(in->item))->inter[pl->y-((Inst*)(in->inst))->y]
+					[pl->x-((Inst*)(in->inst))->x]=='i')
 	display_notice(ui->gamw,pl,map,in);
 wrefresh(ui->gamw);
 display_gui(ui->guiw,pl,map);
@@ -23,8 +23,8 @@ mvwprintw(guiwin,0,0,"HP        50/50");} //TODO display actual player hp
 
 void display_pl(WINDOW* gwin, Player* pl, Map* map, List* in){
 if (map->fg[pl->y][pl->x]) return;
-if (in &&((Interactive*)(in->item))->info[pl->y-((Instance*)(in->inst))->y]
-					[pl->x-((Instance*)(in->inst))->x]=='f') return;
+if (in &&((Inter*)(in->item))->info[pl->y-((Inst*)(in->inst))->y]
+					[pl->x-((Inst*)(in->inst))->x]=='f') return;
 wattron(gwin,COLOR_PAIR(CP_NORMAL));
 mvwaddch(gwin, GWIN_H/2, GWIN_W/2, ' ');}	//bug: when instances overlap
 						//-> recover a list of instances at y,x
@@ -52,24 +52,24 @@ for (; y<GWIN_H; y++){
 	for (int x=0;x<GWIN_W;x++) waddch(gwin,' ');}
 //TODO find a way to not have to go through the whole list of instances
 for (List* in=map->inst; in; in=in->next){
-v4i inst =(v4i){((Instance*)(in->inst))->y,
-		((Instance*)(in->inst))->x,
-		((Interactive*)(in->item))->h,
-		((Interactive*)(in->item))->w};
+v4i inst =(v4i){((Inst*)(in->inst))->y,
+		((Inst*)(in->inst))->x,
+		((Inter*)(in->item))->h,
+		((Inter*)(in->item))->w};
 if (inst.y+inst.h>cam.y &&inst.y<cam.y+GWIN_H
   &&inst.x+inst.w>cam.x &&inst.x<cam.x+GWIN_W){
 	int y =inst.y<cam.y? cam.y-inst.y :0;
 	for (y; y<inst.h &&inst.y+y<cam.y+GWIN_H; y++){
 		int x =inst.x<cam.x? cam.x-inst.x :0;
 		for (x; x<inst.w &&inst.x+x<cam.x+GWIN_W; x++){
-			if (((Instance*)(in->inst))->type==LOADED
-					&&((Interactive*)(in->item))->info[y][x]!=' ')
+			if (((Inst*)(in->inst))->type==LOADED
+					&&((Inter*)(in->item))->info[y][x]!=' ')
 				mvwaddch(gwin, inst.y+y-cam.y, inst.x+x-cam.x,
-					((Interactive*)(in->item))->ascii[y][x]);
-			else if (((Instance*)(in->inst))->type==GENERATED
-					&&((Instance*)(in->inst))->ascii->info[y][x]!=' ')
+					((Inter*)(in->item))->ascii[y][x]);
+			else if (((Inst*)(in->inst))->type==GENERATED
+					&&((Inst*)(in->inst))->ascii->info[y][x]!=' ')
 				mvwaddch(gwin, inst.y+y-cam.y, inst.x+x-cam.x,
-					((Instance*)(in->inst))->ascii->ascii[y][x]);}}}}}
+					((Inst*)(in->inst))->ascii->ascii[y][x]);}}}}}
 
 
 void display_notice(WINDOW* gwin, Player* pl, Map* map, List* in){

@@ -78,14 +78,14 @@ typedef struct ref Ref; //assets reference
 typedef struct player Player;
 typedef struct world World;
 typedef struct map Map;
-typedef struct interactive Interactive;
+typedef struct inter Inter;
 typedef struct asset Asset;
 typedef struct house House;
 typedef struct action Action;
 typedef struct item Item;
 typedef struct anim Anim;
 //lists:
-typedef struct instance	Instance;
+typedef struct inst Inst;
 typedef struct maplist Maplist;
 typedef struct houselist Houselist;
 typedef struct actionlist Actionlist;
@@ -127,7 +127,7 @@ struct map{
 	int		h,w;
 	char*		name;
 	char		**bg,**clsn,**fg,**tp;
-	//Instance*	inst;	//TODO add a max n of instances
+	//Inst*	inst;	//TODO add a max n of instances
 	List*		inst;
 	Houselist*	houselist;
 	Maplist*	maplist;
@@ -135,7 +135,7 @@ struct map{
 
 // - assets -
 struct ref{
-	Interactive**	interactive;
+	Inter**		inter;
 	Action**	action;
 	Anim**		anim;
 };
@@ -152,11 +152,11 @@ struct house{			//TODO in order to make things work
 /*				//and actually a list of instances across all outdoors maps
 struct house{			//which is where it becomes useful to have
 	int		id;	//the list struct distinct from the instances
-	Instance*	inst;	// then we can always have a list of house instances
+	Inst*	inst;	// then we can always have a list of house instances
 	Maplist		*maplist;	//on the map if needed
 };				//but we also need to connect the instance to the house struct
 */				//else just look for house in new house struct list by id
-struct interactive{		//which kinda works if we just have many different lists of stuff
+struct inter{		//which kinda works if we just have many different lists of stuff
 	int		h,w;
 	char		**ascii,**info,**inter;
 	Actionlist*	actionlist;
@@ -180,14 +180,14 @@ struct item{
 };
 
 // - lists -
-struct instance{
+struct inst{
 	int		type;
 	int		y,x;
-	Interactive*	inter;
-	Interactive*	ascii; //for generated ones TODO change this so that
+	Inter*		inter;
+	Inter*		ascii; //for generated ones TODO change this so that
 	Actionlist*	actionlist; //the 'inter' is always where to look
 	// tp (or external tp list)    //just check at freeing to delete it if generated
-	Instance	*previous,*next;
+	Inst	*previous,*next;
 };
 struct actionlist{
 	int		condition;
@@ -255,20 +255,20 @@ void free_asset(Asset* ass);
 House* load_house(char* path);
 void paste_house(Map* map, House* house, int y, int x);
 void free_house(House* house);
-Interactive** create_intertable(Action** actiontable);
-Interactive* load_inter(char* path, Action** actiontable);
-void free_inter(Interactive* inter);
-void free_intertable(Interactive** intertable);
-Instance* create_inst_from_inter(Interactive* inter);
-Instance* add_inst(Map* map, int y, int x, Instance* inst);
-Instance* insert_inst(Instance** list, Instance* inst);
-Instance* get_inst(Map* map, int x, int y);
-//Instance* find_inst_inter(Ref* ref, Map* map, Interactive* inter);
-void destroy_inst(Instance* it, Map* map);
-void free_instlist(Instance* it);
+Inter** create_intertable(Action** actiontable);
+Inter* load_inter(char* path, Action** actiontable);
+void free_inter(Inter* inter);
+void free_intertable(Inter** intertable);
+Inst* create_inst_from_inter(Inter* inter);
+Inst* add_inst(Map* map, int y, int x, Inst* inst);
+Inst* insert_inst(Inst** list, Inst* inst);
+Inst* get_inst(Map* map, int x, int y);
+//Inst* find_inst_inter(Ref* ref, Map* map, Inter* inter);
+void destroy_inst(Inst* it, Map* map);
+void free_instlist(Inst* it);
 // = inter.c =
-Instance* create_tree(Ref* ref);
-Instance* create_fruittree(Ref* ref);
+Inst* create_tree(Ref* ref);
+Inst* create_fruittree(Ref* ref);
 
 // = actions.c =
 Action** create_actiontable(void);

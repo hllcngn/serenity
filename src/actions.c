@@ -53,13 +53,13 @@ Actionlist* aldisp =NULL;
 for (Actionlist *al=pl->actionlist; al; al=al->next)
 	if (al &&al->condition==SUPERABLE)
 		add_action(&aldisp, al->action, 0);
-for (Actionlist *al=((Instance*)(in->inst))->actionlist; al; al=al->next){
+for (Actionlist *al=((Inst*)(in->inst))->actionlist; al; al=al->next){
 	if (al->condition==SUPERABLE)
 		add_action(&aldisp, al->action, 0);
 	else {	Actionlist* plal =find_action(al->action->label,pl->actionlist);
 		if (plal &&plal->condition)
 			add_action(&aldisp, plal->action, 0);}}
-for (Actionlist *al=((Interactive*)(in->item))->actionlist; al; al=al->next){
+for (Actionlist *al=((Inter*)(in->item))->actionlist; al; al=al->next){
 	if (al->condition==SUPERABLE)
 		add_action(&aldisp, al->action, 0);
 	else {	Actionlist* plal =find_action(al->action->label,pl->actionlist);
@@ -82,7 +82,7 @@ for (Actionlist* all=al; all; all=all->next)
 return NULL;}
 
 Actionlist* find_action_key(char key, Actionlist* al){
-Actionlist* all;
+Actionlist* all =NULL;
 for (all=al; all &&all->action->key!=key; all=all->next);
 return all;}
 
@@ -105,15 +105,15 @@ List* inst =list_inst_get(map->inst, pl->y, pl->x);
 if (!inst)	return;
 Actionlist* al =generate_complete_al(pl, inst);
 al =find_action_key(c, al);
-al->action->action(inst, map, ref);}
+if (al) al->action->action(inst, map, ref);}
 
 
 void act_fall_tree(List* inst, Map* map, Ref* ref){
-int y =((Instance*)(inst->inst))->y, x =((Instance*)(inst->inst))->x;
+int y =((Inst*)(inst->inst))->y, x =((Inst*)(inst->inst))->x;
 node_remove(&(map->inst),inst);
-Instance* stump_inst =create_inst_from_inter(ref->interactive[stump]);
+Inst* stump_inst =create_inst_from_inter(ref->inter[stump]);
 stump_inst->y =y+2; stump_inst->x =x+rand()%2+1;
-List* new =list_new(t_inst, ref->interactive[stump], stump_inst);
+List* new =list_new(t_inst, ref->inter[stump], stump_inst);
 list_inst_insert(&(map->inst), new);}
 
 void act_pull_stump(List* inst, Map* map, Ref* ref){

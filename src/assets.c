@@ -4,13 +4,13 @@
 Ref* load_ref(void){
 Ref *ref =malloc(sizeof(Ref));
 ref->action =create_actiontable();
-ref->interactive =create_intertable(ref->action);
+ref->inter =create_intertable(ref->action);
 ref->anim =create_animtable();
 return ref;}
 
 void free_ref(Ref* ref){
 free_actiontable(ref->action);
-free_intertable(ref->interactive);
+free_intertable(ref->inter);
 free_animtable(ref->anim);
 free(ref);}
 
@@ -74,16 +74,16 @@ free(house);}
 
 
 // INTERACTIVES (instance models)
-Interactive** create_intertable(Action** actiontable){
-Interactive** inter =malloc(sizeof(Interactive*)*nb_inter);
+Inter** create_intertable(Action** actiontable){
+Inter** inter =malloc(sizeof(Inter*)*nb_inter);
 inter[tree2] =load_inter("ass/inter/tree2.txt", actiontable);
 inter[fruittree] =load_inter("ass/inter/fruittree.txt", actiontable);
 inter[stump] =load_inter("ass/inter/stump.txt", actiontable);
 inter[umbrella] =load_inter("ass/inter/umbrella.txt", actiontable);
 return inter;}
 
-Interactive* load_inter(char* path, Action** actiontable){
-Interactive* inter=malloc(sizeof(Interactive));
+Inter* load_inter(char* path, Action** actiontable){
+Inter* inter=malloc(sizeof(Inter));
 FILE* f=fopen(path,"r");
 fsize_map(f,&(inter->h),&(inter->w));
 rewind(f);	     inter->ascii =fread_map(f,inter->h,inter->w);
@@ -98,7 +98,7 @@ char c; while ((c=getc(f))!='\n'&&c!=EOF){ fseek(f,-1,SEEK_CUR);
 	free(act);}
 fclose(f);	return inter;}
 
-void free_inter(Interactive* inter){
+void free_inter(Inter* inter){
 for (int y=0;y<inter->h;y++){	free(inter->ascii[y]);
 				free(inter->info[y]);
 				free(inter->inter[y]);}
@@ -106,48 +106,48 @@ free(inter->ascii);free(inter->info);free(inter->inter);
 free_actionlist(inter->actionlist);
 free(inter);}
 
-void free_intertable(Interactive** inter){
+void free_intertable(Inter** inter){
 for (int i=0;i<nb_inter;i++) free_inter(inter[i]);
 free(inter);}
 
 
 // INSTANCES
-Instance* create_inst_from_inter(Interactive* inter){
-Instance* inst =malloc(sizeof(Instance));
+Inst* create_inst_from_inter(Inter* inter){
+Inst* inst =malloc(sizeof(Inst));
 inst->inter =inter; inst->actionlist =NULL;
-inst->type =LOADED; inst->ascii =NULL;
+inst->type =LOADED; inst->ascii =NULL;//
 return inst;}
 
 
-void insert_inst_before(Instance** list, Instance* new){
+void insert_inst_before(Inst** list, Inst* new){
 if (!(*list)){	*list =new; new->previous =new->next =NULL;	return;}
 new->previous =(*list)->previous;	new->next =*list;
 if (new->previous)	new->previous->next =new;
 (*list)->previous =new;
 if (!(new->previous))	*list =new;}
 
-void insert_inst_after(Instance** list, Instance* new){
+void insert_inst_after(Inst** list, Inst* new){
 if (!(*list)){	*list =new; new->previous =new->next =NULL;	return;}
 new->previous =*list;	new->next =(*list)->next;
 if (new->next)	new->next->previous =new;
 (*list)->next =new;}
 
-Instance* insert_inst(Instance** list, Instance* inst){
-Instance* in =*list;
+Inst* insert_inst(Inst** list, Inst* inst){
+Inst* in =*list;
 if (!in){ *list =inst; inst->previous =inst->next =NULL;}
-else {	Instance* i2; for (; in &&in->y<inst->y; in=in->next) i2=in;
+else {	Inst* i2; for (; in &&in->y<inst->y; in=in->next) i2=in;
 	if(!in) insert_inst_after(&i2, inst);
 	else	insert_inst_before(&in, inst);}}
 
 /*
-Instance* find_inst_inter(Ref* ref, Map* map, Interactive* inter){
-for (Instance* inst=map->inst; inst; inst=inst->next)
+Inst* find_inst_inter(Ref* ref, Map* map, Inter* inter){
+for (Inst* inst=map->inst; inst; inst=inst->next)
 	if (inst->inter==inter) return inst;
 return NULL;}
 */
 
 
-void destroy_inst(Instance* it, Map* map){
+void destroy_inst(Inst* it, Map* map){
 if (!it)	return;
 if (it->previous) it->previous->next =it->next;
 if (it->next) it->next->previous =it->previous;
@@ -155,7 +155,7 @@ if (it->next) it->next->previous =it->previous;
 if (it->actionlist) free_actionlist(it->actionlist);
 free(it);}
 
-void free_instlist(Instance* it){
+void free_instlist(Inst* it){
 if (!it)	return;
 free_instlist(it->next);
 free(it);}

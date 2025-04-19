@@ -1,7 +1,7 @@
 #include "serenity.h"
 
-void	add_inst_to_map_from_inter(Map* map, char** blckd, Interactive* inter);
-void	add_gen_tree_to_map_from_inter(Ref* ref, Map* map, char** blckd, Interactive* inter, Instance* (*f)(Ref*));
+void	add_inst_to_map_from_inter(Map* map, char** blckd, Inter* inter);
+void	add_gen_tree_to_map_from_inter(Ref* ref, Map* map, char** blckd, Inter* inter, Inst* (*f)(Ref*));
 
 
 World* create_world(void){
@@ -75,31 +75,31 @@ paste_asset(map,aumbrella,yhouse+20,xhouse+5);
 free_asset(aumbrella);
 
 //TODO add_inst_from_inter  list_inst_add_inter
-Instance* uminst =create_inst_from_inter(ref->interactive[umbrella]);
+Inst* uminst =create_inst_from_inter(ref->inter[umbrella]);
 uminst->y =yhouse+24; uminst->x =xhouse+30;
-List* uminstl =list_new(t_inst, ref->interactive[umbrella], uminst);
+List* uminstl =list_new(t_inst, ref->inter[umbrella], uminst);
 list_inst_insert(&(map->inst), uminstl);
 
 //for (int i=0;i<map->h*(map->w)/500;i++)
-//	add_inst_to_map_from_inter(map, blckd, ref->interactive[fruittree]);
+//	add_inst_to_map_from_inter(map, blckd, ref->inter[fruittree]);
 
-for (int i=0;i<map->w*10;i++)
-	add_inst_to_map_from_inter(map, blckd, ref->interactive[stump]);
-
-for (int i=0;i<map->h*(map->w)/200;i++)
-	add_gen_tree_to_map_from_inter(ref, map, blckd, ref->interactive[tree2], &create_tree);
+for (int i=0;i<map->w*7;i++)
+	add_inst_to_map_from_inter(map, blckd, ref->inter[stump]);
 
 for (int i=0;i<map->h*(map->w)/200;i++)
-	add_gen_tree_to_map_from_inter(ref, map, blckd, ref->interactive[tree2], &create_fruittree);
+	add_gen_tree_to_map_from_inter(ref, map, blckd, ref->inter[tree2], &create_tree);
+
+for (int i=0;i<map->h*(map->w)/200;i++)
+	add_gen_tree_to_map_from_inter(ref, map, blckd, ref->inter[tree2], &create_fruittree);
 }
 
-void	add_inst_to_map_from_inter(Map* map, char** blckd, Interactive* inter){
+void	add_inst_to_map_from_inter(Map* map, char** blckd, Inter* inter){
 	int yinst, xinst;
 	int blocked =1; while (blocked){ blocked =0;
 	yinst =rand()%(map->h-20)+10; xinst =rand()%(map->w-20)+10;
 	for (int y=0; y<inter->h &&!blocked; y++) for (int x=0; x<inter->w &&!blocked; x++)
 		if(inter->info[y][x]=='X' &&blckd[yinst+y][xinst+x])	blocked =1;}
-	Instance* inst =create_inst_from_inter(inter);
+	Inst* inst =create_inst_from_inter(inter);
 	inst->y =yinst; inst->x =xinst;
 	List* new =list_new(t_inst, inter, inst);
 	list_inst_insert(&(map->inst), new);
@@ -107,13 +107,13 @@ void	add_inst_to_map_from_inter(Map* map, char** blckd, Interactive* inter){
 		if (inst->inter->info[y][x]=='X')
 			blckd[inst->y+y][inst->x+x] ='X';}
 
-void	add_gen_tree_to_map_from_inter(Ref* ref, Map* map, char** blckd, Interactive* inter, Instance* (*f)(Ref*)){
+void	add_gen_tree_to_map_from_inter(Ref* ref, Map* map, char** blckd, Inter* inter, Inst* (*f)(Ref*)){
 	int yinst, xinst;
 	int blocked =1; while (blocked){ blocked =0;
 	yinst =rand()%(map->h-20)+10; xinst =rand()%(map->w-20)+10;
 	for (int y=0; y<inter->h &&!blocked; y++) for (int x=0; x<inter->w &&!blocked; x++)
 		if(inter->info[y][x]=='X' &&blckd[yinst+y][xinst+x])	blocked =1;}
-	Instance* inst =(*f)(ref);
+	Inst* inst =(*f)(ref);
 	inst->y =yinst; inst->x =xinst;
 	List* new =list_new(t_inst, inter, inst); //TODO handle inter properly
 	list_inst_insert(&(map->inst), new);
