@@ -255,10 +255,7 @@ void free_asset(Asset* ass);
 House* load_house(char* path);
 void paste_house(Map* map, House* house, int y, int x);
 void free_house(House* house);
-Inter** create_intertable(Action** actiontable);
-Inter* load_inter(char* path, Action** actiontable);
-void free_inter(Inter* inter);
-void free_intertable(Inter** intertable);
+Inst* inst_new(int type, int y, int x);//is it like es in rust if everything is an inst?
 Inst* create_inst_from_inter(Inter* inter);
 Inst* add_inst(Map* map, int y, int x, Inst* inst);
 Inst* insert_inst(Inst** list, Inst* inst);
@@ -267,6 +264,10 @@ Inst* get_inst(Map* map, int x, int y);
 void destroy_inst(Inst* it, Map* map);
 void free_instlist(Inst* it);
 // = inter.c =
+Inter** create_intertable(Action** actiontable);
+Inter* load_inter(char* path, Action** actiontable);
+void free_inter(Inter* inter);
+void free_intertable(Inter** intertable);
 Inst* create_tree(Ref* ref);
 Inst* create_fruittree(Ref* ref);
 

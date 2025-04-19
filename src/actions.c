@@ -111,8 +111,10 @@ if (al) al->action->action(inst, map, ref);}
 void act_fall_tree(List* inst, Map* map, Ref* ref){
 int y =((Inst*)(inst->inst))->y, x =((Inst*)(inst->inst))->x;
 node_remove(&(map->inst),inst);
-Inst* stump_inst =create_inst_from_inter(ref->inter[stump]);
-stump_inst->y =y+2; stump_inst->x =x+rand()%2+1;
+//Inst* stump_inst =create_inst_from_inter(ref->inter[stump]);
+//stump_inst->y =y+2; stump_inst->x =x+rand()%2+1;
+Inst* stump_inst =inst_new(LOADED, y+2, x+rand()%2+1);
+//or new inter
 List* new =list_new(t_inst, ref->inter[stump], stump_inst);
 list_inst_insert(&(map->inst), new);}
 
