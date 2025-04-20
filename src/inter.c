@@ -36,38 +36,34 @@ void free_intertable(Inter** inter){
 for (int i=0;i<nb_inter;i++) free_inter(inter[i]);
 free(inter);}
 
+Inter* duplicate_inter(Inter* inter){
+Inter* new =malloc(sizeof(Inter));
+new->type =inter->type;
+new->h =inter->h; new->w =inter->w;
+new->ascii =duplicate_arraychar2(inter->ascii, inter->h, inter->w);
+new->info =duplicate_arraychar2(inter->info, inter->h, inter->w);//can i leave these pointers pointing
+new->inter =duplicate_arraychar2(inter->inter, inter->h, inter->w);//to the same arrays?
+								  //it would be difficult to free them
+new->actionlist =inter->actionlist;//=duplicate_actionlist(inter->actionlist); TODO
+return new;}
 
 
-//return Inter
-Inst* create_tree(Ref* ref){
-Inst* inst =malloc(sizeof(Inst));
-inst->type =GENERATED; inst->actionlist =NULL;
-inst->inter =ref->inter[tree2];
-inst->ascii =malloc(sizeof(Inter));
-Inter* treemodel =ref->inter[tree2];
-int treeh=treemodel->h, treew=treemodel->w;
-inst->ascii->ascii =duplicate_arraychar2(treemodel->ascii, treeh, treew);
-for (int y=0; y<treeh; y++) for (int x=0; x<treew; x++)
-	if (treemodel->ascii[y][x]!=' ' &&treemodel->ascii[y][x]!='|')
-		inst->ascii->ascii[y][x] =treebase[rand()%TREEBASE_N];
-inst->ascii->info =duplicate_arraychar2(treemodel->info, treeh, treew);
-inst->ascii->inter =duplicate_arraychar2(treemodel->inter, treeh, treew);
-return inst;}
 
-Inst* create_fruittree(Ref* ref){
-Inst* inst =malloc(sizeof(Inst));
-inst->type =GENERATED; inst->actionlist =NULL;
-inst->inter =ref->inter[fruittree];
-inst->ascii =malloc(sizeof(Inter));
-Inter* treemodel =ref->inter[tree2];
-int treeh=treemodel->h, treew=treemodel->w;
-inst->ascii->ascii =duplicate_arraychar2(treemodel->ascii, treeh, treew);
-for (int y=0; y<treeh; y++) for (int x=0; x<treew; x++)
-	if (treemodel->ascii[y][x]!=' ' &&treemodel->ascii[y][x]!='|'){
+Inter* create_tree(Ref* ref){
+Inter* inter =duplicate_inter(ref->inter[tree2]);
+inter->type =GENERATED;
+for (int y=0; y<inter->h; y++) for (int x=0; x<inter->w; x++)
+	if (inter->ascii[y][x]!=' ' &&inter->ascii[y][x]!='|')
+		inter->ascii[y][x] =treebase[rand()%TREEBASE_N];
+return inter;}
+
+Inter* create_fruittree(Ref* ref){
+Inter* inter =duplicate_inter(ref->inter[tree2]);
+inter->type =GENERATED;
+for (int y=0; y<inter->h; y++) for (int x=0; x<inter->w; x++)
+	if (inter->ascii[y][x]!=' ' &&inter->ascii[y][x]!='|'){
 		int r =rand()%(TREEBASE_N+FRUITBASE_N);
 		if (r <TREEBASE_N)
-			inst->ascii->ascii[y][x] =treebase[r];
-		else	inst->ascii->ascii[y][x] =fruitbase[r-TREEBASE_N];}
-inst->ascii->info =duplicate_arraychar2(treemodel->info, treeh, treew);
-inst->ascii->inter =duplicate_arraychar2(treemodel->inter, treeh, treew);
-return inst;}
+			inter->ascii[y][x] =treebase[r];
+		else	inter->ascii[y][x] =fruitbase[r-TREEBASE_N];}
+return inter;}

@@ -62,14 +62,9 @@ if (inst.y+inst.h>cam.y &&inst.y<cam.y+GWIN_H
 	for (y; y<inst.h &&inst.y+y<cam.y+GWIN_H; y++){
 		int x =inst.x<cam.x? cam.x-inst.x :0;
 		for (x; x<inst.w &&inst.x+x<cam.x+GWIN_W; x++){
-			if (((Inst*)(in->inst))->type==LOADED
-					&&((Inter*)(in->item))->info[y][x]!=' ')
+			if (((Inter*)(in->item))->info[y][x]!=' ')
 				mvwaddch(gwin, inst.y+y-cam.y, inst.x+x-cam.x,
-					((Inter*)(in->item))->ascii[y][x]);
-			else if (((Inst*)(in->inst))->type==GENERATED
-					&&((Inst*)(in->inst))->ascii->info[y][x]!=' ')
-				mvwaddch(gwin, inst.y+y-cam.y, inst.x+x-cam.x,
-					((Inst*)(in->inst))->ascii->ascii[y][x]);}}}}}
+					((Inter*)(in->item))->ascii[y][x]);}}}}}
 
 
 void display_notice(WINDOW* gwin, Player* pl, Map* map, List* in){

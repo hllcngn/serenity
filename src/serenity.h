@@ -55,7 +55,7 @@ enum anim_id{
 typedef struct{ int	y,x;		} v2i;
 typedef struct{ int	y,x,h,w;	} v4i;
 typedef struct{	float	i,j,k;		} v3f;
-typedef struct list List;
+typedef struct list	List;
 struct list{ //NB perhaps interestingly, you can have lists with different types of items
 	int	type;
 	void*	item;
@@ -157,10 +157,10 @@ struct house{			//which is where it becomes useful to have
 };				//but we also need to connect the instance to the house struct
 */				//else just look for house in new house struct list by id
 struct inter{		//which kinda works if we just have many different lists of stuff
+	int		type; // = LOADED/GENERATED
 	int		h,w;
 	char		**ascii,**info,**inter;
 	Actionlist*	actionlist;
-	int		type; // = LOADED/GENERATED
 };			//TODO migrate to using this type instead of the instance's
 struct anim{
 	int		n;
@@ -183,7 +183,6 @@ struct item{
 struct inst{
 	int		type;
 	int		y,x;
-	Inter*		inter;
 	Inter*		ascii; //for generated ones TODO change this so that
 	Actionlist*	actionlist; //the 'inter' is always where to look
 	// tp (or external tp list)    //just check at freeing to delete it if generated
@@ -268,8 +267,9 @@ Inter** create_intertable(Action** actiontable);
 Inter* load_inter(char* path, Action** actiontable);
 void free_inter(Inter* inter);
 void free_intertable(Inter** intertable);
-Inst* create_tree(Ref* ref);
-Inst* create_fruittree(Ref* ref);
+Inter* duplicate_inter(Inter* inter);
+Inter* create_tree(Ref* ref);
+Inter* create_fruittree(Ref* ref);
 
 // = actions.c =
 Action** create_actiontable(void);
@@ -315,11 +315,13 @@ char* path_cat(char* path, char* file);
 
 // = list functions =
 List* list_new(int type, void* item, void* hints);
-void insert_before(List** list, List* new);
-void insert_after(List** list, List* new);
+void list_free_node(List* tf);
 void list_free(List* list);
-void node_free(List* tf);
-void node_remove(List** list, List* trm);
+void list_insert_before(List** list, List* new);
+void list_insert_after(List** list, List* new);
+void list_pop(List** list, List* trm);
+void list_remove(List** list, List* trm);
 //
+List* list_inst_insert_new(List** list, Inter* inter, int y, int x);
 void list_inst_insert(List** list, List* new);
 List* list_inst_get(List* list, int y, int x);
