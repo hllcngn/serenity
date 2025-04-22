@@ -134,7 +134,7 @@ free_arraychar2(map->bg,map->h,map->w);
 free_arraychar2(map->clsn,map->h,map->w);
 free_arraychar2(map->fg,map->h,map->w);
 free_arraychar2(map->tp,map->h,map->w);
-//free_instlist(map->inst);
+list_free(map->inst);
 //free_house(map->house);
 free(map->name);
 free(map);}

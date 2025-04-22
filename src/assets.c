@@ -79,11 +79,3 @@ Inst* inst =malloc(sizeof(Inst));
 //inst->type =type;
 inst->y =y; inst->x =x;
 inst->actlist =NULL;}
-
-/*
-Inst* create_inst_from_inter(Inter* inter){
-Inst* inst =malloc(sizeof(Inst));
-inst->inter =inter; inst->actionlist =NULL;
-inst->type =LOADED; inst->ascii =NULL; //
-return inst;}
-*/

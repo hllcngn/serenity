@@ -15,6 +15,7 @@ free(inter);}
 
 Inter* load_inter(char* path, Action** actiontable){
 Inter* inter=malloc(sizeof(Inter));
+inter->type =LOADED;
 FILE* f=fopen(path,"r");
 fsize_map(f,&(inter->h),&(inter->w));
 rewind(f);	     inter->ascii =fread_map(f,inter->h,inter->w);
@@ -33,14 +34,14 @@ void free_inter(Inter* inter){
 for (int y=0;y<inter->h;y++){	free(inter->ascii[y]);
 				free(inter->info[y]);
 				free(inter->inter[y]);}
-free(inter->ascii);free(inter->info);free(inter->inter);
+free(inter->ascii); free(inter->info); free(inter->inter);
 list_free(inter->actlist);
 free(inter);}
 
 
 Inter* duplicate_inter(Inter* inter){
 Inter* new =malloc(sizeof(Inter));
-new->type =inter->type;
+new->type =GENERATED;
 new->h =inter->h; new->w =inter->w;
 new->ascii =duplicate_arraychar2(inter->ascii, inter->h, inter->w);
 new->info =duplicate_arraychar2(inter->info, inter->h, inter->w);//can i leave these pointers pointing
@@ -52,7 +53,6 @@ return new;}
 
 Inter* create_tree(Ref* ref){
 Inter* inter =duplicate_inter(ref->inter[tree2]);
-inter->type =GENERATED;
 for (int y=0; y<inter->h; y++) for (int x=0; x<inter->w; x++)
 	if (inter->ascii[y][x]!=' ' &&inter->ascii[y][x]!='|')
 		inter->ascii[y][x] =treebase[rand()%TREEBASE_N];
@@ -60,7 +60,6 @@ return inter;}
 
 Inter* create_fruittree(Ref* ref){
 Inter* inter =duplicate_inter(ref->inter[tree2]);
-inter->type =GENERATED;
 for (int y=0; y<inter->h; y++) for (int x=0; x<inter->w; x++)
 	if (inter->ascii[y][x]!=' ' &&inter->ascii[y][x]!='|'){
 		int r =rand()%(TREEBASE_N+FRUITBASE_N);

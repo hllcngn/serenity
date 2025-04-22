@@ -8,9 +8,9 @@ new->inst =inst;
 new->prev =new->next =NULL;}
 
 void list_free_node(List* tf){
-if (tf->type ==t_inst)
-	if (((Inter*)(tf->item))->type ==GENERATED)
-		free_inter(tf->item);
+if (!tf)	return;
+if (tf->type ==t_inst &&((Inter*)(tf->item))->type ==GENERATED)
+	free_inter(tf->item);
 free(tf->inst);
 free(tf);}
 
@@ -36,15 +36,16 @@ if (new->next)	new->next->prev =new;}
 
 void list_pop(List** list, List* trm){
 if (!trm)	return;
-if (*list ==trm)	*list =(*list)->next;
+if (*list ==trm) *list =(*list)->next;
 if (trm->prev)	trm->prev->next =trm->next;
 if (trm->next)	trm->next->prev =trm->prev;}
 
 void list_remove(List** list, List* trm){
-list_pop(list, trm);
+if (list) list_pop(list, trm);
 list_free_node(trm);}
 
 List* list_duplicate(List* list){
+if (!list)	return NULL;
 List* new =NULL;
 for (List* l=list; l; l=l->next){
 	List* n =malloc(sizeof(List));
@@ -88,21 +89,13 @@ for (List* in=list; in; in=in->next){
 		&&x<instx+interw)
 			return in;}
 return NULL;}
-/*
-Inst* find_inst_inter(Ref* ref, Map* map, Inter* inter){
-for (Inst* inst=map->inst; inst; inst=inst->next)
-	if (inst->inter==inter) return inst;
-return NULL;}
-*/
 
 
 // SPECIFIC TO ACTIONS
 void list_act_insert_new(List** list, Action* action, int condition){
-List* new =malloc(sizeof(List));
-new->type =t_action;
-new->inst =malloc(sizeof(Actinst));
-((Actinst*)(new->inst))->condition =condition;
-new->item =action;
+Actinst* inst =malloc(sizeof(Actinst));
+inst->condition =condition;
+List* new =list_new(t_act, action, inst);
 list_insert_before(list, new);}
 
 List* list_act_find_key(List* list, char key){
@@ -134,4 +127,3 @@ for (List *l=((Inter*)(inst->item))->actlist; l; l=l->next){
 			list_act_insert_new(&list, pll->item, 0);}}
 list_remove_duplicates(list);
 return list;}
-

@@ -64,7 +64,7 @@ struct list{ //NB perhaps interestingly, you can have lists with different types
 };
 enum node_type{
 	t_inst,
-	t_action,
+	t_act,
 	t_item,
 	t_map,
 	t_house
@@ -185,19 +185,11 @@ struct inst{
 	int		y,x;
 	List*		actlist;
 	// tp (or external tp list) (?)
-	//int	condition;
-	//int	n;
 };
 struct actinst{
 	int		condition;
 };
-/*
-struct actionlist{
-	int		condition;
-	Action*		action;
-	Actionlist	*previous,*next;
-};
-*/
+
 struct maplist{
 	Map*		map;
 	Maplist		*previous,*next;
