@@ -8,7 +8,7 @@ new->inst =inst;
 new->prev =new->next =NULL;}
 
 void list_free_node(List* tf){
-if (tf->type ==t_inst)
+if (tf->type ==t_inst) //TODO type specific freeing functions
 	if (((Inter*)(tf->item))->type ==GENERATED)
 		free_inter(tf->item);
 free(tf->inst);

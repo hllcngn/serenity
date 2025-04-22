@@ -169,7 +169,6 @@ struct anim{
 
 // - others -
 struct action{
-	int		id;
 	int		key;
 	int		labellen, c;
 	char*		label;
@@ -186,7 +185,6 @@ struct inst{
 	Inter*		ascii; //for generated ones TODO change this so that
 	Actionlist*	actionlist; //the 'inter' is always where to look
 	// tp (or external tp list)    //just check at freeing to delete it if generated
-	Inst	*previous,*next;
 };
 struct actionlist{
 	int		condition;
