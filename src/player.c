@@ -7,14 +7,13 @@ pl->y =y; pl->x =x;
 pl->hp =hp;
 pl->inventory =NULL;
 
-pl->actionlist =NULL;
-add_action(&(pl->actionlist), ref->action[fall_tree], ABLE);
-add_action(&(pl->actionlist), ref->action[harvest_fruits], ABLE);
-add_action(&(pl->actionlist), ref->action[light_fire], SUPERABLE);
+pl->actlist =NULL;
+list_act_insert_new(&(pl->actlist), ref->action[fall_tree], ABLE);
+list_act_insert_new(&(pl->actlist), ref->action[harvest_fruits], ABLE);
+list_act_insert_new(&(pl->actlist), ref->action[light_fire], SUPERABLE);
 return pl;}
 
 void free_player(Player* pl){
 free(pl->name);
-//free(pl->actions);
-free_actionlist(pl->actionlist);
+list_free(pl->actlist);
 free(pl);}

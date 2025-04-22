@@ -15,7 +15,7 @@ free_animtable(ref->anim);
 free(ref);}
 
 
-// simple ASSETS
+// background ASSETS
 Asset* load_asset(char* path){
 Asset* ass =malloc(sizeof(Asset));
 FILE* f =fopen(path,"r");
@@ -76,9 +76,9 @@ free(house);}
 // INSTANCES
 Inst* inst_new(int type, int y, int x){
 Inst* inst =malloc(sizeof(Inst));
-inst->type =type;
+//inst->type =type;
 inst->y =y; inst->x =x;
-inst->actionlist =NULL;}
+inst->actlist =NULL;}
 
 /*
 Inst* create_inst_from_inter(Inter* inter){

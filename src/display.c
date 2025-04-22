@@ -2,11 +2,11 @@
 
 void display(Ui* ui, Player* pl, Map* map){
 display_map(ui->gamw, map, pl->y, pl->x);
-List* in =list_inst_get(map->inst, pl->y, pl->x);
-display_pl(ui->gamw, pl, map, in);
-if (in &&((Inter*)(in->item))->inter[pl->y-((Inst*)(in->inst))->y]
-					[pl->x-((Inst*)(in->inst))->x]=='i')
-	display_notice(ui->gamw,pl,map,in);
+List* inst =list_inst_find(map->inst, pl->y, pl->x);
+display_pl(ui->gamw, pl, map, inst);
+if (inst &&((Inter*)(inst->item))->inter[pl->y-((Inst*)(inst->inst))->y]
+					[pl->x-((Inst*)(inst->inst))->x]=='i')
+	display_notice(ui->gamw,pl,map,inst);
 wrefresh(ui->gamw);
 display_gui(ui->guiw,pl,map);
 wrefresh(ui->guiw);}
@@ -67,14 +67,14 @@ if (inst.y+inst.h>cam.y &&inst.y<cam.y+GWIN_H
 					((Inter*)(in->item))->ascii[y][x]);}}}}}
 
 
-void display_notice(WINDOW* gwin, Player* pl, Map* map, List* in){
-Actionlist* aldisp =generate_complete_al(pl, in);
+void display_notice(WINDOW* gwin, Player* pl, Map* map, List* inst){
+List* list =list_act_generate(pl, inst);
 wattron(gwin,COLOR_PAIR(CP_NORMAL));
-int i=0; for (Actionlist* al=aldisp; al; al=al->next){
+int i=0; for (List* l=list; l; l=l->next){
 	i++;
-	mvwprintw(gwin,GWIN_H/2+i,GWIN_W/2+1,"%s",al->action->label);
+	mvwprintw(gwin,GWIN_H/2+i,GWIN_W/2+1,"%s",((Action*)(l->item))->label);
 	wattron(gwin,A_UNDERLINE);
-	wmove(gwin,GWIN_H/2+i,GWIN_W/2+1+al->action->c);
-	waddch(gwin,al->action->label[al->action->c]);
+	wmove(gwin,GWIN_H/2+i,GWIN_W/2+1+((Action*)(l->item))->c);
+	waddch(gwin,((Action*)(l->item))->label[((Action*)(l->item))->c]);
 	wattroff(gwin,A_UNDERLINE);}
-free_actionlist(aldisp);}
+list_free(list);}

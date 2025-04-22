@@ -88,6 +88,7 @@ typedef struct anim Anim;
 typedef struct inst Inst;
 typedef struct maplist Maplist;
 typedef struct houselist Houselist;
+typedef struct actinst Actinst;
 typedef struct actionlist Actionlist;
 typedef struct itemlist Itemlist;
 
@@ -107,7 +108,7 @@ struct player{
 	int		y,x;
 	int		hp;
 	char*		name;
-	Actionlist*	actionlist;
+	List*		actlist;
 	Itemlist*	inventory;
 };
 struct world{
@@ -160,8 +161,8 @@ struct inter{		//which kinda works if we just have many different lists of stuff
 	int		type; // = LOADED/GENERATED
 	int		h,w;
 	char		**ascii,**info,**inter;
-	Actionlist*	actionlist;
-};			//TODO migrate to using this type instead of the instance's
+	List*		actlist;
+};
 struct anim{
 	int		n;
 	char*		chars;
@@ -172,7 +173,7 @@ struct action{
 	int		key;
 	int		labellen, c;
 	char*		label;
-	void	(*action)(List* inst,Map* map,Ref* ref);
+	void	(*action)(Ref* ref,Map* map,List* inst);
 };
 struct item{
 	char*	name;
@@ -180,17 +181,23 @@ struct item{
 
 // - lists -
 struct inst{
-	int		type;
+	//int		type; //might be useful for different instances?
 	int		y,x;
-	Inter*		ascii; //for generated ones TODO change this so that
-	Actionlist*	actionlist; //the 'inter' is always where to look
-	// tp (or external tp list)    //just check at freeing to delete it if generated
+	List*		actlist;
+	// tp (or external tp list) (?)
+	//int	condition;
+	//int	n;
 };
+struct actinst{
+	int		condition;
+};
+/*
 struct actionlist{
 	int		condition;
 	Action*		action;
 	Actionlist	*previous,*next;
 };
+*/
 struct maplist{
 	Map*		map;
 	Maplist		*previous,*next;
@@ -272,19 +279,12 @@ Inter* create_fruittree(Ref* ref);
 // = actions.c =
 Action** create_actiontable(void);
 void free_actiontable(Action** actions);
-void add_action(Actionlist** actionlist, Action* action, int condition);
-void destroy_action(Actionlist* al);
-void al_remove_duplicates(Actionlist* al);
-Actionlist* find_action(char* label, Actionlist* al);
-Actionlist* find_action_key(char key, Actionlist* al);
-void free_actionlist(Actionlist* al);
-Actionlist* generate_complete_al(Player* pl, List* in);
 //
 void act(Ref* ref, Map* map, Player* pl, char c);
-void act_fall_tree(List* inst, Map* map, Ref* ref);
-void act_pull_stump(List* inst, Map* map, Ref* ref);
-void act_harvest_fruits(List* inst, Map* map, Ref* ref);
-void act_light_fire(List* inst, Map* map, Ref* ref);
+void act_fall_tree(Ref* ref,Map* map,List* list);
+void act_pull_stump(Ref* ref,Map* map,List* list);
+void act_harvest_fruits(Ref* ref,Map* map,List* list);
+void act_light_fire(Ref* ref,Map* map,List* list);
 
 // = tool functions =
 int** malloc_arrayint2(int h,int w);
@@ -318,8 +318,15 @@ void list_free(List* list);
 void list_insert_before(List** list, List* new);
 void list_insert_after(List** list, List* new);
 void list_pop(List** list, List* trm);
+List* list_duplicate(List* list);
 void list_remove(List** list, List* trm);
+void list_remove_duplicates(List* list);
 //
 List* list_inst_insert_new(List** list, Inter* inter, int y, int x);
 void list_inst_insert(List** list, List* new);
-List* list_inst_get(List* list, int y, int x);
+List* list_inst_find(List* list, int y, int x);
+//
+void list_act_insert_new(List** list, Action* action, int condition);
+List* list_act_find_key(List* list, char key);
+List* list_act_find_label(List* list, char* label);
+List* list_act_generate(Player* pl, List* inst);

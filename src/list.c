@@ -8,7 +8,7 @@ new->inst =inst;
 new->prev =new->next =NULL;}
 
 void list_free_node(List* tf){
-if (tf->type ==t_inst) //TODO type specific freeing functions
+if (tf->type ==t_inst)
 	if (((Inter*)(tf->item))->type ==GENERATED)
 		free_inter(tf->item);
 free(tf->inst);
@@ -44,6 +44,21 @@ void list_remove(List** list, List* trm){
 list_pop(list, trm);
 list_free_node(trm);}
 
+List* list_duplicate(List* list){
+List* new =NULL;
+for (List* l=list; l; l=l->next){
+	List* n =malloc(sizeof(List));
+	memcpy(n, l, sizeof(List));
+	list_insert_before(&new, n);}
+return new;}
+
+void list_remove_duplicates(List* list){
+for (List* l=list; l; l=l->next)
+	for (List *l2=l->next, *l3=l->next; l2;){
+		l3=l2->next;
+		if (l2->item==l->item) list_remove(&list, l2);
+		l2=l3;}}
+
 
 
 // SPECIFIC TO INSTANCES
@@ -61,19 +76,17 @@ else {	List* i2=NULL; for (;in &&((Inst*)(in->inst))->y<((Inst*)(inst->inst))->y
 	else if(!in)	list_insert_after(&i2, inst);
 	else	list_insert_before(&in, inst);}}
 
-List* list_inst_get(List* list, int y, int x){
-for (List* in=list; in; in=in->next)
-	/*
-	insty =((Inst*)(in->inst))->y;
-	instx =((Inst*)(in->inst))->x;
-	interh =((Inter*)(in->item))->h;
+List* list_inst_find(List* list, int y, int x){
+for (List* in=list; in; in=in->next){
+	int insty =((Inst*)(in->inst))->y,
+	instx =((Inst*)(in->inst))->x,
+	interh =((Inter*)(in->item))->h,
 	interw =((Inter*)(in->item))->w;
-	*/
-	if (	y>=((Inst*)(in->inst))->y
-		&&y<((Inst*)(in->inst))->y+((Inter*)(in->item))->h
-		&&x>=((Inst*)(in->inst))->x
-		&&x<((Inst*)(in->inst))->x+((Inter*)(in->item))->w)
-			return in;
+	if (	y>=insty
+		&&y<insty+interh
+		&&x>=instx
+		&&x<instx+interw)
+			return in;}
 return NULL;}
 /*
 Inst* find_inst_inter(Ref* ref, Map* map, Inter* inter){
@@ -81,3 +94,44 @@ for (Inst* inst=map->inst; inst; inst=inst->next)
 	if (inst->inter==inter) return inst;
 return NULL;}
 */
+
+
+// SPECIFIC TO ACTIONS
+void list_act_insert_new(List** list, Action* action, int condition){
+List* new =malloc(sizeof(List));
+new->type =t_action;
+new->inst =malloc(sizeof(Actinst));
+((Actinst*)(new->inst))->condition =condition;
+new->item =action;
+list_insert_before(list, new);}
+
+List* list_act_find_key(List* list, char key){
+List* l; for (l=list; l &&((Action*)(l->item))->key!=key; l=l->next);
+return l;}
+
+List* list_act_find_label(List* list, char* label){
+for (List* l=list; l; l=l->next)
+	if (!strcmp(label,((Action*)(l->item))->label))
+		return l;
+return NULL;}
+
+List* list_act_generate(Player* pl, List* inst){ //TODO break down this function
+List* list =NULL;
+for (List* l=pl->actlist; l; l=l->next)
+	if (l &&((Actinst*)(l->inst))->condition==SUPERABLE)
+		list_act_insert_new(&list, l->item, 0);
+for (List *l=((Inst*)(inst->inst))->actlist; l; l=l->next){
+	if (l &&((Actinst*)(l->inst))->condition==SUPERABLE)
+		list_act_insert_new(&list, l->item, 0);
+	else {	List* pll =list_act_find_label(pl->actlist,((Action*)(l->item))->label);
+		if (pll &&((Actinst*)(pll->inst))->condition)
+			list_act_insert_new(&list, pll->item, 0);}}
+for (List *l=((Inter*)(inst->item))->actlist; l; l=l->next){
+	if (l &&((Actinst*)(l->inst))->condition==SUPERABLE)
+		list_act_insert_new(&list, l->item, 0);
+	else {	List* pll =list_act_find_label(pl->actlist,((Action*)(l->item))->label);
+		if (pll &&((Actinst*)(pll->inst))->condition)
+			list_act_insert_new(&list, pll->item, 0);}}
+list_remove_duplicates(list);
+return list;}
+

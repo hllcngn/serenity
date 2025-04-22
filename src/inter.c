@@ -8,6 +8,11 @@ inter[stump] =load_inter("ass/inter/stump.txt", actiontable);
 inter[umbrella] =load_inter("ass/inter/umbrella.txt", actiontable);
 return inter;}
 
+void free_intertable(Inter** inter){
+for (int i=0;i<nb_inter;i++) free_inter(inter[i]);
+free(inter);}
+
+
 Inter* load_inter(char* path, Action** actiontable){
 Inter* inter=malloc(sizeof(Inter));
 FILE* f=fopen(path,"r");
@@ -15,12 +20,12 @@ fsize_map(f,&(inter->h),&(inter->w));
 rewind(f);	     inter->ascii =fread_map(f,inter->h,inter->w);
 fseek(f,2,SEEK_CUR); inter->info  =fread_map(f,inter->h,inter->w);
 fseek(f,2,SEEK_CUR); inter->inter =fread_map(f,inter->h,inter->w);
-inter->actionlist = NULL; fseek(f,2,SEEK_CUR);
+inter->actlist = NULL; fseek(f,2,SEEK_CUR);
 char c; while ((c=getc(f))!='\n'&&c!=EOF){ fseek(f,-1,SEEK_CUR);
-	char* act =fread_line(f);	//TODO read actions in reverse order
+	char* act =fread_line(f);
 	for (int i=0;i<nb_action;i++)
 	if (!strcmp(act,actiontable[i]->label))
-		add_action(&(inter->actionlist),actiontable[i], ABLE);
+		list_act_insert_new(&(inter->actlist), actiontable[i], ABLE);
 	free(act);}
 fclose(f);	return inter;}
 
@@ -29,12 +34,9 @@ for (int y=0;y<inter->h;y++){	free(inter->ascii[y]);
 				free(inter->info[y]);
 				free(inter->inter[y]);}
 free(inter->ascii);free(inter->info);free(inter->inter);
-free_actionlist(inter->actionlist);
+list_free(inter->actlist);
 free(inter);}
 
-void free_intertable(Inter** inter){
-for (int i=0;i<nb_inter;i++) free_inter(inter[i]);
-free(inter);}
 
 Inter* duplicate_inter(Inter* inter){
 Inter* new =malloc(sizeof(Inter));
@@ -43,8 +45,7 @@ new->h =inter->h; new->w =inter->w;
 new->ascii =duplicate_arraychar2(inter->ascii, inter->h, inter->w);
 new->info =duplicate_arraychar2(inter->info, inter->h, inter->w);//can i leave these pointers pointing
 new->inter =duplicate_arraychar2(inter->inter, inter->h, inter->w);//to the same arrays?
-								  //it would be difficult to free them
-new->actionlist =inter->actionlist;//=duplicate_actionlist(inter->actionlist); TODO
+new->actlist =list_duplicate(inter->actlist);			  //it would be difficult to free them
 return new;}
 
 
