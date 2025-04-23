@@ -23,8 +23,10 @@ create_map(ref, world, map);
 
 run_game(game, ui, ref, pl, world); //launching game
 
-free_ref(ref); free_player(pl); //end
-free_map(map); free(world);
+free_ref(ref);
+free_player(pl); //end
+free_map(map);
+free(world);
 free_game(game); free_ui(ui);
 endwin(); return 0;}
 

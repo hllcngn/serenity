@@ -5,7 +5,8 @@ List* new =malloc(sizeof(List));
 new->type =type;
 new->item =item;
 new->inst =inst;
-new->prev =new->next =NULL;}
+new->prev =new->next =NULL;
+return new;}
 
 void list_free_node(List* tf){
 if (!tf)	return;
@@ -49,9 +50,23 @@ if (!list)	return NULL;
 List* new =NULL;
 for (List* l=list; l; l=l->next){
 	List* n =malloc(sizeof(List));
-	memcpy(n, l, sizeof(List));
+	n->type =l->type;
+	n->item =l->item;
+	n->inst =inst_duplicate(l->inst, l->type);
 	list_insert_before(&new, n);}
 return new;}
+
+void* inst_duplicate(void* inst, int type){
+if (type ==t_inst){
+	Inst* new =malloc(sizeof(Inst));
+	new->y =((Inst*)(inst))->y;
+	new->x =((Inst*)(inst))->x;
+	new->actlist =list_duplicate(((Inst*)(inst))->actlist);
+	return new;}
+if (type ==t_act){
+	Actinst* new =malloc(sizeof(Actinst));
+	new->condition =((Actinst*)(inst))->condition;
+	return new;}}
 
 void list_remove_duplicates(List* list){
 for (List* l=list; l; l=l->next)

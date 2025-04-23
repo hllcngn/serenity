@@ -1,13 +1,15 @@
 serenity WIP - TODO.txt
 
 urgent:
-v update todo list
-v fix Makefile
+- double free on exit
+- possibly 1 other segv
 
 new:
-- fix usage of new generic list struct
+v fix usage of new generic list struct (left: maps, houses)
+- fix maps, houses
+- moving through more than 2 maps
 - fixing instances display when overlap
-- fix GENERATED instances so that all instances use an inter
+v fix GENERATED instances so that all instances use an inter
 - overlapping interactives bug
 - get the code abstraction levels sorted out for ease of programming
 - entirely clean code
@@ -15,7 +17,6 @@ new:
 - add in fire animation
 - make map int** tp into sth not such a large array
   or merge it with int** inter > rework: entirely merge tp with it
-- moving through more than 2 maps
 
 important:
 ~ saving map/world/game

@@ -76,6 +76,5 @@ free(house);}
 // INSTANCES
 Inst* inst_new(int type, int y, int x){
 Inst* inst =malloc(sizeof(Inst));
-//inst->type =type;
 inst->y =y; inst->x =x;
 inst->actlist =NULL;}

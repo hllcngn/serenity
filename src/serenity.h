@@ -181,7 +181,6 @@ struct item{
 
 // - lists -
 struct inst{
-	//int		type; //might be useful for different instances?
 	int		y,x;
 	List*		actlist;
 	// tp (or external tp list) (?)
@@ -311,6 +310,7 @@ void list_insert_before(List** list, List* new);
 void list_insert_after(List** list, List* new);
 void list_pop(List** list, List* trm);
 List* list_duplicate(List* list);
+void* inst_duplicate(void* inst, int type);
 void list_remove(List** list, List* trm);
 void list_remove_duplicates(List* list);
 //
