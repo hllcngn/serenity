@@ -43,7 +43,7 @@ if (l) ((Action*)(l->item))->action(ref, map, inst);}
 void act_fall_tree(Ref* ref, Map* map, List* inst){
 int y =((Inst*)(inst->inst))->y, x =((Inst*)(inst->inst))->x;
 list_remove(&(map->inst),inst);
-list_inst_insert_new(&(map->inst), ref->inter[stump], y+2, x+rand()%2+1);}
+list_inst_insert_new(&(map->inst), ref->inter[stump], y+2, x+1+rand()%2);}
 
 void act_pull_stump(Ref* ref, Map* map, List* inst){
 list_remove(&(map->inst),inst);}

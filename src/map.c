@@ -72,7 +72,8 @@ free_asset(aumbrella);
 list_inst_insert_new(&(map->inst), ref->inter[umbrella], yhouse+24, xhouse+30);
 
 for (int i=0;i<map->w*7;i++)
-	add_inst_to_map_from_inter(map, blckd, ref->inter[stump]);
+	//add_inst_to_map_from_inter(map, blckd, ref->inter[stump]);
+	;
 
 for (int i=0;i<map->h*(map->w)/200;i++)
 	add_inst_to_map_from_inter(map, blckd, create_tree(ref));
