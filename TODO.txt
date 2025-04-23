@@ -15,7 +15,7 @@ new:
  -> then collisionables
  -> then 
 or copy the instances based on their y+h, x, still from the top down
-- overlapping interactives bug
+v overlapping interactives bug
 - get the code abstraction levels sorted out for ease of programming
 - entirely clean code
 - figure out frame timer for entities actions & animation

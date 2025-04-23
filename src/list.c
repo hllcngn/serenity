@@ -84,13 +84,14 @@ List* new =list_new(t_inst, inter, inst);
 list_inst_insert(list, new);}
 
 void list_inst_insert(List** list, List* inst){
-List* in =*list;
-if (!in){ *list =inst; inst->prev =inst->next =NULL;}
-else {	List* i2=NULL; for (;in &&((Inst*)(in->inst))->y<((Inst*)(inst->inst))->y;
-			in=in->next) i2=in;
-	if(!i2)	list_insert_before(list, inst);
-	else if(!in)	list_insert_after(&i2, inst);
-	else	list_insert_before(&in, inst);}}
+List* l =*list;
+if (!l){ *list =inst; inst->prev =inst->next =NULL;}
+else {	List* l2=NULL; for (;l &&((Inst*)(l->inst))->y+((Inter*)(l->item))->h-1
+		<((Inst*)(inst->inst))->y+((Inter*)(inst->item))->h-1;
+			l=l->next) l2=l;
+	if(!l2)	list_insert_before(list, inst);
+	else if(!l)	list_insert_after(&l2, inst);
+	else	list_insert_before(&l, inst);}}
 
 List* list_inst_find(List* list, int y, int x){
 for (List* in=list; in; in=in->next){
