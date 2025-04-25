@@ -117,7 +117,26 @@ struct world{
 //	Tp*		tplist;
 };
 /*
-struct tp{
+struct tp{	//looks good but it would be tedious to fill in
+		//the other optiom i thought off would be to have relative
+		//positions to maps in the world
+		//admitting no change in scaling
+		//but that's overkill
+		//even though somewhat sane
+		//but that doesn't account for actual teleporters
+		//this is where class inheritance for instances would be useful
+		//because i would need to add a couple fields to inter
+		//in order for it to encompass tp too
+		//except i can make it a tp struct
+		//add it to the inst list as t_tp
+		//just for two fields
+		//then it would be good to have a world tp list,
+		//based on instances where if it's not a house, look it up
+		//also need to add one field to inter for houses
+		//if i want to link the facade with the house maps
+		//or have a world/map list of houses
+		//all this is facilitated by the type field in inst
+		//if it's anything special, look it up in the appropriate list
 	int	srcmapid,dstmapid;
 	int	srcy,srcx,dsty,dstx;
 };
@@ -127,12 +146,17 @@ struct map{
 	int		type;
 	int		h,w;
 	char*		name;
-	char		**bg,**clsn,**fg,**tp;
-	//Inst*	inst;	//TODO add a max n of instances
-	List*		inst;
+	char		**bg,**clsn,**fg,**tp; //fg not needed?
+	List*		inst; //TODO add a max n of instances
 	Houselist*	houselist;
 	Maplist*	maplist;
 };
+/*
+struct building{
+	Inst*		facade;
+	Maplist*	maplist;
+};
+*/
 
 // - assets -
 struct ref{

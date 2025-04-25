@@ -8,7 +8,7 @@ case K_DOWN:
 case K_LEFT:
 case K_RIGHT:	map =movement(pl, world, map, c);	break;
 default:	act(ref, map, pl, c);	break;}
-display(ui, pl, map);
+display(ui, pl, map); ///!\ here the list of instances is searched twice in the loop
 } while((c=getch())!=K_QUIT);	return 0;}
 
 
@@ -52,7 +52,6 @@ return map;}
 int check_collision(Map* map, int y, int x){
 if (y<0 ||x<0 ||y>=map->h ||x>=map->w)	return -1;
 if (map->clsn[y][x])			return -1;
-//Inst* inst =get_inst(map, y, x);
 List* inst =list_inst_find(map->inst, y, x);
 if (inst &&((Inter*)(inst->item))->info[y-((Inst*)(inst->inst))->y]
 					[x-((Inst*)(inst->inst))->x]=='X') return -1;
