@@ -5,13 +5,11 @@ void	add_inst_to_map_from_inter(Map* map, char** blckd, Inter* inter);
 
 World* create_world(void){
 World*	world =malloc(sizeof(World));
+world->maplist =NULL;
 return world;}
 
 
 void create_map(Ref* ref, World* world, Map* map){
-world->maplist =malloc(sizeof(Maplist));
-world->maplist->map =map;
-world->maplist->previous =world->maplist->next =NULL;
 map->type =OUTDOORS;
 map->bg   =malloc_arraychar2(map->h,map->w);
 map->clsn =calloc_arraychar2(map->h,map->w);
@@ -52,7 +50,7 @@ for (int y=0; y<ahouse->h+10; y++)
 	for (int x=0; x<ahouse->w; x++)
 		blckd[yhouse+y][xhouse+x] ='X';
 
-map->houselist =malloc(sizeof(Houselist));
+map->houselist =malloc(sizeof(Houselist)); //TODO refactor houses into maps
 map->houselist->house =ahouse;
 map->houselist->previous =map->houselist->next =NULL;
 //free_house(ahouse);
@@ -61,9 +59,9 @@ Map* maphouse =load_map(hahouse, map);
 maphouse->name =strdup("House");
 Maplist* ml =malloc(sizeof(Maplist));
 ml->map =maphouse;
-ml->previous =NULL; ml->next =world->maplist;
-world->maplist->previous =ml;
-world->maplist =ml;
+ml->previous =NULL; ml->next =NULL;//world->maplist;
+//world->maplist->previous =ml;
+//world->maplist =ml;
 
 Asset* aumbrella =load_asset("ass/assets/umbrella.txt");
 paste_asset(map,aumbrella,yhouse+20,xhouse+5);
@@ -73,7 +71,6 @@ list_inst_insert_new(&(map->inst), ref->inter[umbrella], yhouse+24, xhouse+30);
 
 for (int i=0;i<map->w*7;i++)
 	add_inst_to_map_from_inter(map, blckd, ref->inter[stump]);
-	//;
 
 for (int i=0;i<map->h*(map->w)/200;i++)
 	add_inst_to_map_from_inter(map, blckd, create_tree(ref));

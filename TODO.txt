@@ -7,11 +7,6 @@ v possibly 1 other segv
 new:
 v overlapping interactives bug
 - fix how the player can pass through an inter's collision and not detect possible actions if there is another instance on top (prob through making a list of inst at y,x)
-- fix maps, houses
-- remove fg and tp fields from map
-- moving through more than 2 maps
-- make map int** tp into sth not such a large array
-  or merge it with int** inter > rework: entirely merge tp with it
 v get the code abstraction levels sorted out for ease of programming
 - entirely clean code
 - figure out frame timer for entities actions & animation
@@ -35,6 +30,35 @@ improvements:
 tweaks:
 ~ homogenize functions arg order
 ~ check adding duplicates actions to actionlist
+
+
+Teleports:
+x on inter -> create new map upon going through a teleporter
+           -> teleporter inter
+x on map -> list on tp on map
+         -> create bridge map -> map type
+         -> or just use a new blank map
+x to another map
+x to inside a house
+x tp skill
+- fix maps, houses
+ -> complete list of maps on world struct
+ -> edit house asset file to make it an inter with tp
+ [-> list of houses on map struct (what for? -for reference)]
+ [-> change house struct, notably add a list of maps for rooms (mostly useful to set houses on fire)]
+ -> add world position to maps, relative position to rooms
+    (not sure if necessary, if the maps are implicitly aligned and at scale already)
+- remove fg (?) and tp fields from map
+- make map int** tp into sth not such a large array
+  or merge it with int** inter > rework: entirely merge tp with it
+- moving through more than 2 maps
+-> portal inter with pointer to map
+-> map ids
+-> creating 2 maps
+or creating map when going through the portal
+   activating portals?
+or create all maps at the beginning of the game
+   especially when game with limited map number?
 
 
 X Complex menus:

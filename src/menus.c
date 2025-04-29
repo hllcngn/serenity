@@ -13,22 +13,27 @@ delwin(ui->guiw);
 free(ui);}
 
 
-Game* new_game(Ref* ref, Player** pl, Map** map, int random){
-Game* game	=malloc(sizeof(Game));
-game->hue	=hue_selection(random);
-*map		=mapsize_selection(random);
-if (!random){ clear_screen(CP_BASE); refresh();}
-game->difficulty =choose_difficulty(random);
-*pl     	=create_player(ref,NULL,(*map)->h/2+5,(*map)->w/2-8,50);
-if (!random){ clear_screen(CP_BASE); refresh();}
-set_names(*map,*pl, random);
-clear_screen(CP_BASE); refresh();}
+Game* new_game(Ref* ref, Player** pl, World** world, int random){
+Game* game =malloc(sizeof(Game));
+game->hue =menu_hue_selection(random);
+Map* map =menu_mapsize_selection(random);
+*world =create_world();
+create_map(ref, *world, map);
+List *new =list_new(t_map, NULL, map);
+list_insert_before(&((*world)->maplist), new);
+(*world)->curr =map;
+*pl =create_player(ref,NULL,map->h/2+5,map->w/2-8,50);
+	if (!random)	clear_screen(CP_BASE);
+game->difficulty =menu_choose_difficulty(random);
+	if (!random)	clear_screen(CP_BASE);
+menu_set_names(map,*pl,random);
+	clear_screen(CP_BASE);}
 
 void free_game(Game* game){
 free(game);}
 
 
-v3f hue_selection(int random){
+v3f menu_hue_selection(int random){
 v3f hue;
 if (random){
 	int i = rand()%650+350, j = rand()%650+350, k = rand()%650+350;
@@ -84,7 +89,7 @@ init_pair(CP_NORMAL,21,COLOR_BLACK);
 init_pair(CP_BASE,COLOR_BLACK,21);	return hue;}
 
 
-Map* mapsize_selection(int random){
+Map* menu_mapsize_selection(int random){
 char c;
 if (random) {
 c = rand()%2+2 +'0';
@@ -107,7 +112,7 @@ switch (c){  case '1':	map->h=50;  map->w=100;	break;
 	     default:				break;}	return map;}
 
 
-int choose_difficulty(int random){
+int menu_choose_difficulty(int random){
 char c;
 if (random)
 c = rand()%4+1 +'0';
@@ -123,7 +128,7 @@ char c; while ((c=getch())<'1'||c>'5'); delwin(wdiff);}
 return c-'0';}
 
 
-void set_names(Map* map, Player* pl, int random){
+void menu_set_names(Map* map, Player* pl, int random){
 char* name =malloc(32); name[0]='\0';
 strcpy(name, "Domain of Saint ");
 int casex = rand()%3;

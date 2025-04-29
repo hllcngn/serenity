@@ -113,8 +113,8 @@ struct player{
 };
 struct world{
 	Map*		curr;
-	Maplist*	maplist;
-//	Tp*		tplist;
+	//Maplist*	maplist;
+	List*		maplist;
 };
 /*
 struct tp{	//looks good but it would be tedious to fill in
@@ -124,21 +124,28 @@ struct tp{	//looks good but it would be tedious to fill in
 		//but that's overkill
 		//even though somewhat sane
 		//but that doesn't account for actual teleporters
+		//[this would be relative to the teleporter inst]
 		//this is where class inheritance for instances would be useful
 		//because i would need to add a couple fields to inter
 		//in order for it to encompass tp too
+		//[no i would need tp interaction in Inter]
+		//[and teleporter info on the Inst]
 		//except i can make it a tp struct
+		//[and i am going to for simplicity]
 		//add it to the inst list as t_tp
 		//just for two fields
 		//then it would be good to have a world tp list,
+		//[it works fine on map/inst so that's useless]
 		//based on instances where if it's not a house, look it up
 		//also need to add one field to inter for houses
 		//if i want to link the facade with the house maps
+		//[or i link it in the house struct, that would make sense]
 		//or have a world/map list of houses
 		//all this is facilitated by the type field in inst
 		//if it's anything special, look it up in the appropriate list
 	int	srcmapid,dstmapid;
 	int	srcy,srcx,dsty,dstx;
+	Inst	*srcinst,*dstinst;
 };
 */
 struct map{
@@ -233,12 +240,12 @@ void title_screen(void);
 // = menus.c =
 Ui* create_ui(void);
 void free_ui(Ui* ui);
-Game* new_game(Ref* ref, Player** pl, Map** map, int random);
+Game* new_game(Ref* ref, Player** pl, World** world, int random);
 void free_game(Game* game);
-v3f hue_selection(int);
-Map* mapsize_selection(int);
-int choose_difficulty(int);
-void set_names(Map*, Player*, int);
+v3f menu_hue_selection(int);
+Map* menu_mapsize_selection(int);
+int menu_choose_difficulty(int);
+void menu_set_names(Map*, Player*, int);
 
 // = game.c =
 int run_game(Game* game, Ui* ui, Ref* ref, Player* pl, World* world);

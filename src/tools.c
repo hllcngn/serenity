@@ -121,7 +121,8 @@ void clear_screen(int cp){
 move(0,0); attron(COLOR_PAIR(cp));
 for (int y=0;y<LINES;y++)
 	for (int x=0;x<COLS;x++)
-		addch(' ');}
+		addch(' ');
+refresh();}
 
 void debug_msg(char* str){
 mvprintw(0,0,str); addch('\n'); getch();}
