@@ -59,5 +59,5 @@ if (map->clsn[y][x])			return -1;
 List* inst =list_inst_find(map->inst, y, x);
 if (inst &&((Inter*)(inst->item))->info[y-((Inst*)(inst->inst))->y]
 					[x-((Inst*)(inst->inst))->x]=='X') return -1;
-if (map->tp[y][x])	return map->tp[y][x];
+if (map->it[y][x]=='a')	return 'a';
 return 0;}

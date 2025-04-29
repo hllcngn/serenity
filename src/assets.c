@@ -62,7 +62,7 @@ for (; yy<house->h &&y+yy<map->h; yy++){
 		case 'b': map->bg[y+yy][x+xx]   =house->ascii[yy][xx];  break;
 		case 'f': map->fg[y+yy][x+xx]   =house->ascii[yy][xx];  break;
 		case 'X': map->clsn[y+yy][x+xx] =house->ascii[yy][xx];  break;
-		default:  map->tp[y+yy][x+xx]	=house->info[yy][xx];
+		default:  //map->tp[y+yy][x+xx]	=house->info[yy][xx];
 			  map->bg[y+yy][x+xx]	=house->ascii[yy][xx];  break;}}}}
 
 void free_house(House* house){

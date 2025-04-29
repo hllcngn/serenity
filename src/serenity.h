@@ -78,6 +78,7 @@ typedef struct ref Ref; //assets reference
 typedef struct player Player;
 typedef struct world World;
 typedef struct map Map;
+typedef struct tp Tp;
 typedef struct inter Inter;
 typedef struct asset Asset;
 typedef struct house House;
@@ -86,10 +87,8 @@ typedef struct item Item;
 typedef struct anim Anim;
 //lists:
 typedef struct inst Inst;
-typedef struct maplist Maplist;
 typedef struct houselist Houselist;
 typedef struct actinst Actinst;
-typedef struct actionlist Actionlist;
 typedef struct itemlist Itemlist;
 
 // - game internals -
@@ -116,7 +115,19 @@ struct world{
 	//Maplist*	maplist;
 	List*		maplist;
 };
-/*
+
+struct map{
+	int		type;
+	int		id; //TODO use map ids
+	int		h,w;
+	char*		name;
+	char		**bg,**clsn,**fg,**it; //fg not needed?
+	List*		inst; //TODO add a max n of instances
+	//List*		tplist;
+	Tp*		tp;
+	Houselist*	houselist;
+};
+
 struct tp{	//looks good but it would be tedious to fill in
 		//the other optiom i thought off would be to have relative
 		//positions to maps in the world
@@ -143,27 +154,16 @@ struct tp{	//looks good but it would be tedious to fill in
 		//or have a world/map list of houses
 		//all this is facilitated by the type field in inst
 		//if it's anything special, look it up in the appropriate list
-	int	srcmapid,dstmapid;
-	int	srcy,srcx,dsty,dstx;
-	Inst	*srcinst,*dstinst;
+	char	srcit,dstit;
+	//int	srcy,srcx,
+	int	dsty,dstx;
+	Map	*srcmap,*dstmap;
+	Inst	*srcinst,*dstinst;//would only work if the map is in memory
+				  //or tp on the same map
+				  //or dstinst is instantiated even if the map doesn't exist
+				  //and it's placed on the map while loading it
 };
-*/
-struct map{
-	int		id; //TODO use map ids
-	int		type;
-	int		h,w;
-	char*		name;
-	char		**bg,**clsn,**fg,**tp; //fg not needed?
-	List*		inst; //TODO add a max n of instances
-	Houselist*	houselist;
-	Maplist*	maplist;
-};
-/*
-struct building{
-	Inst*		facade;
-	Maplist*	maplist;
-};
-*/
+
 
 // - assets -
 struct ref{
@@ -188,6 +188,12 @@ struct house{			//which is where it becomes useful to have
 	Maplist		*maplist;	//on the map if needed
 };				//but we also need to connect the instance to the house struct
 */				//else just look for house in new house struct list by id
+/*
+struct building{
+	Inst*		facade;
+	Maplist*	maplist;
+};
+*/
 struct inter{		//which kinda works if we just have many different lists of stuff
 	int		type; // = LOADED/GENERATED
 	int		h,w;
@@ -220,10 +226,6 @@ struct actinst{
 	int		condition;
 };
 
-struct maplist{
-	Map*		map;
-	Maplist		*previous,*next;
-};
 struct houselist{
 	House*		house;
 	Houselist	*previous,*next;
@@ -267,6 +269,7 @@ Player* create_player(Ref* ref, char* name, int y, int x, int hp);
 void free_player(Player* pl);
 // = map.c =
 World* create_world(void);
+void free_world(World* world);
 Map* create_map(Ref* ref, int h, int w);
 Map* load_map(House* house,Map* oldmap);
 void save_map(Map* map);

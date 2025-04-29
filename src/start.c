@@ -23,7 +23,7 @@ run_game(game, ui, ref, pl, world); //launching game
 
 free_ref(ref); //end
 free_player(pl);
-free(world); //TODO free maplist
+free_world(world); //TODO free maplist
 free_game(game);
 free_ui(ui);
 endwin(); return 0;}

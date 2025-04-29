@@ -16,10 +16,9 @@ free(ui);}
 Game* new_game(Ref* ref, Player** pl, World** world, int random){
   Game* game =malloc(sizeof(Game));
   game->hue =menu_hue_selection(random);
-//Map* map =menu_mapsize_selection(random);
 v2i mapsize =menu_mapsize_selection(random);
-*world =create_world();
 Map* map =create_map(ref, mapsize.y, mapsize.x);
+*world =create_world();
 List *new =list_new(t_map, NULL, map);
 list_insert_before(&((*world)->maplist), new);
 (*world)->curr =map;

@@ -8,6 +8,10 @@ World*	world =malloc(sizeof(World));
 world->maplist =NULL;
 return world;}
 
+void free_world(World* world){
+list_free(world->maplist);
+free(world);}
+
 
 Map* create_map(Ref* ref, int h, int w){
 Map* map = malloc(sizeof(Map));
@@ -16,7 +20,7 @@ map->type =OUTDOORS;
 map->bg   =malloc_arraychar2(map->h,map->w);
 map->clsn =calloc_arraychar2(map->h,map->w);
 map->fg   =calloc_arraychar2(map->h,map->w);
-map->tp   =calloc_arraychar2(map->h,map->w);
+map->it   =calloc_arraychar2(map->h,map->w);
 map->inst =NULL;
 char** blckd =calloc_arraychar2(map->h,map->w);
 
@@ -47,23 +51,17 @@ ahouse->id ='a';
 int yhouse =map->h/2-15, xhouse =map->w/2-30;
 ahouse->y =yhouse; ahouse->x =xhouse;
 paste_house(map,ahouse,yhouse,xhouse);
-
 for (int y=0; y<ahouse->h+10; y++)
 	for (int x=0; x<ahouse->w; x++)
 		blckd[yhouse+y][xhouse+x] ='X';
 
-map->houselist =malloc(sizeof(Houselist)); //TODO refactor houses into maps
+map->houselist =malloc(sizeof(Houselist)); //TODO refactor houses into inters and maps
 map->houselist->house =ahouse;
 map->houselist->previous =map->houselist->next =NULL;
 //free_house(ahouse);
 House* hahouse =load_house("ass/houses/house1.txt");
 Map* maphouse =load_map(hahouse, map);
 maphouse->name =strdup("House");
-Maplist* ml =malloc(sizeof(Maplist));
-ml->map =maphouse;
-ml->previous =NULL; ml->next =NULL;//world->maplist;
-//world->maplist->previous =ml;
-//world->maplist =ml;
 
 Asset* aumbrella =load_asset("ass/assets/umbrella.txt");
 paste_asset(map,aumbrella,yhouse+20,xhouse+5);
@@ -71,7 +69,7 @@ free_asset(aumbrella);
 
 list_inst_insert_new(&(map->inst), ref->inter[umbrella], yhouse+24, xhouse+30);
 
-for (int i=0;i<map->w*7;i++)
+for (int i=0;i<map->w;i++)
 	add_inst_to_map_from_inter(map, blckd, ref->inter[stump]);
 
 for (int i=0;i<map->h*(map->w)/200;i++)
@@ -79,18 +77,39 @@ for (int i=0;i<map->h*(map->w)/200;i++)
 
 for (int i=0;i<map->h*(map->w)/200;i++)
 	add_inst_to_map_from_inter(map, blckd, create_fruittree(ref));
+
+for (int y=yhouse+24; y<yhouse+26; y++)
+	for (int x=xhouse+56; x<xhouse+58; x++){
+		map->bg[y][x] ='t';
+		map->it[y][x] ='a';}
+map->tp =malloc(sizeof(Tp));
+map->tp->srcit ='a'; map->tp->dstit =0;
+map->tp->srcmap =map; map->tp->dstmap =NULL;
+map->tp->dsty =0; map->tp->dstx =0;
+map->tp->srcinst =NULL; map->tp->dstinst =NULL;
 return map;}
 
+void free_map(Map* map){
+free_arraychar2(map->bg,map->h,map->w);
+free_arraychar2(map->clsn,map->h,map->w);
+free_arraychar2(map->fg,map->h,map->w);
+free_arraychar2(map->it,map->h,map->w);
+list_free(map->inst);
+//free_house(map->house);
+free(map->name);
+free(map);}
 
-void	add_inst_to_map_from_inter(Map* map, char** blckd, Inter* inter){
-	int yinst, xinst; int blocked =1; while (blocked){ blocked =0;
-	yinst =rand()%(map->h-20)+10; xinst =rand()%(map->w-20)+10;
-	for (int y=0; y<inter->h &&!blocked; y++) for (int x=0; x<inter->w &&!blocked; x++)
-		if(inter->info[y][x]=='X' &&blckd[yinst+y][xinst+x])	blocked =1;}
-	list_inst_insert_new(&(map->inst), inter, yinst, xinst);
-	for (int y=0; y<inter->h; y++) for (int x=0; x<inter->w; x++)
-		if (inter->info[y][x]=='X')
-			blckd[yinst+y][xinst+x] ='X';}
+
+void add_inst_to_map_from_inter(Map* map, char** blckd, Inter* inter){
+int yinst, xinst; int blocked =1; while (blocked){ blocked =0;
+yinst =rand()%(map->h-20)+10; xinst =rand()%(map->w-20)+10;
+for (int y=0; y<inter->h &&!blocked; y++) for (int x=0; x<inter->w &&!blocked; x++)
+	if(inter->info[y][x]=='X' &&blckd[yinst+y][xinst+x])	blocked =1;}
+list_inst_insert_new(&(map->inst), inter, yinst, xinst);
+for (int y=0; y<inter->h; y++) for (int x=0; x<inter->w; x++)
+	if (inter->info[y][x]=='X')
+		blckd[yinst+y][xinst+x] ='X';}
+
 
 
 Map* load_map(House* house,Map* oldmap){ //TODO move between indoors maps
@@ -105,8 +124,7 @@ for (int x=0; x<map->w; x++)
 	map->bg[y][x]=' ';
 map->clsn =calloc_arraychar2(map->h,map->w);
 map->fg   =calloc_arraychar2(map->h,map->w);
-//map->it   =calloc_arrayint2(map->h,map->w);
-map->tp   =calloc_arraychar2(map->h,map->w);
+map->it   =calloc_arraychar2(map->h,map->w);
 map->inst =NULL;
 paste_house(map,house,0,0);
 return map;}
@@ -125,16 +143,5 @@ for (int y=0; y<map->h; y++){
 	putc('\n',f);} putc('\n',f);
 fput_arraychar2(f,map->clsn,map->h,map->w); putc('\n',f);
 fput_arraychar2(f,map->fg,map->h,map->w); putc('\n',f);
-fput_arraychar2(f,map->tp,map->h,map->w); putc('\n',f);
+fput_arraychar2(f,map->it,map->h,map->w); putc('\n',f);
 fclose(f);}
-
-
-void free_map(Map* map){
-free_arraychar2(map->bg,map->h,map->w);
-free_arraychar2(map->clsn,map->h,map->w);
-free_arraychar2(map->fg,map->h,map->w);
-free_arraychar2(map->tp,map->h,map->w);
-list_free(map->inst);
-//free_house(map->house);
-free(map->name);
-free(map);}
