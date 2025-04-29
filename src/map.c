@@ -13,15 +13,19 @@ list_free(world->maplist);
 free(world);}
 
 
-Map* create_map(Ref* ref, int h, int w){
+Map* new_map(int type, int h, int w){
 Map* map = malloc(sizeof(Map));
 map->h =h; map->w =w;
-map->type =OUTDOORS;
+map->type =type;
 map->bg   =malloc_arraychar2(map->h,map->w);
 map->clsn =calloc_arraychar2(map->h,map->w);
 map->fg   =calloc_arraychar2(map->h,map->w);
 map->it   =calloc_arraychar2(map->h,map->w);
 map->inst =NULL;
+return map;}
+
+Map* create_map1(Ref* ref, int h, int w){
+Map* map =new_map(OUTDOORS, h, w);
 char** blckd =calloc_arraychar2(map->h,map->w);
 
 for (int y=0; y<map->h; y++)
@@ -88,6 +92,17 @@ map->tp->srcmap =map; map->tp->dstmap =NULL;
 map->tp->dsty =0; map->tp->dstx =0;
 map->tp->srcinst =NULL; map->tp->dstinst =NULL;
 return map;}
+
+Map* create_further_map(){
+int c = rand()%2+2 +'0'; v2i size ={0,0};
+switch (c){  case '1':	size.y=50;  size.x=100;	break;
+	     case '2':	size.y=100; size.x=200;	break;
+	     case '3':	size.y=150; size.x=300;	break;
+	     case '4':	size.y=200; size.x=400;	break;
+	     case '5':	size.y=250; size.x=500; break;
+	     default:				break;}
+Map* map =new_map(OUTDOORS, size.y, size.x);
+}
 
 void free_map(Map* map){
 free_arraychar2(map->bg,map->h,map->w);

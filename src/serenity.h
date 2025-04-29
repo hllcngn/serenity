@@ -270,10 +270,12 @@ void free_player(Player* pl);
 // = map.c =
 World* create_world(void);
 void free_world(World* world);
-Map* create_map(Ref* ref, int h, int w);
+Map* new_map(int type, int h, int w);
+Map* create_map1(Ref* ref, int h, int w);
+Map* create_further_map();
+void free_map(Map* map);
 Map* load_map(House* house,Map* oldmap);
 void save_map(Map* map);
-void free_map(Map* map);
 
 // = assets.c =
 Ref* load_ref(void);

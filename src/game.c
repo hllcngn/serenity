@@ -14,10 +14,25 @@ display(ui, pl, map); ///!\ here the list of instances is searched twice in the 
 
 
 Map* movement(Player* pl, World* world, Map* map, char c){
-int id; switch (c){ //change this to generate a move vector and interpret it after switch loop
-case K_UP:	id =check_collision(map, pl->y-1, pl->x);
-		if(id>=0){ pl->y--; if (id>0){
+v2i mv ={0,0}; switch (c){ //change this to generate a mv vector and interpret it after switch loop
+case K_UP:	mv.y =-1; mv.x =0;	break;
+case K_DOWN:	mv.y =1;  mv.x =0;	break;
+case K_LEFT:	mv.y =0;  mv.x =-1;	break;
+case K_RIGHT:	mv.y =0;  mv.x =1;	break;
+default:				break;}
+int it =check_collision(map, pl->y+mv.y, pl->x+mv.x);
+	if (it>=0){ pl->y+=mv.y; pl->x+=mv.x;}
+	if (it>0 &&it<'i'){
+		if (!(map->tp->dstmap)){
+			Map* map2 =create_further_map();
+			List *new =list_new(t_map, NULL, map2);
+			list_insert_before(&(world->maplist), new);
+			world->curr =map2;
+			pl->y =0; pl->x =0;
+			return map2;
+			}}
 		/*
+		 * K_UP
 			// search tplist (generated) for a match
 			// go to associated map at associated position
 			Houselist* hl =map->houselist;
@@ -29,10 +44,8 @@ case K_UP:	id =check_collision(map, pl->y-1, pl->x);
 			for (; m &&strcmp(m->map->name,"House"); m=m->next);
 			if (m) map =m->map;
 		*/
-		}}	break;
-case K_DOWN:	if(!check_collision(map, pl->y+1, pl->x)){
-			pl->y++;
 		/*
+		 * K_DOWN
 			//id =check_tp(map, pl->y, pl->x);
 			if (id &&map->type ==INDOORS){
 				Maplist* ml;
@@ -44,12 +57,6 @@ case K_DOWN:	if(!check_collision(map, pl->y+1, pl->x)){
 				if (ml) map =ml->map;
 			}
 		*/
-		} break;
-case K_LEFT:	if(!check_collision(map, pl->y, pl->x-1))
-			pl->x--;	break;
-case K_RIGHT:	if(!check_collision(map, pl->y, pl->x+1))
-			pl->x++;	break;
-default:				break;}
 return map;}
 
 
