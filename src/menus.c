@@ -14,17 +14,18 @@ free(ui);}
 
 
 Game* new_game(Ref* ref, Player** pl, World** world, int random){
-Game* game =malloc(sizeof(Game));
-game->hue =menu_hue_selection(random);
-Map* map =menu_mapsize_selection(random);
+  Game* game =malloc(sizeof(Game));
+  game->hue =menu_hue_selection(random);
+//Map* map =menu_mapsize_selection(random);
+v2i mapsize =menu_mapsize_selection(random);
 *world =create_world();
-create_map(ref, *world, map);
+Map* map =create_map(ref, mapsize.y, mapsize.x);
 List *new =list_new(t_map, NULL, map);
 list_insert_before(&((*world)->maplist), new);
 (*world)->curr =map;
 *pl =create_player(ref,NULL,map->h/2+5,map->w/2-8,50);
 	if (!random)	clear_screen(CP_BASE);
-game->difficulty =menu_choose_difficulty(random);
+  game->difficulty =menu_choose_difficulty(random);
 	if (!random)	clear_screen(CP_BASE);
 menu_set_names(map,*pl,random);
 	clear_screen(CP_BASE);}
@@ -89,7 +90,7 @@ init_pair(CP_NORMAL,21,COLOR_BLACK);
 init_pair(CP_BASE,COLOR_BLACK,21);	return hue;}
 
 
-Map* menu_mapsize_selection(int random){
+v2i menu_mapsize_selection(int random){
 char c;
 if (random) {
 c = rand()%2+2 +'0';
@@ -103,13 +104,13 @@ mvwprintw(wmap,4,3,"3. normal");
 mvwprintw(wmap,5,3,"4. large");
 mvwprintw(wmap,6,3,"5. xtra large"); wrefresh(wmap);
 while ((c=getch())<'1'||c>'5'); delwin(wmap);}
-Map* map =malloc(sizeof(Map));
-switch (c){  case '1':	map->h=50;  map->w=100;	break;
-	     case '2':	map->h=100; map->w=200;	break;
-	     case '3':	map->h=150; map->w=300;	break;
-	     case '4':	map->h=200; map->w=400;	break;
-	     case '5':	map->h=250; map->w=500; break;
-	     default:				break;}	return map;}
+v2i size ={0,0};
+switch (c){  case '1':	size.y=50;  size.x=100;	break;
+	     case '2':	size.y=100; size.x=200;	break;
+	     case '3':	size.y=150; size.x=300;	break;
+	     case '4':	size.y=200; size.x=400;	break;
+	     case '5':	size.y=250; size.x=500; break;
+	     default:				break;}	return size;}
 
 
 int menu_choose_difficulty(int random){

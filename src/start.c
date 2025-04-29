@@ -11,21 +11,21 @@ init_color(COLOR_WHITE,rand()%600+400,rand()%600+400,rand()%550+450);
 Ui* ui =create_ui(); //creating ui
 Ref* ref =load_ref(); //loading assets reference
 
-Game*	game;
-Player*	pl; //creating new game
+Game*	game; //creating game
+Player*	pl;
 World*	world;
-//Map*	map;
 //if (ac>1 && !strcmp(av[1],"random"))
 	game =new_game(ref, &pl, &world, RANDOM);
 //else	game =new_game(ref, &pl, &map, NORANDOM);
+//TODO load game
 
 run_game(game, ui, ref, pl, world); //launching game
 
-free_ref(ref);
-free_player(pl); //end
-//free_map(map);
+free_ref(ref); //end
+free_player(pl);
 free(world); //TODO free maplist
-free_game(game); free_ui(ui);
+free_game(game);
+free_ui(ui);
 endwin(); return 0;}
 
 

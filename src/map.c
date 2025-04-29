@@ -9,7 +9,9 @@ world->maplist =NULL;
 return world;}
 
 
-void create_map(Ref* ref, World* world, Map* map){
+Map* create_map(Ref* ref, int h, int w){
+Map* map = malloc(sizeof(Map));
+map->h =h; map->w =w;
 map->type =OUTDOORS;
 map->bg   =malloc_arraychar2(map->h,map->w);
 map->clsn =calloc_arraychar2(map->h,map->w);
@@ -77,7 +79,7 @@ for (int i=0;i<map->h*(map->w)/200;i++)
 
 for (int i=0;i<map->h*(map->w)/200;i++)
 	add_inst_to_map_from_inter(map, blckd, create_fruittree(ref));
-}
+return map;}
 
 
 void	add_inst_to_map_from_inter(Map* map, char** blckd, Inter* inter){

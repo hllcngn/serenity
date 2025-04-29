@@ -243,7 +243,7 @@ void free_ui(Ui* ui);
 Game* new_game(Ref* ref, Player** pl, World** world, int random);
 void free_game(Game* game);
 v3f menu_hue_selection(int);
-Map* menu_mapsize_selection(int);
+v2i menu_mapsize_selection(int);
 int menu_choose_difficulty(int);
 void menu_set_names(Map*, Player*, int);
 
@@ -267,7 +267,7 @@ Player* create_player(Ref* ref, char* name, int y, int x, int hp);
 void free_player(Player* pl);
 // = map.c =
 World* create_world(void);
-void create_map(Ref* ref, World* world, Map* map);
+Map* create_map(Ref* ref, int h, int w);
 Map* load_map(House* house,Map* oldmap);
 void save_map(Map* map);
 void free_map(Map* map);
