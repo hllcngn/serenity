@@ -1,6 +1,7 @@
 #include "serenity.h"
 
-void	add_inst_to_map_from_inter(Map* map, char** blckd, Inter* inter);
+void add_inst_to_map_from_inter(Map* map, char** blckd, Inter* inter);
+void grassland(Map* map);
 
 
 World* create_world(void){
@@ -14,30 +15,22 @@ free(world);}
 
 
 Map* new_map(int type, int h, int w){
-Map* map = malloc(sizeof(Map));
-map->h =h; map->w =w;
+Map* map =malloc(sizeof(Map));
 map->type =type;
+map->h =h; map->w =w;
 map->bg   =malloc_arraychar2(map->h,map->w);
 map->clsn =calloc_arraychar2(map->h,map->w);
 map->fg   =calloc_arraychar2(map->h,map->w);
 map->it   =calloc_arraychar2(map->h,map->w);
 map->inst =NULL;
+map->name =NULL;
 return map;}
 
 Map* create_map1(Ref* ref, int h, int w){
 Map* map =new_map(OUTDOORS, h, w);
 char** blckd =calloc_arraychar2(map->h,map->w);
 
-for (int y=0; y<map->h; y++)
-	if (!(y%2))
-		for (int x=0; x<map->w; x++)
-			if (!(rand()%5))	map->bg[y][x]='v';
-			else if (!(x%2))	map->bg[y][x]='=';
-			else			map->bg[y][x]=' ';
-	else	for (int x=0; x<map->w; x++)
-			if (!(rand()%5))	map->bg[y][x]='v';
-			else if (!(x%2))	map->bg[y][x]=' ';
-			else			map->bg[y][x]='=';
+grassland(map);
 
 map->bg[0][0]=' '; map->bg[0][map->w-1]=' ';
 map->bg[map->h-1][0]=' '; map->bg[map->h-1][map->w-1]=' ';
@@ -94,15 +87,11 @@ map->tp->srcinst =NULL; map->tp->dstinst =NULL;
 return map;}
 
 Map* create_further_map(){
-int c = rand()%2+2 +'0'; v2i size ={0,0};
-switch (c){  case '1':	size.y=50;  size.x=100;	break;
-	     case '2':	size.y=100; size.x=200;	break;
-	     case '3':	size.y=150; size.x=300;	break;
-	     case '4':	size.y=200; size.x=400;	break;
-	     case '5':	size.y=250; size.x=500; break;
-	     default:				break;}
+v2i size ={(rand()%16+10)*10,(rand()%16+10)*20};
 Map* map =new_map(OUTDOORS, size.y, size.x);
-}
+map->name =strdup("map 2");
+grassland(map);
+return map;}
 
 void free_map(Map* map){
 free_arraychar2(map->bg,map->h,map->w);
@@ -124,6 +113,18 @@ list_inst_insert_new(&(map->inst), inter, yinst, xinst);
 for (int y=0; y<inter->h; y++) for (int x=0; x<inter->w; x++)
 	if (inter->info[y][x]=='X')
 		blckd[yinst+y][xinst+x] ='X';}
+
+void grassland(Map* map){
+for (int y=0; y<map->h; y++)
+	if (!(y%2))
+		for (int x=0; x<map->w; x++)
+			if (!(rand()%5))	map->bg[y][x]='v';
+			else if (!(x%2))	map->bg[y][x]='=';
+			else			map->bg[y][x]=' ';
+	else	for (int x=0; x<map->w; x++)
+			if (!(rand()%5))	map->bg[y][x]='v';
+			else if (!(x%2))	map->bg[y][x]=' ';
+			else			map->bg[y][x]='=';}
 
 
 

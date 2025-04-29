@@ -12,7 +12,7 @@ display_gui(ui->guiw,pl,map);
 wrefresh(ui->guiw);}
 
 
-void display_gui(WINDOW* guiwin, Player* pl, Map* map){
+void display_gui(WINDOW* guiwin, Player* pl, Map* map){ //TODO sort this out & add null name check
 wattron(guiwin,COLOR_PAIR(CP_BASE));
 for (int i=0; i<GWIN_W; i++) waddch(guiwin,' ');
 mvwprintw(guiwin,0,GWIN_W-20,"location: %s",map->name);

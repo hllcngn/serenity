@@ -21,16 +21,15 @@ case K_LEFT:	mv.y =0;  mv.x =-1;	break;
 case K_RIGHT:	mv.y =0;  mv.x =1;	break;
 default:				break;}
 int it =check_collision(map, pl->y+mv.y, pl->x+mv.x);
-	if (it>=0){ pl->y+=mv.y; pl->x+=mv.x;}
-	if (it>0 &&it<'i'){
-		if (!(map->tp->dstmap)){
-			Map* map2 =create_further_map();
-			List *new =list_new(t_map, NULL, map2);
-			list_insert_before(&(world->maplist), new);
-			world->curr =map2;
-			pl->y =0; pl->x =0;
-			return map2;
-			}}
+if (it>=0){ pl->y+=mv.y; pl->x+=mv.x;}
+if (it>0 &&it<'i'){
+	if (!(map->tp->dstmap)){
+		Map* map2 =create_further_map();
+		List *new =list_new(t_map, NULL, map2);
+		list_insert_before(&(world->maplist), new);
+		world->curr =map2;
+		pl->y =0; pl->x =0;
+		return map2;}}
 		/*
 		 * K_UP
 			// search tplist (generated) for a match
