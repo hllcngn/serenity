@@ -20,16 +20,20 @@ case K_DOWN:	mv.y =1;  mv.x =0;	break;
 case K_LEFT:	mv.y =0;  mv.x =-1;	break;
 case K_RIGHT:	mv.y =0;  mv.x =1;	break;
 default:				break;}
-int it =check_collision(map, pl->y+mv.y, pl->x+mv.x);
+Tp* tp =NULL; int it =check_collision(map, pl->y+mv.y, pl->x+mv.x, &tp);
 if (it>=0){ pl->y+=mv.y; pl->x+=mv.x;}
 if (it>0 &&it<'i'){
-	if (!(map->tp->dstmap)){
+	if (tp &&!(tp->dstmap)){
 		Map* map2 =create_further_map();
 		List *new =list_new(t_map, NULL, map2);
 		list_insert_before(&(world->maplist), new);
 		world->curr =map2;
 		pl->y =0; pl->x =0;
-		return map2;}}
+		return map2;}
+	//else{	world->curr =map->tp->dstmap;
+		//plpos
+	//	return map->tp->dstmap;}
+	}
 		/*
 		 * K_UP
 			// search tplist (generated) for a match
@@ -59,11 +63,17 @@ if (it>0 &&it<'i'){
 return map;}
 
 
-int check_collision(Map* map, int y, int x){
+int check_collision(Map* map, int y, int x, Tp** tp){
 if (y<0 ||x<0 ||y>=map->h ||x>=map->w)	return -1;
 if (map->clsn[y][x])			return -1;
+//if (map->it[y][x]=='a')		return 'a';
 List* inst =list_inst_find(map->inst, y, x);
-if (inst &&((Inter*)(inst->item))->info[y-((Inst*)(inst->inst))->y]
-					[x-((Inst*)(inst->inst))->x]=='X') return -1;
-if (map->it[y][x]=='a')	return 'a';
+if (inst){
+	char c;
+	c =((Inter*)(inst->item))->info[y-((Inst*)(inst->inst))->y]
+					[x-((Inst*)(inst->inst))->x];
+	if (c=='X')	return -1;
+	c =((Inter*)(inst->item))->inter[y-((Inst*)(inst->inst))->y]
+					[x-((Inst*)(inst->inst))->x];
+	if (c=='a'){ *tp =((Inst*)(inst->inst))->tp; return 'a';}}
 return 0;}

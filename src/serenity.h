@@ -37,6 +37,7 @@ enum inter_id{
 	fruittree,
 	stump,
 	umbrella,
+	portal,
 	nb_inter
 };
 enum action_id{
@@ -220,7 +221,7 @@ struct item{
 struct inst{
 	int		y,x;
 	List*		actlist;
-	// tp (or external tp list) (?)
+	Tp*		tp;// tp (or external tp list) (?)
 };
 struct actinst{
 	int		condition;
@@ -252,7 +253,7 @@ void menu_set_names(Map*, Player*, int);
 // = game.c =
 int run_game(Game* game, Ui* ui, Ref* ref, Player* pl, World* world);
 Map* movement(Player* pl, World* world, Map* map, char c);
-int check_collision(Map* map, int y, int x);
+int check_collision(Map* map, int y, int x, Tp** tp);
 int check_tp(Map* map, int y, int x);
 // = display.c =
 void display(Ui* ui, Player* pl, Map* map);

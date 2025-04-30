@@ -6,6 +6,7 @@ inter[tree2] =load_inter("ass/inter/tree2.txt", actiontable);
 inter[fruittree] =load_inter("ass/inter/fruittree.txt", actiontable);
 inter[stump] =load_inter("ass/inter/stump.txt", actiontable);
 inter[umbrella] =load_inter("ass/inter/umbrella.txt", actiontable);
+inter[portal] =load_inter("ass/inter/portal.txt", actiontable);
 return inter;}
 
 void free_intertable(Inter** inter){

@@ -77,4 +77,5 @@ free(house);}
 Inst* inst_new(int type, int y, int x){
 Inst* inst =malloc(sizeof(Inst));
 inst->y =y; inst->x =x;
-inst->actlist =NULL;}
+inst->actlist =NULL;
+inst->tp =NULL;}

@@ -38,10 +38,10 @@ XXXXXXXXXXXXXXXXXXXXXXaaaXXaaaXXaaaXXaaaXXaaaXXaaaXXXXXXXXXXXXXXXXXXXXXX
 XXXXXXXXXXXXXXXXXXXXXX                            XXXXXXXXXXXXXXXXXXXXXX
 XXXXXXXXXXXXXXXXXXXXXX                            XXXXXXXXXXXXXXXXXXXXXX
 XXXXXXXXXXXXXXXXXXXXXX                            XXXXXXXXXXXXXXXXXXXXXX
-XXaaaXXaaaXXaaaXXaaaXX         fXXXXXXXf          XXaaaXXaaaXXaaaXXaaaXX
-                             fXXXXXXXXXXXf
-                             fXXXXXXXXXXXf
-                             fXXXXXXXXXXXf
-                               fXXXXXXXf 
+XXaaaXXaaaXXaaaXXaaaXX         bXXXXXXXb          XXaaaXXaaaXXaaaXXaaaXX
+                             bXXXXXXXXXXXb
+                             bXXXXXXXXXXXb
+                             bXXXXXXXXXXXb
+                               bXXXXXXXb
 -
 a ass/house1.txt
