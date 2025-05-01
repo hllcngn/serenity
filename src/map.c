@@ -19,11 +19,9 @@ Map* map =malloc(sizeof(Map));
 map->type =type;
 map->h =h; map->w =w;
 map->bg   =malloc_arraychar2(map->h,map->w);
-map->clsn =calloc_arraychar2(map->h,map->w);
-map->fg   =calloc_arraychar2(map->h,map->w);
-map->it   =calloc_arraychar2(map->h,map->w);
 map->inst =NULL;
 map->name =NULL;
+map->tp =NULL;
 return map;}
 
 Map* create_map1(Ref* ref, int h, int w){
@@ -75,15 +73,6 @@ for (int i=0;i<map->h*(map->w)/200;i++)
 for (int i=0;i<map->h*(map->w)/200;i++)
 	add_inst_to_map_from_inter(map, blckd, create_fruittree(ref));
 
-for (int y=yhouse+24; y<yhouse+26; y++)
-	for (int x=xhouse+56; x<xhouse+58; x++){
-		map->bg[y][x] ='t';
-		map->it[y][x] ='a';}
-map->tp =malloc(sizeof(Tp));
-map->tp->srcit ='a'; map->tp->dstit =0;
-map->tp->srcmap =map; map->tp->dstmap =NULL;
-map->tp->dsty =0; map->tp->dstx =0;
-map->tp->srcinst =NULL; map->tp->dstinst =NULL;
 
 List* pinst =list_inst_insert_new(&(map->inst), ref->inter[portal], yhouse+27, xhouse+55);
 Tp* tp =malloc(sizeof(Tp));
@@ -94,18 +83,17 @@ tp->srcinst =NULL; tp->dstinst =NULL;
 ((Inst*)(pinst->inst))->tp =tp;
 return map;}
 
-Map* create_further_map(){
+
+Map* create_further_map(Map* srcmap){
 v2i size ={(rand()%16+10)*10,(rand()%16+10)*20};
 Map* map =new_map(OUTDOORS, size.y, size.x);
 map->name =strdup("map 2");
 grassland(map);
 return map;}
 
+
 void free_map(Map* map){
 free_arraychar2(map->bg,map->h,map->w);
-free_arraychar2(map->clsn,map->h,map->w);
-free_arraychar2(map->fg,map->h,map->w);
-free_arraychar2(map->it,map->h,map->w);
 list_free(map->inst);
 //free_house(map->house);
 free(map->name);
@@ -146,9 +134,6 @@ map->bg   =malloc_arraychar2(map->h,map->w);
 for (int y=0; y<map->h; y++)
 for (int x=0; x<map->w; x++)
 	map->bg[y][x]=' ';
-map->clsn =calloc_arraychar2(map->h,map->w);
-map->fg   =calloc_arraychar2(map->h,map->w);
-map->it   =calloc_arraychar2(map->h,map->w);
 map->inst =NULL;
 paste_house(map,house,0,0);
 return map;}
@@ -162,10 +147,5 @@ strcat(path,map->name);
 FILE* f =fopen(path, "w");
 fputs(map->name,f); putc('\n',f);
 fprintf(f,"%d %d\n",map->h,map->w);
-for (int y=0; y<map->h; y++){
-	fwrite(map->bg[y],sizeof(char),map->w,f);
-	putc('\n',f);} putc('\n',f);
-fput_arraychar2(f,map->clsn,map->h,map->w); putc('\n',f);
-fput_arraychar2(f,map->fg,map->h,map->w); putc('\n',f);
-fput_arraychar2(f,map->it,map->h,map->w); putc('\n',f);
+fput_arraychar2(f,map->bg,map->h,map->w); putc('\n',f);
 fclose(f);}

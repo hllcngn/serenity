@@ -22,60 +22,29 @@ case K_RIGHT:	mv.y =0;  mv.x =1;	break;
 default:				break;}
 Tp* tp =NULL; int it =check_collision(map, pl->y+mv.y, pl->x+mv.x, &tp);
 if (it>=0){ pl->y+=mv.y; pl->x+=mv.x;}
-if (it>0 &&it<'i'){
-	if (tp &&!(tp->dstmap)){
+if (it>0 &&it<'i' &&tp){
+	if (!(tp->dstmap)){
 		Map* map2 =create_further_map();
 		List *new =list_new(t_map, NULL, map2);
 		list_insert_before(&(world->maplist), new);
 		world->curr =map2;
 		pl->y =0; pl->x =0;
 		return map2;}
-	//else{	world->curr =map->tp->dstmap;
-		//plpos
-	//	return map->tp->dstmap;}
-	}
-		/*
-		 * K_UP
-			// search tplist (generated) for a match
-			// go to associated map at associated position
-			Houselist* hl =map->houselist;
-			for (; hl &&hl->house->id !=id; hl =hl->next);
-			if (!hl)	break;
-			pl->y =pl->y-hl->house->y;
-			pl->x =pl->x-hl->house->x;
-			Maplist* m =world->maplist; //why are we querying two lists
-			for (; m &&strcmp(m->map->name,"House"); m=m->next);
-			if (m) map =m->map;
-		*/
-		/*
-		 * K_DOWN
-			//id =check_tp(map, pl->y, pl->x);
-			if (id &&map->type ==INDOORS){
-				Maplist* ml;
-				for (ml =world->maplist;
-					ml &&!strcmp(ml->map->name, "House"); ml =ml->next);
-				if (!ml) break;
-				pl->y =pl->y+ml->map->houselist->house->y;
-				pl->x =pl->x+ml->map->houselist->house->x;
-				if (ml) map =ml->map;
-			}
-		*/
+	else{	world->curr =map->tp->dstmap;
+		pl->y =0; pl->x =0;
+		return map->tp->dstmap;}
+}
 return map;}
 
 
 int check_collision(Map* map, int y, int x, Tp** tp){
 if (y<0 ||x<0 ||y>=map->h ||x>=map->w)	return -1;
-if (map->clsn[y][x])			return -1;
-if (map->it[y][x]=='a') { *tp =map->tp;		return 'a';}
 List* inst =list_inst_find(map->inst, y, x);
 if (inst){
-	char c;
-	c =((Inter*)(inst->item))->info[y-((Inst*)(inst->inst))->y]
+	char c =((Inter*)(inst->item))->info[y-((Inst*)(inst->inst))->y]
 					[x-((Inst*)(inst->inst))->x];
 	if (c=='X')	return -1;
 	c =((Inter*)(inst->item))->inter[y-((Inst*)(inst->inst))->y]
 					[x-((Inst*)(inst->inst))->x];
-	if (c=='a'){
-		*tp =((Inst*)(inst->inst))->tp;
-		return 'a';}}
+	if (c=='a'){ *tp =((Inst*)(inst->inst))->tp; return 'a';}}
 return 0;}

@@ -32,8 +32,7 @@ for (; yy<ass->h &&y+yy<map->h; yy++){
 	for (; xx<ass->w &&x+xx<map->w; xx++){
 		switch (ass->info[yy][xx]){
 		case 'b': map->bg[y+yy][x+xx] =ass->ascii[yy][xx];   break;
-		case 'f': map->fg[y+yy][x+xx] =ass->ascii[yy][xx];   break;
-		case 'X': map->clsn[y+yy][x+xx] =ass->ascii[yy][xx]; break;}}}}
+}}}}
 
 void free_asset(Asset* ass){
 for (int y=0;y<ass->h;y++) free(ass->ascii[y]);
@@ -60,8 +59,6 @@ for (; yy<house->h &&y+yy<map->h; yy++){
 		switch (house->info[yy][xx]){
 		case ' ':					      break;
 		case 'b': map->bg[y+yy][x+xx]   =house->ascii[yy][xx];  break;
-		case 'f': map->fg[y+yy][x+xx]   =house->ascii[yy][xx];  break;
-		case 'X': map->clsn[y+yy][x+xx] =house->ascii[yy][xx];  break;
 		default:  //map->tp[y+yy][x+xx]	=house->info[yy][xx];
 			  map->bg[y+yy][x+xx]	=house->ascii[yy][xx];  break;}}}}
 

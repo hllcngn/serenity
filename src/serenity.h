@@ -122,7 +122,7 @@ struct map{
 	int		id; //TODO use map ids
 	int		h,w;
 	char*		name;
-	char		**bg,**clsn,**fg,**it; //fg not needed?
+	char		**bg;
 	List*		inst; //TODO add a max n of instances
 	//List*		tplist;
 	Tp*		tp;

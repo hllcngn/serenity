@@ -22,7 +22,6 @@ mvwprintw(guiwin,0,0,"HP        50/50");} //TODO display actual player hp
 
 
 void display_pl(WINDOW* gwin, Player* pl, Map* map, List* in){
-if (map->fg[pl->y][pl->x]) return;
 if (in &&((Inter*)(in->item))->info[pl->y-((Inst*)(in->inst))->y]
 					[pl->x-((Inst*)(in->inst))->x]=='f') return;
 wattron(gwin,COLOR_PAIR(CP_NORMAL));
@@ -43,9 +42,7 @@ for (; cam.y+y<map->h &&y<GWIN_H; y++){ int x=0;
 	wmove(gwin,y,0);
 	for (; cam.x+x<0; x++) waddch(gwin,' ');
 	for (; cam.x+x<map->w &&x<GWIN_W; x++){ int c;
-		if	((c=map->fg[cam.y+y][cam.x+x])) waddch(gwin,c);
-		else if	((c=map->clsn[cam.y+y][cam.x+x])) waddch(gwin,c);
-		else	waddch(gwin,map->bg[cam.y+y][cam.x+x]);}
+		waddch(gwin,map->bg[cam.y+y][cam.x+x]);}
 	for (; x<GWIN_W; x++) waddch(gwin,' ');}
 for (; y<GWIN_H; y++){
 	wmove(gwin,y,0);

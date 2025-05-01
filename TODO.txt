@@ -52,7 +52,7 @@ x tp skill
     (not sure if necessary, if the maps are implicitly aligned and at scale already)
     (i mean it's necessary for jumping from the edge of a map, unless you just fall onto a random map)
     ((is there no fall damage?))
-- remove fg (?) and tp fields from map
+~ remove fg (?) and tp fields from map
   map fg would work poorly with instances display
   (maybe that's why it would be better to go full instances)
   (i stick with map assets because they're indestructible)
