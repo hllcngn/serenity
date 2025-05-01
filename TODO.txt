@@ -33,47 +33,26 @@ tweaks:
 
 
 Teleports:
-- make map->tp into a tp list
-- improve movement function
-x on inter v> create new map upon going through a teleporter
-           -> teleporter inter
-x on map -> list of tp on map
-         -> create bridge map -> map type
-         v> or just use a new blank map
+x on inter
+-> create bridge map -> map type
 x to another map
 x to inside a house
 x tp skill
+- make map->tp into a tp list
+- improve movement function
 - fix maps, houses
- v> complete list of maps on world struct
- -> edit house asset file to make it an inter with tp
+ v> edit house asset file to make it an inter with tp
+ -> use this inter
  [-> list of houses on map struct (what for? -for reference)]
  [-> change house struct, notably add a list of maps for rooms (mostly useful to set houses on fire)]
  -> add world position to maps, relative position to rooms
     (not sure if necessary, if the maps are implicitly aligned and at scale already)
     (i mean it's necessary for jumping from the edge of a map, unless you just fall onto a random map)
     ((is there no fall damage?))
-~ remove fg (?) and tp fields from map
-  map fg would work poorly with instances display
-  (maybe that's why it would be better to go full instances)
-  (i stick with map assets because they're indestructible)
-  (which is probably a bad reason even if metaphysical, also considering future heavenly architect skills)
-  (except for doors i guess but i'll need a indestructible field on Inter or Inst anyway)
-  (also that's a waste of memory for an edge case)
-  (what i need is to be able to create a tp inter easily, the one with no visual and variable size
-   in other words a collider
-  and a way of tooling a map file together with doors in proper places so that i can load it without
-  having to recreate all doors manually, which might not make a big difference at this point though
-  but i need to be able to load such things eventually, so...
-- make map int** tp into sth not such a large array
-  or merge it with int** inter  v rework: entirely merge tp with it
-  using ints i could have more than 8 tps on a map
 - moving through more than 2 maps
--> portal inter with pointer to map
--> map ids (?) (when loading (house)?)
-v> creating 2 maps
-orvcreating map when going through the portal
-orxcreate all maps at the beginning of the game
-  xespecially when game with limited map number?
+- smooth handling of tp inter
+-> map ids (?) (when loading (house)?) or map name
+- optional max maps number
 - activating portals?
 
 

@@ -21,7 +21,6 @@ Asset* ass =malloc(sizeof(Asset));
 FILE* f =fopen(path,"r");
 int h,w; fsize_map(f,&h,&w);
 rewind(f);	     ass->ascii =fread_map(f,h,w);
-fseek(f,2,SEEK_CUR); ass->info =fread_map(f,h,w);
 ass->h =h; ass->w =w;
 fclose(f);	return ass;}
 
@@ -30,15 +29,12 @@ int yy =y<0? -y: 0;
 for (; yy<ass->h &&y+yy<map->h; yy++){
 	int xx =x<0? -x: 0;
 	for (; xx<ass->w &&x+xx<map->w; xx++){
-		switch (ass->info[yy][xx]){
-		case 'b': map->bg[y+yy][x+xx] =ass->ascii[yy][xx];   break;
-}}}}
+		if (ass->ascii[yy][xx]!=' ')
+			map->bg[y+yy][x+xx] =ass->ascii[yy][xx];}}}
 
 void free_asset(Asset* ass){
 for (int y=0;y<ass->h;y++) free(ass->ascii[y]);
 free(ass->ascii);
-for (int y=0;y<ass->h;y++) free(ass->info[y]);
-free(ass->info);
 free(ass);}
 
 

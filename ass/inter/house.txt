@@ -1,0 +1,69 @@
+ /--------------------------------------------------------------------\ 
+/----------------------------------------------------------------------\
+|----------------------------------------------------------------------|
+|----------------------------------------------------------------------|
+|----------------------------------------------------------------------|
+|----------------------------------------------------------------------|
+|----------------------------------------------------------------------|
+|-+-+--+-+--+-+--+-+--------------------------------+-+--+-+--+-+--+-+-|
+|/   \/   \/   \/   \|----------------------------|/   \/   \/   \/   \|
+||   ||   ||   ||   ||----------------------------||   ||   ||   ||   ||
+xx   xx   xx   xx   xx+-+--+-+--+-+--+-+--+-+--+-+xx   xx   xx   xx   xx
+|--------------------/   \/   \/   \/   \/   \/   \--------------------|
+|--------------------|   ||   ||   ||   ||   ||   |--------------------|
+|--------------------x   xx   xx   xx   xx   xx   x--------------------|
+|-+-+--+-+--+-+--+-+-|                            |-+-+--+-+--+-+--+-+-|
+|/   \/   \/   \/   \|                            |/   \/   \/   \/   \|
+||   ||   ||   ||   ||                            ||   ||   ||   ||   ||
+xx   xx   xx   xx   xx          xxxxxxx           xx   xx   xx   xx   xx
+                              xx ~ ~ ~ xx 
+                              x ~ ~ ~ ~ x 
+                              xx ~ ~ ~ xx 
+                                xxxxxxx  
+-
+ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXbbbXXbbbXXbbbXXbbbXXbbbXXbbbXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXX                            XXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXX                            XXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXX                            XXXXXXXXXXXXXXXXXXXXXX
+XXbbbXXbbbXXbbbXXbbbXX         bXXXXXXXb          XXbbbXXbbbXXbbbXXbbbXX
+                             bXXXXXXXXXXXb
+                             bXXXXXXXXXXXb
+                             bXXXXXXXXXXXb
+                               bXXXXXXXb
+-
+                                                                       
+                                                                        
+                                                                        
+                                                                        
+                                                                        
+                                                                        
+                                                                        
+                                                                        
+                                                                        
+                                                                        
+                                                                        
+                                                                        
+                                                                        
+                      aaa  aaa  aaa  aaa  aaa  aaa                      
+                                                                        
+                                                                        
+                                                                        
+  aaa  aaa  aaa  aaa                                aaa  aaa  aaa  aaa  
+                                          
+                                          
+                                          
+                                        
+-

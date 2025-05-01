@@ -174,7 +174,7 @@ struct ref{
 };
 struct asset{
 	int	h,w;
-	char	**ascii,**info;
+	char	**ascii;
 };
 struct house{			//TODO in order to make things work
 	int		id;	// make houses into regular inter/inst
@@ -209,9 +209,9 @@ struct anim{
 // - others -
 struct action{
 	int		key;
-	int		labellen, c;
-	char*		label;
-	void	(*action)(Ref* ref,Map* map,List* inst);
+	int		c, labellen; //c is the position of key in label
+	char		*label;
+	void	(*action)(Ref* ref, Map* map, List* inst);
 };
 struct item{
 	char*	name;
@@ -220,8 +220,8 @@ struct item{
 // - lists -
 struct inst{
 	int		y,x;
-	List*		actlist;
-	Tp*		tp;// tp (or external tp list) (?)
+	List		*actlist;
+	Tp		*tp;// tp (or external tp list) (?)
 };
 struct actinst{
 	int		condition;
