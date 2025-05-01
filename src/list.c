@@ -81,7 +81,8 @@ for (List* l=list; l; l=l->next)
 List* list_inst_insert_new(List** list, Inter* inter, int y, int x){
 Inst* inst =inst_new(0, y, x);
 List* new =list_new(t_inst, inter, inst);
-list_inst_insert(list, new);}
+list_inst_insert(list, new);
+return new;}
 
 void list_inst_insert(List** list, List* inst){
 List* l =*list;

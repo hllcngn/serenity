@@ -66,7 +66,7 @@ return map;}
 int check_collision(Map* map, int y, int x, Tp** tp){
 if (y<0 ||x<0 ||y>=map->h ||x>=map->w)	return -1;
 if (map->clsn[y][x])			return -1;
-//if (map->it[y][x]=='a')		return 'a';
+if (map->it[y][x]=='a') { *tp =map->tp;		return 'a';}
 List* inst =list_inst_find(map->inst, y, x);
 if (inst){
 	char c;
@@ -75,5 +75,7 @@ if (inst){
 	if (c=='X')	return -1;
 	c =((Inter*)(inst->item))->inter[y-((Inst*)(inst->inst))->y]
 					[x-((Inst*)(inst->inst))->x];
-	if (c=='a'){ *tp =((Inst*)(inst->inst))->tp; return 'a';}}
+	if (c=='a'){
+		*tp =((Inst*)(inst->inst))->tp;
+		return 'a';}}
 return 0;}

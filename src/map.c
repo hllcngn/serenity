@@ -64,7 +64,7 @@ Asset* aumbrella =load_asset("ass/assets/umbrella.txt");
 paste_asset(map,aumbrella,yhouse+20,xhouse+5);
 free_asset(aumbrella);
 
-list_inst_insert_new(&(map->inst), ref->inter[umbrella], yhouse+24, xhouse+30);
+List* uminst =list_inst_insert_new(&(map->inst), ref->inter[umbrella], yhouse+24, xhouse+30);
 
 for (int i=0;i<map->w;i++)
 	add_inst_to_map_from_inter(map, blckd, ref->inter[stump]);
@@ -75,7 +75,6 @@ for (int i=0;i<map->h*(map->w)/200;i++)
 for (int i=0;i<map->h*(map->w)/200;i++)
 	add_inst_to_map_from_inter(map, blckd, create_fruittree(ref));
 
-/*
 for (int y=yhouse+24; y<yhouse+26; y++)
 	for (int x=xhouse+56; x<xhouse+58; x++){
 		map->bg[y][x] ='t';
@@ -85,14 +84,14 @@ map->tp->srcit ='a'; map->tp->dstit =0;
 map->tp->srcmap =map; map->tp->dstmap =NULL;
 map->tp->dsty =0; map->tp->dstx =0;
 map->tp->srcinst =NULL; map->tp->dstinst =NULL;
-*/
-List* inst =list_inst_insert_new(&(map->inst), ref->inter[portal], yhouse+22, xhouse+55);
+
+List* pinst =list_inst_insert_new(&(map->inst), ref->inter[portal], yhouse+27, xhouse+55);
 Tp* tp =malloc(sizeof(Tp));
 tp->srcit ='a'; tp->dstit =0;
 tp->srcmap =map; tp->dstmap =NULL;
 tp->dsty =0; tp->dstx =0;
 tp->srcinst =NULL; tp->dstinst =NULL;
-((Inst*)(inst->inst))->tp =tp;
+((Inst*)(pinst->inst))->tp =tp;
 return map;}
 
 Map* create_further_map(){
