@@ -257,7 +257,8 @@ int check_collision(Map* map, int y, int x, Tp** tp);
 int check_tp(Map* map, int y, int x);
 // = display.c =
 void display(Ui* ui, Player* pl, Map* map);
-void display_map(WINDOW* gwin, Map* map, int ply, int plx);
+void display_map_bg(WINDOW* gwin, Map* map, int ply, int plx);
+void display_map_inst(WINDOW* gwin, Map* map, int ply, int plx);
 void display_pl(WINDOW* gwin, Player* pl, Map* map, List* inst);
 void display_notice(WINDOW* gwin, Player* pl, Map* map, List* in);
 void display_gui(WINDOW* guiwin, Player* pl, Map* map);
