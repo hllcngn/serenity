@@ -12,8 +12,12 @@ void list_free_node(List* tf){
 if (!tf)	return;
 if (tf->type ==t_inst &&((Inter*)(tf->item))->type ==GENERATED)
 	free_inter(tf->item);
-free(tf->inst);
+if (tf->inst) free(tf->inst);
 free(tf);}
+
+void list_remove(List** list, List* trm){
+if (list) list_pop(list, trm);
+list_free_node(trm);}
 
 void list_free(List* list){
 if (!list)	return;
@@ -40,10 +44,6 @@ if (!trm)	return;
 if (*list ==trm) *list =(*list)->next;
 if (trm->prev)	trm->prev->next =trm->next;
 if (trm->next)	trm->next->prev =trm->prev;}
-
-void list_remove(List** list, List* trm){
-if (list) list_pop(list, trm);
-list_free_node(trm);}
 
 List* list_duplicate(List* list){
 if (!list)	return NULL;
@@ -104,8 +104,20 @@ for (List* in=list; in; in=in->next){
 		&&y<insty+interh
 		&&x>=instx
 		&&x<instx+interw)
-			return in;}
-return NULL;}
+			return in;} return NULL;}
+
+//to replace list_inst_find
+List* list_inst_generate(Map *map, int y, int x){
+List *list =NULL;
+for (List *l=map->inst; l; l=l->next)
+	if (y>=((Inst*)(l->inst))->y
+	  &&y<((Inst*)(l->inst))->y +((Inter*)(l->item))->h
+	  &&x>=((Inst*)(l->inst))->x
+	  &&x<((Inst*)(l->inst))->x +((Inter*)(l->item))->w){
+		List *new =list_new(t_instlist, l, NULL);
+		list_insert_before(&list, new);}
+return list;}
+
 
 
 // SPECIFIC TO ACTIONS

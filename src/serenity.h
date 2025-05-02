@@ -65,10 +65,10 @@ struct list{ //NB perhaps interestingly, you can have lists with different types
 };
 enum node_type{
 	t_inst,
+	t_instlist,
 	t_act,
-	t_item,
 	t_map,
-	t_house
+	nb_type
 };
 
 
@@ -344,6 +344,7 @@ char* path_cat(char* path, char* file);
 List* list_new(int type, void* item, void* hints);
 void list_free_node(List* tf);
 void list_free(List* list);
+void list_free_container(List *list);
 void list_insert_before(List** list, List* new);
 void list_insert_after(List** list, List* new);
 void list_pop(List** list, List* trm);
@@ -355,6 +356,7 @@ void list_remove_duplicates(List* list);
 List* list_inst_insert_new(List** list, Inter* inter, int y, int x);
 void list_inst_insert(List** list, List* new);
 List* list_inst_find(List* list, int y, int x);
+List* list_inst_generate(Map *map, int y, int x);
 //
 void list_act_insert_new(List** list, Action* action, int condition);
 List* list_act_find_key(List* list, char key);

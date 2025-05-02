@@ -34,7 +34,14 @@ free(action);}
 
 
 void act(Ref *ref, Map *map, Player *pl, char c){
-List *inst= list_inst_find(map->inst, pl->y, pl->x);
+List *instlist =list_inst_generate(map, pl->y, pl->x);
+List *inst =NULL;
+for (List *l=instlist; l; l=l->next){
+	List *inst2 =(List*)(l->item);
+	if (((Inter*)(inst2->item))->inter[pl->y-((Inst*)(inst2->inst))->y]
+					  [pl->x-((Inst*)(inst2->inst))->x]=='i'){
+		inst =inst2; break;}}
+if (instlist)	free(instlist);
 if (!inst)	return;
 List *l= list_act_generate(pl, inst);
 List *l2= list_act_find_key(l, c);
