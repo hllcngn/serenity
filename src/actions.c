@@ -5,24 +5,15 @@ Action** create_actiontable(){
 Action **action= malloc(sizeof(Action*)*nb_action);
 for (int i=0; i<nb_action; i++)
 	action[i] =malloc(sizeof(Action));
-action[fall_tree]->label= strdup("Fall tree");
-action[fall_tree]->key= 'f';
-action[fall_tree]->c= 0;
-action[fall_tree]->action= &act_fall_tree;
-action[pull_stump]->label= strdup("Pull stump");
-action[pull_stump]->key= 'p';
-action[pull_stump]->c= 0;
-action[pull_stump]->action= &act_pull_stump;
-action[harvest_fruits]->label= strdup("Harvest fruits");
-action[harvest_fruits]->key= 'h';
-action[harvest_fruits]->c= 0;
-action[harvest_fruits]->action= &act_harvest_fruits;
-action[light_fire]->label= strdup("Light on fire");
-action[light_fire]->key= 'l';
-action[light_fire]->c= 0;
-action[light_fire]->action= &act_light_fire;
-for (int i=0; i<nb_action; i++)
-	action[i]->labellen =strlen(action[i]->label);
+char *str;                      //  key, c, labellen, label, action func
+str = strdup("Fall tree");
+*(action[fall_tree]) =      (Action){'f', 0, strlen(str), str, &act_fall_tree};
+str = strdup("Pull stump");
+*(action[pull_stump]) =     (Action){'p', 0, strlen(str), str, &act_pull_stump};
+str = strdup("Harvest fruits");
+*(action[harvest_fruits]) = (Action){'h', 0, strlen(str), str, &act_harvest_fruits};
+str = strdup("Light on fire");
+*(action[light_fire]) =     (Action){'l', 0, strlen(str), str, &act_light_fire};
 return action;}
 
 void free_actiontable(Action** action){
