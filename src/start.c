@@ -1,7 +1,5 @@
 #include "serenity.h"
 
-List* maplist;
-
 int main(int ac, char** av){
 srand(time(NULL));        //init
 initscr(); cbreak(); noecho(); curs_set(0); start_color(); refresh();
@@ -17,6 +15,7 @@ Ref* ref =load_ref(); //loading asset reference tables
 
 Game*	game;        //creating game
 Player*	pl;
+List *maplist;
 //World*	world;
 //if (ac>1 && !strcmp(av[1],"random"))
 	game =new_game(ref, &pl, &maplist, RANDOM);

@@ -4,6 +4,7 @@ void add_inst_to_map_from_inter(Map* map, char** blckd, Inter* inter);
 void grassland(Map* map);
 
 
+/*
 World* create_world(void){
 World*	world =malloc(sizeof(World));
 world->maplist =NULL;
@@ -12,6 +13,7 @@ return world;}
 void free_world(World* world){
 list_free(world->maplist);
 free(world);}
+*/
 
 
 Map* new_map(int type, int h, int w){

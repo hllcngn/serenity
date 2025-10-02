@@ -77,7 +77,6 @@ typedef struct game Game; //game settings
 typedef struct ui Ui;
 typedef struct ref Ref; //assets reference
 typedef struct player Player;
-typedef struct world World;
 typedef struct map Map;
 typedef struct tp Tp;
 typedef struct inter Inter;
@@ -88,9 +87,11 @@ typedef struct item Item;
 typedef struct anim Anim;
 //lists:
 typedef struct inst Inst;
-typedef struct houselist Houselist;
 typedef struct actinst Actinst;
+/*
+typedef struct houselist Houselist;
 typedef struct itemlist Itemlist;
+*/
 
 // - game internals -
 struct settings{
@@ -109,12 +110,7 @@ struct player{
 	int		hp;
 	char*		name;
 	List*		actlist;
-	Itemlist*	inventory;
-};
-extern List *maplist;
-struct world{
-	Map*		curr;
-	List*		maplist;
+	//Itemlist*	inventory;
 };
 
 struct map{
@@ -126,7 +122,7 @@ struct map{
 	List*		inst; //TODO add a max n of instances
 	//List*		tplist;
 	Tp*		tp;
-	Houselist*	houselist;
+	//Houselist*	houselist;
 };
 
 struct tp{	//looks good but it would be tedious to fill in
@@ -227,6 +223,7 @@ struct actinst{
 	int		condition;
 };
 
+/*
 struct houselist{
 	House*		house;
 	Houselist	*previous,*next;
@@ -236,6 +233,7 @@ struct itemlist{
 	Item*		item;
 	Itemlist	*previous, *next;
 };
+*/
 
 
 // = start.c =
@@ -270,8 +268,8 @@ void free_animtable(Anim** at);
 Player* create_player(Ref* ref, char* name, int y, int x, int hp);
 void free_player(Player* pl);
 // = map.c =
-World* create_world(void);
-void free_world(World* world);
+//World* create_world(void);
+//void free_world(World* world);
 Map* new_map(int type, int h, int w);
 Map* create_map1(Ref* ref, int h, int w);
 Map* create_further_map();
