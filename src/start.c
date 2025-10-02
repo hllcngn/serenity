@@ -1,29 +1,34 @@
 #include "serenity.h"
 
+List* maplist;
+
 int main(int ac, char** av){
-srand(time(NULL)); //init
+srand(time(NULL));        //init
 initscr(); cbreak(); noecho(); curs_set(0); start_color(); refresh();
+
+//random fg/bg colors
 init_color(COLOR_BLACK,rand()%100,rand()%100,rand()%100);
 init_color(COLOR_WHITE,rand()%600+400,rand()%600+400,rand()%550+450);
 
 //title_screen();
 
-Ui* ui =create_ui(); //creating ui
-Ref* ref =load_ref(); //loading assets reference
+Ui* ui =create_ui();
+Ref* ref =load_ref(); //loading asset reference tables
 
-Game*	game; //creating game
+Game*	game;        //creating game
 Player*	pl;
-World*	world;
+//World*	world;
 //if (ac>1 && !strcmp(av[1],"random"))
-	game =new_game(ref, &pl, &world, RANDOM);
+	game =new_game(ref, &pl, &maplist, RANDOM);
 //else	game =new_game(ref, &pl, &map, NORANDOM);
-//TODO load game
+//TODO load game from save file
 
-run_game(game, ui, ref, pl, world); //launching game
+//run_game(game, ui, ref, pl, world); //launching game
+run_game(game, ui, ref, pl, maplist); //launching game
 
-free_ref(ref); //end
+free_ref(ref);        //end
 free_player(pl);
-free_world(world); //TODO free maplist
+//free_world(world);//TODO free maplist
 free_game(game);
 free_ui(ui);
 endwin(); return 0;}

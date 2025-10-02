@@ -3,8 +3,7 @@
 
 Action** create_actiontable(){
 Action **action= malloc(sizeof(Action*)*nb_action);
-for (int i=0; i<nb_action; i++)
-	action[i] =malloc(sizeof(Action));
+for (int i=0; i<nb_action; i++) action[i] =malloc(sizeof(Action));
 char *str;                      //  key, c, labellen, label, action func
 str = strdup("Fall tree");
 *(action[fall_tree]) =      (Action){'f', 0, strlen(str), str, &act_fall_tree};
@@ -38,6 +37,7 @@ List *l= list_act_generate(pl, inst);
 List *l2= list_act_find_key(l, c);
 if (l2) ((Action*)(l2->item))->action(ref, map, inst);
 list_free(l);}
+
 
 
 void act_fall_tree(Ref *ref, Map *map, List *inst){

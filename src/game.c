@@ -1,13 +1,15 @@
 #include "serenity.h"
 
-int run_game(Game* game, Ui *ui, Ref *ref, Player *pl, World *world){
-Map *map= world->curr;
+int run_game(Game* game, Ui *ui, Ref *ref, Player *pl, List* maplist/*, World *world*/){
+//Map *map= world->curr;
+Map *map= (Map*)(maplist->inst);
 List *inst; //compute list for the first time
 char c=0; do { switch (c){
 case K_UP:
 case K_DOWN:
 case K_LEFT:
-case K_RIGHT:	map =movement(pl, world, map, c);	break;//update inst list
+//case K_RIGHT:	map =movement(pl, world, map, c);	break;//update inst list
+case K_RIGHT:	map =movement(pl, maplist, map, c);	break;//update inst list
 default:	act(ref, map, pl, c);	break;}//pass list around
 					       //this would update the list as well
 display(ui, pl, map);// pass list around
@@ -16,7 +18,7 @@ display(ui, pl, map);// pass list around
 
 
 
-Map* movement(Player *pl, World *world, Map *map, char c){
+Map* movement(Player *pl, List* maplist,/*World *world,*/ Map *map, char c){
 v2i mv ={0,0}; switch (c){
 case K_UP:	mv.y =-1; mv.x =0;	break;
 case K_DOWN:	mv.y =1;  mv.x =0;	break;
@@ -29,11 +31,12 @@ if (it=='a' &&tp){
 	if (!(tp->dstmap)){
 		Map* map2 =create_further_map();
 		List *new =list_new(t_map, NULL, map2);
-		list_insert_before(&(world->maplist), new);
-		world->curr =map2;
+		//list_insert_before(&(world->maplist), new);
+		list_insert_before(&(maplist), new);
+		//world->curr =map2;
 		pl->y =0; pl->x =0;
 		return map2;}
-	else{	world->curr =map->tp->dstmap;
+	else{	//world->curr =map->tp->dstmap;
 		pl->y =0; pl->x =0;
 		return map->tp->dstmap;}
 }

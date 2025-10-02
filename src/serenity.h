@@ -111,9 +111,9 @@ struct player{
 	List*		actlist;
 	Itemlist*	inventory;
 };
+extern List *maplist;
 struct world{
 	Map*		curr;
-	//Maplist*	maplist;
 	List*		maplist;
 };
 
@@ -243,7 +243,7 @@ void title_screen(void);
 // = menus.c =
 Ui* create_ui(void);
 void free_ui(Ui* ui);
-Game* new_game(Ref* ref, Player** pl, World** world, int random);
+Game* new_game(Ref* ref, Player** pl, List** maplist, /*World** world,*/ int random);
 void free_game(Game* game);
 v3f menu_hue_selection(int);
 v2i menu_mapsize_selection(int);
@@ -251,8 +251,8 @@ int menu_choose_difficulty(int);
 void menu_set_names(Map*, Player*, int);
 
 // = game.c =
-int run_game(Game* game, Ui* ui, Ref* ref, Player* pl, World* world);
-Map* movement(Player* pl, World* world, Map* map, char c);
+int run_game(Game* game, Ui* ui, Ref* ref, Player* pl, List *maplist/*World* world*/);
+Map* movement(Player* pl, List* maplist, /*World* world,*/ Map* map, char c);
 int check_collision(Map* map, int y, int x, Tp** tp);
 int check_tp(Map* map, int y, int x);
 // = display.c =
